@@ -1,232 +1,187 @@
-#Imports
 import config as cfg
 import psutil
-from os.path import isfile, join
-from os import listdir
 import os
 import requests
 import subprocess
-import json
 import time
 import shutil
+from os import listdir
+from os.path import isfile
 
-class Screenshare(object):
+class Screenshare:
     def __init__(self):
-        super(Screenshare, self).__init__()
-        self.user_path = '/'.join(os.getcwd().split('\\', 3)[:3])
-        self.drive_letter = os.getcwd().split('\\', 1)[0]+'/'
-        self.winUsername = os.getlogin()
+        self.cwd = os.getcwd()
+        self.user_path = os.path.expanduser('~')
+        self.drive_letter = os.path.splitdrive(self.cwd)[0] + os.sep
+        self.win_username = os.getlogin()
+        self.temp_path = os.path.join(self.drive_letter, 'Windows', 'Temp', 'Astro')
+        self.javaw_pid = None
+        self.mc_path = None
 
-    #Finds minecraft process and gets info
     def mcProcess(self):
-        mcprocess_info = {}
+        processi = [p for p in psutil.process_iter(attrs=['pid', 'name', 'cmdline']) if p.info['name'] and 'javaw' in p.info['name'].lower()]
+        if not processi:
+            input('Minecraft non trovato\nPremi invio per uscire')
+            raise SystemExit
+        processo = processi[0]
+        self.javaw_pid = processo.info['pid']
+        args = processo.info['cmdline']
+        info = {}
+        for i, arg in enumerate(args):
+            if arg.startswith('--') and i + 1 < len(args):
+                info[arg.replace('--', '')] = args[i + 1]
+        self.mc_path = info.get('gameDir')
+        print(f'{cfg.prefix} Minecraft trovato su PID: {self.javaw_pid}')
+        if 'username' in info:
+            print(f'    Username: {info["username"]}')
+        if 'version' in info:
+            print(f'    Versione: {info["version"]}')
+        if 'gameDir' in info:
+            print(f'    Percorso: {info["gameDir"]}')
 
-        #Get processes with the name "javaw"
-        process = [p for p in psutil.process_iter(attrs=['pid', 'name']) if 'javaw' in p.info['name']]
-        if process:
-            process = process[0]
-            pid = process.info['pid']
-            print(f'{cfg.prefix} Minecraft found on PID: {pid}')
-        else:
-            input(f'Minecraft not found...\nPress enter to continue')
-            quit()
-
-        #Get all command line arguments of process
-        process = process.cmdline()
-        for argument in process:
-            if "--" in argument:
-                mcprocess_info[argument.split("--")[1]] = process[process.index(argument) + 1]
-
-        self.javawPid = pid
-        self.mcPath = mcprocess_info["version"]
-
-        print(f'    Username: {mcprocess_info["username"]}')
-        print(f'    Version: {mcprocess_info["version"]}')
-        print(f'    Path: {mcprocess_info["gameDir"]}')
-
-    #Downloads all necessary files
     def dependencies(self):
-        path = f'{self.drive_letter}/Windows/Temp/Astro'
-        if not os.path.exists(path):
-            os.mkdir(path)
-        with open(f'{path}/strings2.exe', 'wb') as f:
-            f.write(requests.get(cfg.strings2Url).content)
+        os.makedirs(self.temp_path, exist_ok=True)
+        file_path = os.path.join(self.temp_path, 'strings2.exe')
+        if not os.path.isfile(file_path):
+            r = requests.get(cfg.strings2Url, timeout=15)
+            with open(file_path, 'wb') as f:
+                f.write(r.content)
 
-
-    #Gets PID of a process from name
-    def getPID(self, name, service=False):
+    def getPID(self, nome, service=False):
         if service:
-            response = str(subprocess.check_output(f'tasklist /svc /FI "Services eq {name}')).split('\\r\\n')
-            for process in response:
-                if name in process:
-                    pid = process.split()[1]
-                    return pid
-        else:
-            pid = [p.pid for p in psutil.process_iter(attrs=['pid', 'name']) if name == p.name()][0]
-            return pid
+            output = subprocess.check_output(f'tasklist /svc /FI "Services eq {nome}"', shell=True).decode(errors='ignore').splitlines()
+            for riga in output:
+                if nome.lower() in riga.lower():
+                    parti = riga.split()
+                    if len(parti) > 1 and parti[1].isdigit():
+                        return int(parti[1])
+            return None
+        for p in psutil.process_iter(attrs=['pid', 'name']):
+            if p.info['name'] and p.info['name'].lower() == nome.lower():
+                return p.info['pid']
+        return None
 
-    #Gets/Dumps strings via a PID
     def dump(self, pid):
-        cmd = f'{self.drive_letter}/Windows/Temp/Astro/strings2.exe -pid {pid} -raw -nh'
-        strings = str(subprocess.check_output(cmd)).replace("\\\\","/")
-        strings = list(set(strings.split("\\r\\n")))
+        exe = os.path.join(self.temp_path, 'strings2.exe')
+        cmd = f'"{exe}" -pid {pid} -raw -nh'
+        try:
+            output = subprocess.check_output(cmd, shell=True, timeout=20)
+            testo = output.decode(errors='ignore').replace('\\', '/')
+            return list(set(testo.splitlines()))
+        except Exception:
+            return []
 
-        return strings
-
-    #Checking for recording software
     def recordingCheck(self):
-
-        tasks = str(subprocess.check_output('tasklist')).lower()
-        found = [x for x in cfg.recordingSoftwares if x in tasks]
-
-        if found:
-            for software in found:
-                print(f'    {cfg.prefixWarning} {cfg.recordingSoftwares[software]} found')
+        try:
+            tasks = subprocess.check_output('tasklist', shell=True).decode(errors='ignore').lower()
+        except Exception:
+            tasks = ''
+        trovati = [x for x in cfg.recordingSoftwares if x in tasks]
+        if trovati:
+            for s in trovati:
+                print(f'    {cfg.prefixWarning} {cfg.recordingSoftwares[s]} rilevato')
         else:
-            print(f'    {cfg.prefix} Nothing found')
+            print(f'    {cfg.prefix} Nessun software trovato')
 
-    #Checks modification/run times
     def modificationTimes(self):
-        SID = str(subprocess.check_output(f'wmic useraccount where name="{self.winUsername}" get sid')).split('\\r\\r\\n')[1]
-        recycle_bin_path = self.drive_letter+"/$Recycle.Bin/"+SID
+        try:
+            sid_raw = subprocess.check_output(f'wmic useraccount where name="{self.win_username}" get sid', shell=True).decode(errors='ignore')
+            sid = [x for x in sid_raw.splitlines() if x and 'S-' in x][0].strip()
+            recycle = os.path.join(self.drive_letter, '$Recycle.Bin', sid)
+            if os.path.exists(recycle):
+                t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(os.path.getmtime(recycle)))
+                print(f'    Cestino: {t}')
+        except Exception:
+            pass
+        pid_exp = self.getPID('explorer.exe')
+        if pid_exp:
+            t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.Process(pid_exp).create_time()))
+            print(f'    Explorer: {t}')
+        if self.javaw_pid:
+            t = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.Process(self.javaw_pid).create_time()))
+            print(f'    Minecraft: {t}')
 
-        #Recycle Bin Path
-        modTime = os.path.getmtime(recycle_bin_path)
-        modTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(modTime))
-        print(f'    Recycle Bin: {modTime}')
-
-        #Explorer Start Time
-        pid = self.getPID('explorer.exe')
-        startTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.Process(pid).create_time()))
-        print(f'    Explorer: {startTime}')
-
-        #Javaw Start Time
-        startTime = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(psutil.Process(self.javawPid).create_time()))
-        print(f'    Minecraft: {startTime}')
-
-
-    #In Instance Checks
     def inInstance(self):
-        javawStrings = self.dump(self.javawPid)
-        found = [f'{cfg.javawStrings[x]} found ({x})' for x in javawStrings if x in cfg.javawStrings]
-
-        if found:
-            for hack in found:
-                print(f'    {cfg.prefixWarning} {hack}')
+        if not self.javaw_pid:
+            return
+        strings = self.dump(self.javaw_pid)
+        rilevati = [f'{cfg.javawStrings[x]} ({x})' for x in strings if x in cfg.javawStrings]
+        if rilevati:
+            for r in rilevati:
+                print(f'    {cfg.prefixWarning} {r}')
         else:
-            print(f'    {cfg.prefix} Clean')
+            print(f'    {cfg.prefix} Pulito')
 
-    #Out of instance checks
     def outOfInstance(self):
-        dpsPid = self.getPID('DPS', service=True)
-        strings = self.dump(dpsPid)
-        strings = ['.exe!'+x.split('!')[3] for x in strings if '.exe!' in x and x.startswith('!!')]
-
-        found = [x for x in cfg.dpsStrings if x in strings]
-
-        if found:
-            for string in found:
-                print(f'    {cfg.prefixWarning} {cfg.dpsStrings[string]} ({string})')
+        pid = self.getPID('DPS', service=True)
+        if not pid:
+            print(f'    {cfg.prefix} Servizio DPS non trovato')
+            return
+        strings = self.dump(pid)
+        normalizzati = []
+        for s in strings:
+            if s.startswith('!!') and '.exe!' in s:
+                parti = s.split('!')
+                if len(parti) >= 4:
+                    normalizzati.append('.exe!' + parti[3])
+        trovati = [x for x in cfg.dpsStrings if x in normalizzati]
+        if trovati:
+            for t in trovati:
+                print(f'    {cfg.prefixWarning} {cfg.dpsStrings[t]} ({t})')
         else:
-            print(f'    {cfg.prefix} Clean')
+            print(f'    {cfg.prefix} Pulito')
 
-
-
-    #Checks for JNativeHook based autoclicker
     def jnativehook(self):
-        path = f'{self.user_path}/AppData/Local/Temp'
-
-        found = [x for x in listdir(path) if isfile(f'{path}/{x}') if 'JNativeHook' in x and x.endswith('.dll')]
-
-        if found:
-            print(f'    {cfg.prefixWarning} JNativeHook autoclicker found ({found[0]})')
+        temp = os.path.join(self.user_path, 'AppData', 'Local', 'Temp')
+        trovati = [x for x in listdir(temp) if isfile(os.path.join(temp, x)) and 'jnativehook' in x.lower() and x.lower().endswith('.dll')]
+        if trovati:
+            print(f'    {cfg.prefixWarning} JNativeHook rilevato ({trovati[0]})')
         else:
-            print(f'    {cfg.prefix} Nothing Found')
+            print(f'    {cfg.prefix} Nessun file trovato')
 
-    #Gets recently executed + deleted files
     def executedDeleted(self):
-        pcasvcPid = self.getPID('PcaSvc', service=True)
-        explorerPid = self.getPID('explorer.exe')
-        pcasvcStrings = self.dump(pcasvcPid)
-        explorerStrings = self.dump(explorerPid)
-
-        deleted = {}
-
-        for string in pcasvcStrings:
-            string = string.lower()
-            if string.startswith(self.drive_letter.lower()) and string.endswith('.exe'):
-                if not os.path.isfile(string):
-                    if string in explorerStrings:
-                        filename = string.split('/')[-1]
-                        deleted[string] = {'filename':filename, 'method':'01'}
-
-
-        #Check 02 (Explorer PcaClient)
-        if explorerStrings:
-            for string in explorerStrings:
-                string = string.lower()
-                if 'trace' and 'pcaclient' in string:
-                    path = [x for x in string.split(',') if '.exe' in x][0]
-                    if not os.path.isfile(path):
-                        filename = path.split('/')[-1]
-                        deleted[path] = {'filename':filename, 'method':'02'}
-
-
-        if deleted:
-            print(f'    {cfg.prefixWarning} Recently executed + deleted files found:')
-            for path in deleted:
-                print(f'        {deleted[path]["filename"]} - {path} ({deleted[path]["method"]})')
+        risultati = {}
+        pid_pca = self.getPID('PcaSvc', service=True)
+        pid_exp = self.getPID('explorer.exe')
+        strings_pca = self.dump(pid_pca) if pid_pca else []
+        strings_exp = self.dump(pid_exp) if pid_exp else []
+        for s in strings_pca:
+            s = s.lower()
+            if s.startswith(self.drive_letter.lower()) and s.endswith('.exe') and not os.path.isfile(s):
+                if s in strings_exp:
+                    risultati[s] = '01'
+        for s in strings_exp:
+            s = s.lower()
+            if 'pcaclient' in s and '.exe' in s:
+                parti = [x for x in s.split(',') if x.endswith('.exe')]
+                if parti:
+                    p = parti[0]
+                    if not os.path.isfile(p):
+                        risultati[p] = '02'
+        if risultati:
+            print(f'    {cfg.prefixWarning} File eseguiti e cancellati rilevati:')
+            for p, m in risultati.items():
+                print(f'        {os.path.basename(p)} - {p} ({m})')
         else:
-            print(f'    {cfg.prefix} Nothing Found')
+            print(f'    {cfg.prefix} Nessun file trovato')
 
+print(f'{cfg.prefix} Avvio scansione ID: {cfg.scanID}\n')
+s = Screenshare()
+s.mcProcess()
+s.dependencies()
+print(f'{cfg.prefix} Controllo software di registrazione')
+s.recordingCheck()
+print(f'{cfg.prefix} Controllo date di modifica')
+s.modificationTimes()
+print(f'{cfg.prefix} Controlli in istanza')
+s.inInstance()
+print(f'{cfg.prefix} Controlli fuori istanza')
+s.outOfInstance()
+print(f'{cfg.prefix} Controllo JNativeHook')
+s.jnativehook()
+print(f'{cfg.prefix} Recupero file eseguiti e cancellati')
+s.executedDeleted()
+input('\nScansione completata\nPremi invio per uscire')
 
-
-
-
-print(f'{cfg.prefix} Starting Scan with ID: {cfg.scanID}\n')
-sshare = Screenshare()
-sshare.mcProcess()
-sshare.dependencies()
-
-print(f'{cfg.prefix} Checking for recording software')
-sshare.recordingCheck()
-
-print(f'{cfg.prefix} Checking modification dates')
-sshare.modificationTimes()
-
-print(f'{cfg.prefix} Running in instance checks')
-sshare.inInstance()
-
-print(f'{cfg.prefix} Running out of instance checks')
-sshare.outOfInstance()
-
-print(f'{cfg.prefix} Checking for JNativeHooks')
-sshare.jnativehook()
-
-print(f'{cfg.prefix} Getting recently executed + deleted files')
-sshare.executedDeleted()
-
-
-input('\nScan finished\nPress enter to exit..')
-
-temp = f'{sshare.drive_letter}/Windows/Temp/Astro'
-if os.path.exists(temp):
-    shutil.rmtree(temp)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#
+if os.path.exists(s.temp_path):
+    shutil.rmtree(s.temp_path, ignore_errors=True)
