@@ -1,0 +1,4 @@
+# CharlieRP ScreenShareTool v3.0 — Python
+# No external dependencies required!
+# All modules use Python 3.8+ standard library.
+# Windows-only: uses winreg, subprocess, ctypes, etc.
