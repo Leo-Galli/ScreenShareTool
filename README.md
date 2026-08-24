@@ -1,65 +1,179 @@
-# CharlieRP ScreenShareTool v3.0 (Optimized)
+# CharlieRP ScreenShareTool v3.0 — Python Rewrite
 
-[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg?style=flat-edge&logo=windows)](https://www.microsoft.com/windows)
-[![Required: PowerShell 5.1+](https://img.shields.io/badge/PowerShell-5.1%2B-blue?style=flat-edge&logo=powershell)](https://github.com/PowerShell/PowerShell)
-[![Permission: Administrator](https://img.shields.io/badge/Permission-Administrator-red?style=flat-edge)](https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_user_profiles)
+[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg?style=flat&logo=windows)](https://www.microsoft.com/windows)
+[![Python: 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat&logo=python)](https://www.python.org/)
+[![Permission: Administrator](https://img.shields.io/badge/Permission-Administrator-red?style=flat)]()
 
-Uno strumento avanzato, ultrarapido e non invasivo per l'analisi forense e il controllo dei client (Screen Share) su sistemi Windows. Sviluppato specificamente per il network **mc.charlieroleplay.it**, il tool è progettato per rilevare multi-accounting, alterazioni del registro, eliminazioni sospette e l'uso di cheat/autodistruzioni in un intervallo di tempo personalizzabile.
+Strumento avanzato di **analisi forense anti-cheat** per sistemi Windows, scritto in Python.
+Progettato specificamente per il network **mc.charlieroleplay.it**.
 
----
-
-## 🚀 Caratteristiche Principali & Ottimizzazioni
-
-Rispetto alle versioni tradizionali di scansione PowerShell, la v3.0 introduce pesanti ottimizzazioni strutturali che riducono i tempi di esecuzione di oltre il **90%**:
-
-*   **Scansione Multi-Thread (`RunspacePool`):** La ricerca dei nickname e delle stringhe di configurazione all'interno delle cartelle utente (`Desktop`, `Downloads`, `AppData`, ecc.) avviene in parallelo sfruttando fino a 8 core logici simultaneamente.
-*   **Gestione della memoria via `StringBuilder`:** I report testuali vengono aggregati interamente in RAM e scritti su disco con un unico flush I/O, evitando colli di bottiglia derivanti dal comando `Add-Content` ripetuto.
-*   **Lettura Singola del Journal NTFS:** Il Journal USN di ogni drive viene dumpato in memoria una sola volta e filtrato direttamente via codice, azzerando le letture ridondanti su disco.
-*   **Caching Intelligente dei Log:** I file di log di Minecraft vengono analizzati e indicizzati all'avvio; i dati vengono poi riutilizzati istantaneamente per la generazione della Dashboard HTML e per il motore di ricerca dei Nickname.
-*   **Dashboard HTML 5 Integrata:** Generazione automatica di un report grafico interattivo, scansionabile e moderno con grafici e metriche di vulnerabilità.
+Originale PowerShell: [Leo-Galli/ScreenShareTool](https://github.com/Leo-Galli/ScreenShareTool)
+Riscrittura Python: ottimizzato, con meno falsi positivi, dashboard HTML moderna.
 
 ---
 
-## 📂 Struttura dell'Output (`C:\CharlieRP_SS`)
+## 🚀 Caratteristiche Principali
 
-Il tool genera una struttura organizzata di cartelle all'interno del disco locale, separando nettamente i vettori di analisi:
-
-| ID | Modulo / Cartella | Descrizione |
-| :--- | :--- | :--- |
-| **01-02** | `AccountFiles` / `DeletedRenamed` | File account Minecraft e file `.exe`/`.jar`/`.pf` cancellati o rinominati di recente. |
-| **03-05** | `JNativeHook` / `PrefetchDel` / `WMIC` | Tracce di macro/autoclicker avanzati e bypass tramite ADS (*Alternate Data Streams*). |
-| **06-07** | `SolaLettura` / `Cacls` | Controlli su alterazioni dei permessi ACL o attributi di sola lettura sulla cartella Prefetch. |
-| **08-10** | `ExtSpoofed` / `CestinoExe` / `Replace` | Rilevamento di caratteri Unicode nascosti (`?`) e pattern di sostituzione rapida Cheat $\rightarrow$ Legit. |
-| **11** | `Regedit` | Analisi approfondita di `BAM`, `Compatibility Store`, `MuiCache`, `WinRAR History` e `USB Devices`. |
-| **12** | `Prefetch` | Verifica dello stato di `EnablePrefetcher` e parsing temporale dei file `.pf`. |
-| **13** | `Macro` | Scansione delle directory dei software di gioco noti (Razer, Logitech, Corsair, Bloody, ecc.). |
-| **14** | `Minecraft` | Scansione completa di **15+ launcher diversi** (Prism, Modrinth, Lunar, Feather, CurseForge, ecc.) con analisi dei log di cambio account (*InGameAccountSwitcher*). |
-| **15** | `Misc` | PowerShell history, analisi dei CrashDumps ed estrazione degli Event Log di Windows cruciali (ID 4616, 1102, 3079, 116/117). |
-| **16-17** | `SystemInfo` / `Network` | Rilevamento Macchine Virtuali, VPN/Tunnel attivi, connessioni TCP stabilite e DNS Cache. |
-| **18** | `CheatSelfDestruct` | **Modulo dedicato:** Identificazione di file ghost, script di cleanup (`.bat`/`.ps1`) e tracce residue di oltre 25 client cheat famosi. |
+| Feature | Descrizione |
+|:--------|:------------|
+| **NTFS Journal** | Analisi USN Journal per drive: DELETE, RENAME, ADS, DACL, Unicode spoofing |
+| **Registry** | BAM, Store, MuiCache, WinRAR, OpenSave, USB, ShimCache |
+| **Prefetch** | Stato EnablePrefetcher + lista .pf con filtro temporale |
+| **Macro Detection** | Razer, Logitech, Corsair, ROCCAT, Bloody, SteelSeries |
+| **Minecraft** | 15+ launcher, account JSON, IGAS log, server history, hidden mods |
+| **Cheat Self-Destruct** | 26+ client cheat: Journal, BAM, Prefetch, Ghost folders, scripts |
+| **Nick Search** | Ricerca nickname su tutto il PC (parallela con ThreadPoolExecutor) |
+| **Dashboard HTML** | Report interattivo con pagine: Overview, Nick, Account, IAS, Cheat, System, Network |
+| **Network** | TCP connections, Hosts file, DNS cache |
+| **Event Log** | Time changes (4616), Log deletion (1102), Volume snapshots |
+| **System Info** | VM detection, VPN detection, Hardware, Disk usage |
 
 ---
 
-## 🛠️ Requisiti di Sistema
+## 📂 Struttura Output (`C:\CharlieRP_SS`)
 
-*   **Sistema Operativo:** Windows 10 / Windows 11 (consigliato per il modulo BAM) o Windows 7/8.
-*   **Privilegi:** Il tool richiede tassativamente l'esecuzione con **privilegi di Amministratore** per poter accedere al Journal NTFS, alla cartella Prefetch e ai log di Sicurezza.
-*   **PowerShell:** Versione 5.1 o superiore (integrata nativamente in Windows).
+```
+C:\CharlieRP_SS\
+├── 01_AccountFiles/         # Account MC eliminati dal Journal
+├── 02_DeletedRenamed/       # Exe/Jar/Pf eliminati o rinominati
+├── 03_JNativeHook/          # Tracce autoclicker
+├── 04_PrefetchDel/          # .pf rimossi manualmente
+├── 05_WMIC_Stream/          # Bypass ADS NTFS
+├── 06_SolaLettura/          # Attributi readonly
+├── 07_Cacls/                # Modifica permessi Prefetch
+├── 08_ExtSpoofed/           # Estensioni Unicode spoofate
+├── 09_CestinoExe/           # Exe nel cestino + eliminati
+├── 10_Replace/              # Pattern replace cheat→legit
+├── 11_Regedit/              # BAM, Store, MuiCache, USB, etc.
+├── 12_Prefetch/             # Stato + lista .pf
+├── 13_Macro/                # Software macro rilevati
+├── 14_Minecraft/            # Launcher, account, IGAS, logs
+├── 15_Misc/                 # PS history, event log, AnyDesk
+├── 16_SystemInfo/           # VM, VPN, Hardware
+├── 17_Network/              # TCP, DNS, Hosts
+└── DASHBOARD_*.html         # Dashboard interattiva
+```
 
 ---
 
-## 💻 Come Utilizzare il Tool
+## 🛠️ Requisiti
 
-1.  Apri **PowerShell** come **Amministratore**.
-2.  Scarica ed esegui lo script sul computer da analizzare.
-3.  Inserisci il numero di giorni da analizzare a ritroso quando richiesto (es. `1` per le ultime 24 ore, `7` per l'ultima settimana).
-4.  Attendi il completamento della barra di avanzamento a console.
-5.  Apri il file `DASHBOARD_[Data]_[Ora].html` generato all'interno di `C:\CharlieRP_SS` per analizzare i risultati grafici.
+- **OS:** Windows 10 / 11 (Windows 7/8 parziale)
+- **Python:** 3.8 o superiore
+- **Permessi:** Amministratore (per Journal NTFS, Prefetch, Event Log)
+- **Dipendenze:** Nessuna! Solo standard library Python
+
+---
+
+## 💻 Installazione & Uso
+
+### Opzione 1: Esecuzione diretta
+```powershell
+# Apri PowerShell come Amministratore
+cd percorso\alla\cartella
+python -m screenshare_tool
+```
+
+### Opzione 2: Con argomenti
+```powershell
+python -m screenshare_tool --days 7
+python -m screenshare_tool --days 30 --output C:\MioOutput
+python -m screenshare_tool --no-open
+```
+
+### Opzione 3: Script batch (doppio click)
+```
+Doppio-click su run.bat (deve essere eseguito come Admin)
+```
+
+### Opzione 4: Setup
+```powershell
+pip install -e .
+screenshare-tool --days 7
+```
+
+---
+
+## 🏗️ Architettura
+
+```
+screenshare_tool/
+├── __init__.py          # Package metadata
+├── __main__.py          # CLI entry point + orchestrator
+├── config.py            # Costanti, pattern, definizioni launcher
+├── utils.py             # Funzioni condivise (I/O, console, registry, WMI)
+├── journal.py           # Analisi NTFS USN Journal (moduli 01-10)
+├── registry.py          # Analisi Registro di Windows (modulo 11)
+├── prefetch.py          # Analisi Prefetch (modulo 12)
+├── macro.py             # Rilevamento software macro (modulo 13)
+├── minecraft.py         # Launcher MC, account, IGAS, logs (modulo 14)
+├── cheat.py             # Rilevamento autodistruzione cheat (modulo 18)
+├── nick_search.py       # Ricerca nickname su tutto il PC
+├── system.py            # VM, VPN, Hardware (modulo 16)
+├── network.py           # TCP, DNS, Hosts (modulo 17)
+├── events.py            # Event Log Windows (modulo 15)
+└── dashboard.py         # Generatore HTML Dashboard
+```
+
+### Miglioramenti rispetto alla versione PowerShell
+
+| Aspetto | PowerShell v2 | Python v3 |
+|:--------|:--------------|:----------|
+| **Velocità** | RunspacePool (multi-thread) | ThreadPoolExecutor (più portabile) |
+| **I/O** | StringBuilder per flush unico | Scrittura singola per file |
+| **False positivi** | Pattern base | Regex precompilati + filtraggio contestuale |
+| **Manutenibilità** | Script monolitico ~2000 righe | Moduli separati (~500 righe ciascuno) |
+| **Dipendenze** | Solo PowerShell | Solo Python stdlib |
+| **Cross-platform** | Solo Windows | Codice trasferibile (moduli Windows-specifici isolati) |
+| **Dashboard** | Generata inline | Generatore dedicato con CSS moderno |
+
+---
+
+## 🎯 Rilevamento Cheat (26 client)
+
+Il tool monitora i seguenti client cheat per tracce di autodistruzione:
+
+Doomsday, Sigma, Wurst, Meteor, Aristois, Impact, XRay, Inertia, Future,
+LiquidBounce, Vape, Ghost, Entropy, Horion, Ares, Novoline, Remix, Rise,
+Zeroday, Drip, Rusherhack, Tenacity, BleachHack, Raven, Omega, Phase
+
+**Fonti di rilevamento:**
+- NTFS Journal (DELETE/RENAME su .jar)
+- BAM / MuiCache / Store registry
+- Prefetch .pf con nomi cheat
+- Cartelle ghost vuote
+- Script cleanup/autodistruzione
+- JumpLists, Temp DLL, JVM args
+- DNS cache (server cheat)
+- Browser history
+
+---
+
+## 📊 Dashboard HTML
+
+La dashboard generata include 9 pagine:
+
+1. **Overview** — Riepilogo con alert, statistiche, hardware
+2. **Nick** — Tutti i nickname trovati con fonte e stato online
+3. **Account** — Account estratti dai JSON di ogni launcher
+4. **IAS Log** — Log cambio account InGame Account Switcher
+5. **Cheat** — Riepilogo tracce cheat self-destruction
+6. **Sistema** — Hardware, VM, VPN
+7. **Network** — Connessioni TCP, DNS, Hosts
+8. **Macro** — Software macro/gaming rilevati
+9. **Forensics** — PS History, utenti di sistema
 
 ---
 
 ## 👥 Credits
 
-*   **Network:** [mc.charlieroleplay.it](https://charlieroleplay.it)
-*   **Developer:** LeoGalli
-*   **Versione Script:** 3.0 Optimized
+- **Network:** [mc.charlieroleplay.it](https://charlieroleplay.it)
+- **Original Developer:** LeoGalli (PowerShell v2.0.0)
+- **Python Rewrite:** Reimplemented with optimized architecture
+- **Version:** 3.0 Python Optimized
+
+---
+
+## 📝 License
+
+MIT License — Libero per uso e modifica.
