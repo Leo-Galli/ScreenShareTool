@@ -1,179 +1,363 @@
-# CharlieRP ScreenShareTool v3.0 — Python Rewrite
+<div align="center">
 
-[![Platform: Windows](https://img.shields.io/badge/Platform-Windows-blue.svg?style=flat&logo=windows)](https://www.microsoft.com/windows)
-[![Python: 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue?style=flat&logo=python)](https://www.python.org/)
-[![Permission: Administrator](https://img.shields.io/badge/Permission-Administrator-red?style=flat)]()
+# CharlieRP ScreenShareTool
 
-Strumento avanzato di **analisi forense anti-cheat** per sistemi Windows, scritto in Python.
-Progettato specificamente per il network **mc.charlieroleplay.it**.
+### Advanced Forensic Anti-Cheat Analysis Tool
 
-Originale PowerShell: [Leo-Galli/ScreenShareTool](https://github.com/Leo-Galli/ScreenShareTool)
-Riscrittura Python: ottimizzato, con meno falsi positivi, dashboard HTML moderna.
+[![Version](https://img.shields.io/badge/Version-3.0.0-blue?style=for-the-badge&logo=github)](https://github.com/Leo-Galli/ScreenShareTool/releases)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blueviolet?style=for-the-badge&logo=windows&logoColor=white)]()
+[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
+[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)]()
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
+[![winget](https://img.shields.io/badge/winget-Available-yellow?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/microsoft/winget-pkgs/pull/423511)
 
----
-
-## 🚀 Caratteristiche Principali
-
-| Feature | Descrizione |
-|:--------|:------------|
-| **NTFS Journal** | Analisi USN Journal per drive: DELETE, RENAME, ADS, DACL, Unicode spoofing |
-| **Registry** | BAM, Store, MuiCache, WinRAR, OpenSave, USB, ShimCache |
-| **Prefetch** | Stato EnablePrefetcher + lista .pf con filtro temporale |
-| **Macro Detection** | Razer, Logitech, Corsair, ROCCAT, Bloody, SteelSeries |
-| **Minecraft** | 15+ launcher, account JSON, IGAS log, server history, hidden mods |
-| **Cheat Self-Destruct** | 26+ client cheat: Journal, BAM, Prefetch, Ghost folders, scripts |
-| **Nick Search** | Ricerca nickname su tutto il PC (parallela con ThreadPoolExecutor) |
-| **Dashboard HTML** | Report interattivo con pagine: Overview, Nick, Account, IAS, Cheat, System, Network |
-| **Network** | TCP connections, Hosts file, DNS cache |
-| **Event Log** | Time changes (4616), Log deletion (1102), Volume snapshots |
-| **System Info** | VM detection, VPN detection, Hardware, Disk usage |
+**Network:** mc.charlieroleplay.it | **Developer:** LeoGalli
 
 ---
 
-## 📂 Struttura Output (`C:\CharlieRP_SS`)
-
-```
-C:\CharlieRP_SS\
-├── 01_AccountFiles/         # Account MC eliminati dal Journal
-├── 02_DeletedRenamed/       # Exe/Jar/Pf eliminati o rinominati
-├── 03_JNativeHook/          # Tracce autoclicker
-├── 04_PrefetchDel/          # .pf rimossi manualmente
-├── 05_WMIC_Stream/          # Bypass ADS NTFS
-├── 06_SolaLettura/          # Attributi readonly
-├── 07_Cacls/                # Modifica permessi Prefetch
-├── 08_ExtSpoofed/           # Estensioni Unicode spoofate
-├── 09_CestinoExe/           # Exe nel cestino + eliminati
-├── 10_Replace/              # Pattern replace cheat→legit
-├── 11_Regedit/              # BAM, Store, MuiCache, USB, etc.
-├── 12_Prefetch/             # Stato + lista .pf
-├── 13_Macro/                # Software macro rilevati
-├── 14_Minecraft/            # Launcher, account, IGAS, logs
-├── 15_Misc/                 # PS history, event log, AnyDesk
-├── 16_SystemInfo/           # VM, VPN, Hardware
-├── 17_Network/              # TCP, DNS, Hosts
-└── DASHBOARD_*.html         # Dashboard interattiva
-```
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Modules](#-modules) • [Dashboard](#-dashboard) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
 
 ---
 
-## 🛠️ Requisiti
+</div>
 
-- **OS:** Windows 10 / 11 (Windows 7/8 parziale)
-- **Python:** 3.8 o superiore
-- **Permessi:** Amministratore (per Journal NTFS, Prefetch, Event Log)
-- **Dipendenze:** Nessuna! Solo standard library Python
+## Overview
+
+CharlieRP ScreenShareTool is a comprehensive forensic analysis tool designed for Minecraft server administration. It detects multi-accounting, cheat self-destruction, registry alterations, suspicious deletions, and account switches across multiple Minecraft launchers.
+
+Originally written in PowerShell, v3.0 has been completely rewritten in **Python** (Windows/macOS/Linux) and **Bash** (macOS/Linux/FreeBSD) with optimized performance, reduced false positives, and a modern HTML dashboard.
+
+<div align="center">
+
+| Platform | Method | Command |
+|:---------|:-------|:--------|
+| **Windows** | `.exe` (standalone) | Double-click `screensharetool.exe` |
+| **Windows** | Python | `python -m screenshare_tool --days 7` |
+| **macOS/Linux** | Bash | `sudo bash ss_tool_unix.sh` |
+| **winget** | Package Manager | `winget install LeoGalli.CharlieRPScreenShareTool` |
+
+</div>
 
 ---
 
-## 💻 Installazione & Uso
+## Features
 
-### Opzione 1: Esecuzione diretta
+<div align="center">
+
+| Module | Description |
+|:-------|:------------|
+| **NTFS Journal** | USN Journal analysis: DELETE, RENAME, ADS streams, DACL changes, Unicode spoofing |
+| **Registry** | BAM, Compatibility Store, MuiCache, WinRAR history, OpenSave MRU, USB devices, ShimCache |
+| **Prefetch** | EnablePrefetcher status, .pf file listing with date filtering |
+| **Macro Detection** | Razer, Logitech, Corsair, ROCCAT, Bloody, SteelSeries, AutoKey, xdotool |
+| **Minecraft Forensics** | 15+ launchers, account extraction, IGAS logs, server history, hidden mods |
+| **Cheat Self-Destruct** | 26 known cheat clients monitored for traces of self-deletion |
+| **Nickname Search** | Parallel search across entire filesystem with ThreadPoolExecutor |
+| **System Info** | VM detection, VPN/Tunnel detection, hardware profiling |
+| **Network** | TCP connections, hosts file, DNS cache analysis |
+| **Event Logs** | Security event monitoring (4616, 1102, 3079, Volume Snapshots) |
+| **HTML Dashboard** | Modern interactive dashboard with 9 pages, dark theme |
+
+</div>
+
+---
+
+## Installation
+
+### Option 1: winget (Recommended)
+
 ```powershell
-# Apri PowerShell come Amministratore
-cd percorso\alla\cartella
-python -m screenshare_tool
+winget install LeoGalli.CharlieRPScreenShareTool
 ```
 
-### Opzione 2: Con argomenti
-```powershell
+### Option 2: Download .exe
+
+Download the latest `screensharetool.exe` from [Releases](https://github.com/Leo-Galli/ScreenShareTool/releases) and run it directly. No Python installation required.
+
+### Option 3: Python
+
+```bash
+# Clone the repository
+git clone https://github.com/Leo-Galli/ScreenShareTool.git
+cd ScreenShareTool
+
+# Run directly
 python -m screenshare_tool --days 7
-python -m screenshare_tool --days 30 --output C:\MioOutput
-python -m screenshare_tool --no-open
-```
 
-### Opzione 3: Script batch (doppio click)
-```
-Doppio-click su run.bat (deve essere eseguito come Admin)
-```
-
-### Opzione 4: Setup
-```powershell
+# Or install as a package
 pip install -e .
 screenshare-tool --days 7
 ```
 
----
+### Option 4: Bash (macOS/Linux)
 
-## 🏗️ Architettura
-
-```
-screenshare_tool/
-├── __init__.py          # Package metadata
-├── __main__.py          # CLI entry point + orchestrator
-├── config.py            # Costanti, pattern, definizioni launcher
-├── utils.py             # Funzioni condivise (I/O, console, registry, WMI)
-├── journal.py           # Analisi NTFS USN Journal (moduli 01-10)
-├── registry.py          # Analisi Registro di Windows (modulo 11)
-├── prefetch.py          # Analisi Prefetch (modulo 12)
-├── macro.py             # Rilevamento software macro (modulo 13)
-├── minecraft.py         # Launcher MC, account, IGAS, logs (modulo 14)
-├── cheat.py             # Rilevamento autodistruzione cheat (modulo 18)
-├── nick_search.py       # Ricerca nickname su tutto il PC
-├── system.py            # VM, VPN, Hardware (modulo 16)
-├── network.py           # TCP, DNS, Hosts (modulo 17)
-├── events.py            # Event Log Windows (modulo 15)
-└── dashboard.py         # Generatore HTML Dashboard
+```bash
+# Download and run
+curl -O https://raw.githubusercontent.com/Leo-Galli/ScreenShareTool/main/ss_tool_unix.sh
+sudo bash ss_tool_unix.sh
 ```
 
-### Miglioramenti rispetto alla versione PowerShell
+---
 
-| Aspetto | PowerShell v2 | Python v3 |
-|:--------|:--------------|:----------|
-| **Velocità** | RunspacePool (multi-thread) | ThreadPoolExecutor (più portabile) |
-| **I/O** | StringBuilder per flush unico | Scrittura singola per file |
-| **False positivi** | Pattern base | Regex precompilati + filtraggio contestuale |
-| **Manutenibilità** | Script monolitico ~2000 righe | Moduli separati (~500 righe ciascuno) |
-| **Dipendenze** | Solo PowerShell | Solo Python stdlib |
-| **Cross-platform** | Solo Windows | Codice trasferibile (moduli Windows-specifici isolati) |
-| **Dashboard** | Generata inline | Generatore dedicato con CSS moderno |
+## Usage
+
+### Windows
+
+```powershell
+# Run as Administrator
+python -m screenshare_tool
+
+# With parameters
+python -m screenshare_tool --days 7
+python -m screenshare_tool --days 30 --output C:\MyOutput
+python -m screenshare_tool --no-open  # Don't auto-open dashboard
+```
+
+### macOS/Linux
+
+```bash
+# Run as root
+sudo bash ss_tool_unix.sh
+
+# When prompted, enter the number of days to analyze
+# Example: 7 for last week, 30 for last month
+```
+
+### Command Line Options
+
+| Option | Description |
+|:-------|:------------|
+| `--days N` | Analyze last N days (prompts if not specified) |
+| `--output PATH` | Custom output directory |
+| `--no-open` | Don't auto-open dashboard in browser |
+| `--version` | Show version and exit |
 
 ---
 
-## 🎯 Rilevamento Cheat (26 client)
+## Output Structure
 
-Il tool monitora i seguenti client cheat per tracce di autodistruzione:
+All reports are saved to `C:\CharlieRP_SS\` (Windows) or `/tmp/CharlieRP_SS\` (macOS/Linux):
 
-Doomsday, Sigma, Wurst, Meteor, Aristois, Impact, XRay, Inertia, Future,
-LiquidBounce, Vape, Ghost, Entropy, Horion, Ares, Novoline, Remix, Rise,
-Zeroday, Drip, Rusherhack, Tenacity, BleachHack, Raven, Omega, Phase
-
-**Fonti di rilevamento:**
-- NTFS Journal (DELETE/RENAME su .jar)
-- BAM / MuiCache / Store registry
-- Prefetch .pf con nomi cheat
-- Cartelle ghost vuote
-- Script cleanup/autodistruzione
-- JumpLists, Temp DLL, JVM args
-- DNS cache (server cheat)
-- Browser history
-
----
-
-## 📊 Dashboard HTML
-
-La dashboard generata include 9 pagine:
-
-1. **Overview** — Riepilogo con alert, statistiche, hardware
-2. **Nick** — Tutti i nickname trovati con fonte e stato online
-3. **Account** — Account estratti dai JSON di ogni launcher
-4. **IAS Log** — Log cambio account InGame Account Switcher
-5. **Cheat** — Riepilogo tracce cheat self-destruction
-6. **Sistema** — Hardware, VM, VPN
-7. **Network** — Connessioni TCP, DNS, Hosts
-8. **Macro** — Software macro/gaming rilevati
-9. **Forensics** — PS History, utenti di sistema
+```
+CharlieRP_SS/
+├── 01_AccountFiles/         # MC account files found/modified
+├── 02_DeletedRenamed/       # Deleted/renamed executables
+├── 03_JNativeHook/          # Autoclicker traces
+├── 04_PrefetchDel/          # Deleted .pf files
+├── 05_WMIC_Stream/          # ADS stream bypass attempts
+├── 06_SolaLettura/          # Immutable/read-only files
+├── 07_Cacls/                # Permission changes
+├── 08_ExtSpoofed/           # Unicode spoofed extensions
+├── 09_CestinoExe/           # Executables in trash
+├── 10_Replace/              # Cheat-to-legit replacement patterns
+├── 11_Regedit/              # Registry analysis (BAM, Store, MuiCache, USB)
+├── 12_Prefetch/             # Prefetch status and file list
+├── 13_Macro/                # Macro software detection
+├── 14_Minecraft/            # Launcher analysis, accounts, logs
+├── 15_Misc/                 # Crash dumps, event logs, AnyDesk
+├── 16_SystemInfo/           # VM, VPN, hardware info
+├── 17_Network/              # TCP connections, DNS, hosts
+└── DASHBOARD_*.html         # Interactive HTML dashboard
+```
 
 ---
 
-## 👥 Credits
+## Modules
 
-- **Network:** [mc.charlieroleplay.it](https://charlieroleplay.it)
-- **Original Developer:** LeoGalli (PowerShell v2.0.0)
-- **Python Rewrite:** Reimplemented with optimized architecture
-- **Version:** 3.0 Python Optimized
+### NTFS Journal Analysis (01-10)
+
+Reads the USN Journal for each drive and filters by date range to extract:
+
+- **Account Files**: Minecraft account JSON files deleted/modified
+- **Deleted/Renamed**: Executables with suspicious delete+rename patterns
+- **JNativeHook**: Autoclicker library traces in temp directories
+- **Prefetch Deleted**: .pf files manually removed to hide execution
+- **ADS Streams**: Alternate Data Stream bypass attempts
+- **Read-Only**: Forced immutable attributes on Prefetch
+- **Permissions**: DACL changes on Prefetch directory
+- **Unicode Spoofing**: Non-ASCII characters in filenames
+- **Trash Analysis**: Executables found in recycle bin
+- **Replace Patterns**: DELETE+RENAME on same file (cheat→legit swap)
+
+### Registry Analysis (11)
+
+- **BAM**: Background Activity Moderator (execution timestamps)
+- **Store**: Compatibility Assistant (never-launched executables)
+- **MuiCache**: Application name cache
+- **WinRAR History**: Recent archive operations
+- **OpenSave**: File dialog history
+- **FileExts**: Non-standard registered extensions
+- **USB Devices**: Connected peripherals
+- **ShimCache**: Application compatibility cache
+
+### Minecraft Forensics (14)
+
+Supports **15+ launchers**:
+
+| Launcher | Platform |
+|:---------|:---------|
+| Mojang Launcher | Windows, macOS, Linux |
+| Modrinth | Windows, macOS, Linux |
+| Prism Launcher | Windows, macOS, Linux |
+| MultiMC | Windows, macOS, Linux |
+| Lunar Client | Windows, macOS, Linux |
+| CurseForge | Windows |
+| ATLauncher | Windows, Linux |
+| GDLauncher Carbon | Windows, Linux |
+| TLauncher | Windows, macOS, Linux |
+| BadLion Client | Windows |
+| Feather Client | Windows |
+| PvP Lounge | Windows |
+| PolyMC | Windows |
+| SKLauncher | Windows |
+| Minecraft Bedrock | Windows |
+
+Features:
+- Account extraction from JSON files
+- InGame Account Switcher (IGAS) detection
+- Log analysis for account switches
+- Server history (servers.dat parsing)
+- Hidden mod detection
+- Chat keyword scanning
+
+### Cheat Self-Destruct Detection (18)
+
+Monitors **26 known cheat clients** for traces of self-deletion:
+
+<div align="center">
+
+| | | | | |
+|:---|:---|:---|:---|:---|
+| Doomsday | Sigma | Wurst | Meteor | Aristois |
+| Impact | XRay | Inertia | Future | LiquidBounce |
+| Vape | Ghost | Entropy | Horion | Ares |
+| Novoline | Remix | Rise | Zeroday | Drip |
+| Rusherhack | Tenacity | BleachHack | Raven | Omega |
+| Phase | | | | |
+
+</div>
+
+Detection sources:
+- NTFS Journal (DELETE/RENAME on .jar files)
+- BAM / MuiCache / Store registry entries
+- Prefetch .pf files with cheat names
+- Ghost folders (empty after self-deletion)
+- Cleanup/self-destruct scripts
+- JumpList traces
+- Temp DLL files
+- JVM suspicious arguments
+- DNS cache (cheat server domains)
+- Browser history (download traces)
 
 ---
 
-## 📝 License
+## Dashboard
 
-MIT License — Libero per uso e modifica.
+The tool generates an interactive HTML dashboard with **9 pages**:
+
+1. **Overview** — Alert summary, statistics, hardware info
+2. **Nick** — All nicknames found with sources and online status
+3. **Account** — Accounts extracted from launcher JSON files
+4. **IAS Log** — InGame Account Switcher account switch events
+5. **Cheat** — Cheat self-destruction detection results
+6. **System** — Hardware, VM, VPN detection
+7. **Network** — TCP connections, DNS cache, hosts file
+8. **Macro** — Gaming/macro software detected
+9. **Forensics** — Recycle bin, shell history, system users
+
+The dashboard opens automatically after analysis completes.
+
+---
+
+## Architecture
+
+```
+screenshare_tool/           # Python package (Windows + macOS + Linux)
+├── __init__.py             # Package metadata
+├── __main__.py             # CLI entry point + orchestrator
+├── config.py               # Cross-platform paths, patterns, definitions
+├── utils.py                # I/O, console, registry, WMI helpers
+├── journal.py              # NTFS USN Journal analysis (Windows)
+├── registry.py             # Registry analysis (Windows)
+├── prefetch.py             # Prefetch analysis (Windows)
+├── macro.py                # Macro software detection (cross-platform)
+├── minecraft.py            # Launcher detection + account extraction
+├── cheat.py                # Cheat self-destruction detection
+├── nick_search.py          # Parallel nickname search
+├── system.py               # VM/VPN/hardware detection
+├── network.py              # TCP/DNS/hosts analysis
+├── events.py               # Windows Event Log analysis
+└── dashboard.py            # HTML dashboard generator
+
+ss_tool_unix.sh             # Bash script (macOS/Linux/FreeBSD)
+```
+
+---
+
+## Requirements
+
+<div align="center">
+
+| Platform | Requirements |
+|:---------|:-------------|
+| **Windows** | Windows 10/11, Python 3.8+ (or .exe), Administrator privileges |
+| **macOS** | macOS 10.15+, root access |
+| **Linux** | Any modern distribution, root access |
+| **Dependencies** | None! Python stdlib only |
+
+</div>
+
+---
+
+## Comparison with v2.0
+
+| Aspect | v2.0 (PowerShell) | v3.0 (Python + Bash) |
+|:-------|:-------------------|:----------------------|
+| **Platform** | Windows only | Windows, macOS, Linux |
+| **Language** | PowerShell | Python 3.8+ / Bash |
+| **Architecture** | Monolithic script | 15 modular files |
+| **False Positives** | Higher | Reduced with compiled regex |
+| **Performance** | RunspacePool | ThreadPoolExecutor |
+| **Dashboard** | Basic HTML | Modern 9-page dark theme |
+| **Dependencies** | PowerShell 5.1+ | None (stdlib only) |
+| **Distribution** | .exe only | .exe, .zip, pip, winget |
+| **Cheat Database** | ~20 clients | 26 clients |
+| **Launcher Support** | ~10 launchers | 15+ launchers |
+
+---
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
+---
+
+## Credits
+
+<div align="center">
+
+| Role | Name |
+|:-----|:-----|
+| **Network** | [mc.charlieroleplay.it](https://charlieroleplay.it) |
+| **Original Developer** | LeoGalli (PowerShell v2.0.0) |
+| **Python/Bash Rewrite** | Complete cross-platform rewrite |
+| **Version** | 3.0.0 |
+
+---
+
+**If this tool helps your server, consider giving it a ⭐**
+
+</div>
