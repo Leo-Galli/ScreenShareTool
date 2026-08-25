@@ -146,6 +146,12 @@ export default function RootLayout({
                   Stringhe
                 </a>
                 <a
+                  href="/tools"
+                  className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
+                >
+                  Tool
+                </a>
+                <a
                   href="/download"
                   className="text-gray-400 hover:text-white transition-colors text-sm font-medium"
                 >
