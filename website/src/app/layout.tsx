@@ -22,9 +22,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   ScreenShareTool
                 </span>
               </a>
-              <div className="hidden md:flex items-center gap-8">
+              <div className="hidden md:flex items-center gap-6">
                 <a href="/" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">Home</a>
                 <a href="/guide" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">Guida</a>
+                <a href="/strings" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">Stringhe</a>
                 <a href="/download" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">Download</a>
                 <a href="/guide#flags" className="px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg text-white text-sm font-semibold hover:shadow-lg hover:shadow-red-500/25 transition-all">
                   Flags di Ban
