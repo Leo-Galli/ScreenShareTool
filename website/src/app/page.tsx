@@ -12,6 +12,7 @@ export default function Home() {
 
   const quickLinks = [
     { href: "/guide", title: "Guida Completa", desc: "Procedura step-by-step per condurre uno ScreenShare professionale", icon: <GuideIcon /> },
+    { href: "/strings", title: "Stringhe Forensi", desc: "Reference card con tutte le stringhe da cercare in RAM", icon: <SearchIcon /> },
     { href: "/guide#flags", title: "Flags di Ban", desc: "Criteri rapidi per identificare violazioni e procedere al ban", icon: <FlagIcon /> },
     { href: "/guide#checklist", title: "Checklist Pre-Analisi", desc: "Controllo immediato dello stato della macchina dopo AnyDesk", icon: <CheckIcon /> },
     { href: "/download", title: "Download Tool", desc: "Scarica l'ultima versione dello ScreenShareTool per Windows", icon: <DownloadIcon /> },
