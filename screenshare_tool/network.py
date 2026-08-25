@@ -150,9 +150,9 @@ def _get_dns_cache() -> List[Dict[str, str]]:
                     data = [data]
                 for item in data:
                     entries.append({
-                        "entry": item.get("Entry", ""),
-                        "data": item.get("Data", ""),
-                        "type": item.get("Type", ""),
+                        "entry": str(item.get("Entry", "")),
+                        "data": str(item.get("Data", "")),
+                        "type": str(item.get("Type", "")),
                     })
         except Exception:
             pass
