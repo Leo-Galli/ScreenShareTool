@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     title: "CharlieRP ScreenShareTool — Guida Completa Screen Share Minecraft",
     description:
       "La guida piu completa mai scritta sugli screen share Minecraft.",
-    url: "https://website-gamma-teal-94.vercel.app",
+    url: "https://screenshare-guide.vercel.app",
   },
 };
 

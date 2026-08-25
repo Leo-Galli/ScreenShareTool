@@ -11,13 +11,13 @@
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)]()
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
 [![winget](https://img.shields.io/badge/winget-Available-yellow?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/microsoft/winget-pkgs/pull/423780)
-[![Website](https://img.shields.io/badge/Website-screensharetool.vercel.app-cyan?style=for-the-badge&logo=vercel&logoColor=white)](https://website-sigma-one-89.vercel.app)
+[![Website](https://img.shields.io/badge/Website-screenshare-guide.vercel.app-cyan?style=for-the-badge&logo=vercel&logoColor=white)](https://screenshare-guide.vercel.app)
 
 **Network:** mc.charlieroleplay.it | **Developer:** LeoGalli
 
 ---
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Guide](https://website-sigma-one-89.vercel.app/guide) • [Modules](#-modules) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Guide](https://screenshare-guide.vercel.app/guide) • [Modules](#-modules) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
 
 ---
 
@@ -354,7 +354,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 | Role | Name |
 |:-----|:-----|
 | **Network** | [mc.charlieroleplay.it](https://charlieroleplay.it) |
-| **Guide** | [screensharetool.vercel.app](https://website-sigma-one-89.vercel.app) |
+| **Guide** | [screenshare-guide.vercel.app](https://screenshare-guide.vercel.app) |
 | **Original Developer** | LeoGalli (PowerShell v2.0.0) |
 | **Python/Bash Rewrite** | Complete cross-platform rewrite |
 | **Version** | 3.0.0 |
