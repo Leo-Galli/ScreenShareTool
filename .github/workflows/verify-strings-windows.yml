@@ -1,0 +1,100 @@
+name: Verify Windows Strings
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/src/app/strings/**"
+      - ".github/workflows/verify-strings-windows.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "website/src/app/strings/**"
+  schedule:
+    - cron: "0 6 * * 1"  # Weekly Monday 6 AM UTC
+
+jobs:
+  verify-windows-strings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract and validate Windows strings
+        run: |
+          python3 << 'PYEOF'
+          import re
+          import json
+
+          with open("website/src/app/strings/page.tsx", "r", encoding="utf-8") as f:
+              content = f.read()
+
+          # Find all Windows categories
+          windows_strings = []
+          in_windows = False
+          current_category = ""
+
+          for line in content.split("\n"):
+              if "os: \"Windows\"" in line:
+                  in_windows = True
+              elif "os: \"" in line and "Windows" not in line:
+                  in_windows = False
+              elif in_windows:
+                  # Extract strings from array entries
+                  matches = re.findall(r'"([^"]+)"', line)
+                  for m in matches:
+                      if m and len(m) > 1 and not m.startswith("bg-") and not m.startswith("text-"):
+                          windows_strings.append(m)
+
+          print(f"Found {len(windows_strings)} Windows strings")
+
+          # Validate registry paths
+          registry_paths = [s for s in windows_strings if "HKLM\\" in s or "HKCU\\" in s]
+          print(f"\nRegistry paths: {len(registry_paths)}")
+          for rp in registry_paths[:10]:
+              print(f"  {rp}")
+
+          # Validate file paths
+          file_paths = [s for s in windows_strings if "C:\\" in s or ".minecraft" in s or "AppData" in s]
+          print(f"\nFile paths: {len(file_paths)}")
+          for fp in file_paths[:10]:
+              print(f"  {fp}")
+
+          # Validate known executables
+          executables = [s for s in windows_strings if s.endswith(".exe") or s.endswith(".dll")]
+          print(f"\nExecutables: {len(executables)}")
+          for ex in executables[:10]:
+              print(f"  {ex}")
+
+          # Check for common forensic artifacts
+          artifacts = {
+              "USN Journal": any("$UsnJrnl" in s for s in windows_strings),
+              "Prefetch": any(".pf" in s or "Prefetch" in s for s in windows_strings),
+              "BAM": any("bam" in s.lower() for s in windows_strings),
+              "UserAssist": any("UserAssist" in s for s in windows_strings),
+              "USBSTOR": any("USBSTOR" in s for s in windows_strings),
+              "ShellBags": any("ShellBags" in s or "BagMRU" in s for s in windows_strings),
+              "MuiCache": any("MuiCache" in s for s in windows_strings),
+              "Event Logs": any("Microsoft-Windows" in s for s in windows_strings),
+              "Registry Run keys": any("CurrentVersion\\Run" in s for s in windows_strings),
+              "Winlogon": any("Winlogon" in s for s in windows_strings),
+          }
+
+          print("\n--- Artifact Coverage ---")
+          all_pass = True
+          for artifact, found in artifacts.items():
+              status = "PASS" if found else "FAIL"
+              if not found:
+                  all_pass = False
+              print(f"  {artifact}: {status}")
+
+          if all_pass:
+              print("\nAll Windows forensic artifacts covered!")
+          else:
+              print("\nSome artifacts missing!")
+              exit(1)
+          PYEOF

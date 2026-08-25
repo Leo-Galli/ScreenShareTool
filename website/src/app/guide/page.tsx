@@ -60,19 +60,19 @@ export default function Guide() {
 
       {/* TOC */}
       <nav className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-12">
-        <h2 className="text-lg font-bold mb-4">Indice</h2>
+        <h2 className="text-lg font-bold mb-4">Table of Contents</h2>
         <div className="grid md:grid-cols-2 gap-1.5 text-sm">
           {[
-            { href: "#p0", t: "Parte 0 — Ruoli, Requisiti e Codice di Condotta" },
+            { href: "#p0", t: "Parte 0 — Ruoli, Requirements and Code of Conduct" },
             { href: "#p1", t: "Parte 1 — Deploy degli Strumenti" },
-            { href: "#p2", t: "Parte 2 — Checklist Pre-Analisi" },
-            { href: "#p3", t: "Parte 3 — Multiaccount e Ban Evading" },
+            { href: "#p2", t: "Parte 2 — Pre-Analysis Checklist" },
+            { href: "#p3", t: "Parte 3 — Multi-Account and Ban Evading" },
             { href: "#p4", t: "Parte 4 — Ghost Client" },
-            { href: "#p5", t: "Parte 5 — External Client e Autoclicker" },
+            { href: "#p5", t: "Parte 5 — External Client and Autoclicker" },
             { href: "#p6", t: "Parte 6 — Dizionario Stringhe Forensi" },
-            { href: "#p7", t: "Parte 7 — Flags di Ban Immediato" },
-            { href: "#p8", t: "Parte 8 — Casi Borderline e Falsi Positivi" },
-            { href: "#p9", t: "Parte 9 — Chiusura e Pulizia" },
+            { href: "#p7", t: "Parte 7 — Immediate Ban Flags" },
+            { href: "#p8", t: "Parte 8 — Borderline Cases and False Positives" },
+            { href: "#p9", t: "Parte 9 — Closure and Cleanup" },
           ].map((l, i) => (
             <a key={i} href={l.href} className="text-cyan-400 hover:text-cyan-300 py-1 transition-colors">
               {l.t}
@@ -85,13 +85,13 @@ export default function Guide() {
       <section id="p0" className="mb-16 scroll-mt-20">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
           <span className="w-1.5 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full" />
-          <span>Parte 0 — Ruoli, Requisiti e Codice di Condotta</span>
+          <span>Parte 0 — Ruoli, Requirements and Code of Conduct</span>
         </h2>
 
         <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4 text-cyan-400">Requisiti Minimi</h3>
           <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
-            <li>Rango ispettore attivo e verificato.</li>
+            <li>Active and verified inspector rank.</li>
             <li>Conoscenza pratica di tutti gli strumenti elencati nella Parte 1.</li>
             <li>Database locale degli hash SHA-256 per versioni Minecraft pulite (1.8.9 Vanilla, 1.8.9 Forge, 1.12.2 Vanilla — necessario per Flag E).</li>
             <li>Connessione stabile. NON avviare un SS con ping superiore a 150ms.</li>
@@ -103,9 +103,9 @@ export default function Guide() {
           <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
             <li>Non rivelare le procedure di questo manuale ai giocatori durante il controllo.</li>
             <li>Non minacciare, insultare o mettere pressione psicologica sul giocatore.</li>
-            <li>Non prolungare il controllo oltre il tempo strettamente necessario.</li>
-            <li>Ogni ban DEVE essere documentato con screenshot delle prove.</li>
-            <li>In caso di dubbio, consultare un ispettore senior PRIMA di emettere sanzioni.</li>
+            <li>Do not extend the check beyond strictly necessary time.</li>
+            <li>Every ban MUST be documented with screenshot evidence.</li>
+            <li>In case of doubt, consult a senior inspector BEFORE issuing sanctions.</li>
             <li>I dati personali (path utente, username reale, ecc.) NON devono essere diffusi.</li>
           </ol>
         </div>
@@ -169,7 +169,7 @@ export default function Guide() {
       <section id="p2" className="mb-16 scroll-mt-20">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
           <span className="w-1.5 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full" />
-          <span>Parte 2 — Checklist Pre-Analisi</span>
+          <span>Parte 2 — Pre-Analysis Checklist</span>
         </h2>
         <p className="text-gray-400 text-sm mb-6">
           Eseguire IMMEDIATAMENTE dopo aver ottenuto accesso AnyDesk. PRIMA di avviare qualsiasi tool. Scopo: fotografare lo stato iniziale della macchina e rilevare manomissioni in corso.
@@ -322,7 +322,7 @@ export default function Guide() {
       <section id="p5" className="mb-16 scroll-mt-20">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
           <span className="w-1.5 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full" />
-          <span>Parte 5 — External Client e Autoclicker</span>
+          <span>Parte 5 — External Client and Autoclicker</span>
         </h2>
         <p className="text-gray-400 text-sm mb-6">
           Sospetto: CPS anomalo (16-20+ CPS fissi o innaturalmente costante) oppure assenza totale di rallentamento da knockback (NoVelocity).
@@ -416,7 +416,7 @@ export default function Guide() {
       <section id="p7" className="mb-16 scroll-mt-20">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
           <span className="w-1.5 h-8 bg-gradient-to-b from-red-400 to-red-600 rounded-full" />
-          <span>Parte 7 — Flags di Ban Immediato</span>
+          <span>Parte 7 — Immediate Ban Flags</span>
         </h2>
 
         <div className="space-y-3 mb-8">
@@ -468,7 +468,7 @@ export default function Guide() {
       <section id="p8" className="mb-16 scroll-mt-20">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
           <span className="w-1.5 h-8 bg-gradient-to-b from-yellow-400 to-yellow-600 rounded-full" />
-          <span>Parte 8 — Casi Borderline e Falsi Positivi</span>
+          <span>Parte 8 — Borderline Cases and False Positives</span>
         </h2>
 
         <div className="space-y-6">
@@ -506,7 +506,7 @@ export default function Guide() {
       <section id="p9" className="mb-16 scroll-mt-20">
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
           <span className="w-1.5 h-8 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full" />
-          <span>Parte 9 — Chiusura e Pulizia della Macchina</span>
+          <span>Parte 9 — Closure and Cleanup della Macchina</span>
         </h2>
         <p className="text-gray-400 text-sm mb-6">
           Al termine dell&apos;ispezione — sia in caso di assoluzione che di sanzione — l&apos;ispettore ha l&apos;OBBLIGO di rimuovere completamente tutti gli strumenti scaricati.

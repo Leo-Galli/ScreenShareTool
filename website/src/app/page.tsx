@@ -1,42 +1,42 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "CharlieRP ScreenShareTool — Guida Completa Screen Share Minecraft",
+  title: "CharlieRP ScreenShareTool — Complete Minecraft Screen Share Guide",
   description:
-    "La guida piu completa mai scritta sugli screen share Minecraft. Ogni technica, ogni tool, ogni stringa forense, ogni cheat conosciuto. DaZero a livello professionale.",
+    "The most complete guide ever written on Minecraft screen sharing. Every technique, every tool, every forensic string, every known cheat. From zero to professional level.",
   openGraph: {
-    title: "CharlieRP ScreenShareTool — Guida Completa Screen Share Minecraft",
+    title: "CharlieRP ScreenShareTool — Complete Minecraft Screen Share Guide",
     description:
-      "La guida piu completa mai scritta sugli screen share Minecraft.",
+      "The most complete guide ever written on Minecraft screen sharing.",
     url: "https://screenshare-guide.vercel.app",
   },
 };
 
 const sections = [
   {
-    title: "Manuale Operativo",
-    desc: "Procedura completa passo-passo per condurre uno screen share professionale. Dalla checklist iniziale alla chiusura.",
+    title: "Operational Manual",
+    desc: "Complete step-by-step procedure for conducting a professional screen share. From initial checklist to closure.",
     href: "/guide",
     color: "cyan",
-    stats: "10 parti, 50+ controlli",
+    stats: "16 parts, 50+ checks",
   },
   {
-    title: "Dizionario Stringhe",
-    desc: "Ogni singola stringa forense conosciuta dall'umanita. 300+ stringhe in 30+ categorie. Ricerca istantanea.",
+    title: "Forensic Strings Dictionary",
+    desc: "Every single forensic string known to humanity. 300+ strings in 28 categories. Instant search.",
     href: "/strings",
     color: "red",
-    stats: "300+ stringhe, 30+ categorie",
+    stats: "300+ strings, 28 categories",
   },
   {
-    title: "Enciclopedia Tool",
-    desc: "Ogni tool usato negli screen share: System Informer, Everything, Luyten, NirSoft, Process Hacker, e decine di altri.",
+    title: "Tool Encyclopedia",
+    desc: "Every tool used in screen shares: System Informer, Everything, Luyten, NirSoft, Process Hacker, and dozens more.",
     href: "/tools",
     color: "purple",
-    stats: "20+ tool documentati",
+    stats: "25+ tools documented",
   },
   {
     title: "Download Tool",
-    desc: "Scarica lo strumento forense CharlieRP. Exe standalone, sorgenti Python, winget.",
+    desc: "Download the CharlieRP forensic tool. Standalone exe, Python sources, winget.",
     href: "/download",
     color: "green",
     stats: "v3.0 — Cross-platform",
@@ -58,10 +58,10 @@ const dotColor: Record<string, string> = {
 };
 
 const knowledge = [
-  "Ghost Client (LiquidBounce, Wurst, Sigma, FDP, Vape, Meteor, Rise, Future, Impact, Aristois, Inertia, Do0mClient, MoonClient, Tenacity, Astolfo, Kami, Phobos, SalHack, Seppuku, Flux, Snow, Rusher)",
-  "Autoclicker (Koid, Dream, Drip, Whiteout, Itami, 7Clicker, Mango, Murmur, Phantom, JNativeHook)",
+  "Ghost Clients (LiquidBounce, Wurst, Sigma, FDP, Vape, Meteor, Rise, Future, Impact, Aristois, Inertia, Do0mClient, MoonClient, Tenacity, Astolfo, Kami, Phobos, SalHack, Seppuku, Flux, Snow, Rusher)",
+  "Autoclickers (Koid, Dream, Drip, Whiteout, Itami, 7Clicker, Mango, Murmur, Phantom, JNativeHook)",
   "Self-Destruct / Anti-Forensics (Doomsday, ClassLoader, defineClass, unload, clean tracks, wipe logs)",
-  "External cheat (VPN tunnel, Hamachi, ZeroTier, Radmin, ngrok, USB Rubber Ducky, BadUSB)",
+  "External cheats (VPN tunnel, Hamachi, ZeroTier, Radmin, ngrok, USB Rubber Ducky, BadUSB)",
   "Movement hacks (Speed, Fly, NoFall, Scaffold, Tower, Jesus, BoatFly, ElytraFly, Spider, Bhop)",
   "Combat hacks (KillAura, Reach, Velocity, AntiKnockback, Aimbot, Triggerbot, Criticals)",
   "Render hacks (XRay, ESP, PlayerESP, ChestESP, Nametags, Tracers, FullBright, Chams, Tomograph)",
@@ -70,7 +70,7 @@ const knowledge = [
   "Minecraft internals (launcher_profiles.json, usercache.json, IAS mod, Lunar/Badlion/Fabric/Forge)",
   "Network forensics (TCP connections, DNS cache, hosts file, VPN detection, proxy detection)",
   "Anti-cheat bypass (Grim, Vulcan, Matrix, Intave, Rewind, Polar, AAC, NCP, Watchdog)",
-  "Obfuscation (Proguard, R8, Mixin, SRG, Notch, Mojang, Yarn mappings)",
+  "Obfuscation (ProGuard, R8, Mixin, SRG, Notch, Mojang, Yarn mappings)",
   "Java runtime exploitation (ClassLoader, Runtime.exec, ProcessBuilder, reflection)",
   "File system forensics (NTFS ADS, Alternate Data Streams, $Recycle.Bin, USN Journal)",
   "Hardware forensics (USB device history, disk serial numbers, hardware fingerprints)",
@@ -85,7 +85,7 @@ export default function Home() {
         <div className="relative">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-6">
             <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-            v3.0 — La guida piu completa mai scritta
+            v3.0 — The most complete guide ever written
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-4">
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
@@ -95,23 +95,23 @@ export default function Home() {
             <span className="text-white text-4xl md:text-5xl">SCREENSHARE</span>
           </h1>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-2">
-            Ogni tecnica, ogni tool, ogni stringa forense, ogni cheat conosciuto.
+            Every technique, every tool, every forensic string, every known cheat.
             <br />
-            Da zero a livello professionale.
+            From zero to professional level.
           </p>
           <p className="text-gray-600 text-sm max-w-2xl mx-auto mb-8">
-            Guide, enciclopedie, dizionari di stringhe, tool forensi, metodi di rilevamento,
-            bypass, anti-forensics, e tutto cio che riguarda gli screen share su Minecraft.
+            Guides, enciclopedias, string dictionaries, forensic tools, detection methods,
+            bypass, anti-forensics, and everything related to screen sharing on Minecraft.
           </p>
           <div className="flex justify-center gap-3 flex-wrap">
             <a href="/guide" className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
-              Guida Completa
+              Complete Guide
             </a>
             <a href="/strings" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
-              300+ Stringhe Forensi
+              300+ Forensic Strings
             </a>
             <a href="/tools" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
-              Enciclopedia Tool
+              Tool Encyclopedia
             </a>
             <a href="/download" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
               Download
@@ -136,8 +136,8 @@ export default function Home() {
 
       {/* What You'll Learn */}
       <div className="mb-20">
-        <h2 className="text-2xl font-bold text-center mb-3">Cosa Imparerai</h2>
-        <p className="text-gray-500 text-sm text-center mb-8">Tutto cio che esiste sugli screen share Minecraft</p>
+        <h2 className="text-2xl font-bold text-center mb-3">What You Will Learn</h2>
+        <p className="text-gray-500 text-sm text-center mb-8">Everything that exists about Minecraft screen sharing</p>
         <div className="grid md:grid-cols-2 gap-2">
           {knowledge.map((k, i) => (
             <div key={i} className="flex items-start gap-2 text-sm text-gray-400 py-2 px-3 rounded-lg bg-gray-900/30">
@@ -150,13 +150,13 @@ export default function Home() {
 
       {/* Quick Start */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 mb-16">
-        <h2 className="text-xl font-bold mb-6">Quick Start — Come Fare uno Screen Share</h2>
+        <h2 className="text-xl font-bold mb-6">Quick Start — How to Conduct a Screen Share</h2>
         <div className="grid md:grid-cols-4 gap-4">
           {[
-            { step: "1", title: "Accesso AnyDesk", desc: "Connessione AnyDesk al PC del giocatore. Verifica ping stabile." },
-            { step: "2", title: "Deploy Tool", desc: "Scarica ed esegui Everything, System Informer, Luyten, Suite NirSoft." },
-            { step: "3", title: "Analisi", desc: "Esegui Checklist Pre-Analisi, poi tutti i controlli: Registry, RAM, Prefetch, BAM, Cheat, USB." },
-            { step: "4", title: "Veredetto", desc: "Raccogli prove, documenta con screenshot, emetti sanzione o assolvi." },
+            { step: "1", title: "AnyDesk Access", desc: "Connect via AnyDesk to the player's PC. Verify stable ping." },
+            { step: "2", title: "Deploy Tools", desc: "Download and run Everything, System Informer, Luyten, NirSoft Suite." },
+            { step: "3", title: "Analysis", desc: "Run Pre-Analysis Checklist, then all checks: Registry, RAM, Prefetch, BAM, Cheats, USB." },
+            { step: "4", title: "Verdict", desc: "Collect evidence, document with screenshots, issue sanction or acquit." },
           ].map((item, i) => (
             <div key={i} className="text-center">
               <div className="w-10 h-10 bg-cyan-500/10 border border-cyan-500/20 rounded-full flex items-center justify-center text-cyan-400 font-bold mx-auto mb-3">

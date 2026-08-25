@@ -1,0 +1,152 @@
+name: Verify All Strings
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/src/app/strings/**"
+      - ".github/workflows/verify-strings-all.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "website/src/app/strings/**"
+  schedule:
+    - cron: "0 5 * * 1"
+
+jobs:
+  verify-all-strings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Comprehensive string validation
+        run: |
+          python3 << 'PYEOF'
+          import re
+          import sys
+
+          with open("website/src/app/strings/page.tsx", "r", encoding="utf-8") as f:
+              content = f.read()
+
+          # Parse all categories
+          categories = []
+          current = None
+          in_strings = False
+
+          for line in content.split("\n"):
+              name_match = re.search(r'name:\s*"([^"]+)"', line)
+              os_match = re.search(r'os:\s*"([^"]+)"', line)
+
+              if name_match and not in_strings:
+                  current = {"name": name_match.group(1), "os": "", "strings": []}
+              elif os_match and current:
+                  current["os"] = os_match.group(1)
+              elif current and '"strings":' in line:
+                  in_strings = True
+              elif in_strings and current:
+                  matches = re.findall(r'"([^"]+)"', line)
+                  for m in matches:
+                      if m and len(m) > 1 and not m.startswith("bg-") and not m.startswith("text-") and not m.startswith("inline-flex"):
+                          current["strings"].append(m)
+                  if "]," in line:
+                      in_strings = False
+                      if current["strings"]:
+                          categories.append(current)
+                      current = None
+
+          total = sum(len(c["strings"]) for c in categories)
+          print(f"Total categories: {len(categories)}")
+          print(f"Total strings: {total}")
+
+          # Count by OS
+          os_counts = {}
+          for c in categories:
+              os_counts[c["os"]] = os_counts.get(c["os"], 0) + len(c["strings"])
+
+          print("\n--- Strings by OS ---")
+          for os_name, count in sorted(os_counts.items()):
+              print(f"  {os_name}: {count}")
+
+          # Validate minimum counts
+          min_counts = {
+              "Windows": 150,
+              "Linux": 20,
+              "macOS": 20,
+              "Cross-platform": 30,
+              "Server": 10,
+          }
+
+          print("\n--- Minimum Count Validation ---")
+          all_pass = True
+          for os_name, min_count in min_counts.items():
+              actual = os_counts.get(os_name, 0)
+              status = "PASS" if actual >= min_count else "FAIL"
+              if actual < min_count:
+                  all_pass = False
+              print(f"  {os_name}: {actual}/{min_count} {status}")
+
+          # Validate critical forensic categories exist
+          critical = [
+              "NTFS Journal", "Prefetch", "BAM", "UserAssist", "USBSTOR",
+              "ShellBags", "MuiCache", "Registry", "Event Logs",
+              "Minecraft", "Ghost Client", "Autoclicker", "Self-Destruct",
+              "Java Runtime", "Anti-Cheat", "VPN", "Process Injection",
+              "NTFS", "Browser", "Discord", "Linux", "macOS",
+              "Timing", "Obfuscation", "Mod Loader", "Network", "Hidden",
+          ]
+
+          cat_names = [c["name"] for c in categories]
+          print("\n--- Critical Category Validation ---")
+          for crit in critical:
+              found = any(crit.lower() in name.lower() for name in cat_names)
+              status = "PASS" if found else "FAIL"
+              if not found:
+                  all_pass = False
+              print(f"  {crit}: {status}")
+
+          # Validate specific high-value strings
+          high_value = [
+              "$UsnJrnl", "USN_REASON_FILE_CREATE", "USN_REASON_FILE_DELETE",
+              "HKLM\\SYSTEM", "HKCU\\Software", "CurrentVersion\\Run",
+              "bam\\UserSettings", "UserAssist", "USBSTOR",
+              "BagMRU", "MuiCache", "Microsoft-Windows-PowerShell",
+              ".minecraft", "launcher_profiles.json", "latest.log",
+              "LiquidBounce", "wurstclient", "doomsday",
+              "koid", "JNativeHook",
+              "Class.forName", "ClassLoader", "Runtime.exec",
+              "Grim", "Vulcan", "Matrix", "Intave",
+              "Hamachi", "ZeroTier", "WireGuard",
+              "VirtualAlloc", "WriteProcessMemory", "CreateRemoteThread",
+              "NTFS", "Alternate Data Stream", "$DATA",
+              "/var/log", "/proc/", ".bash_history",
+              "~/Library", "LaunchAgents", "mdfind",
+          ]
+
+          print("\n--- High-Value String Validation ---")
+          missing = []
+          for hv in high_value:
+              found = hv in content
+              if not found:
+                  missing.append(hv)
+                  all_pass = False
+
+          if missing:
+              print(f"  Missing {len(missing)} high-value strings:")
+              for m in missing:
+                  print(f"    - {m}")
+          else:
+              print(f"  All {len(high_value)} high-value strings present!")
+
+          # Final summary
+          print("\n" + "="*50)
+          if all_pass:
+              print("ALL VALIDATIONS PASSED!")
+          else:
+              print("SOME VALIDATIONS FAILED!")
+              sys.exit(1)
+          PYEOF
