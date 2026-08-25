@@ -129,10 +129,11 @@ def read_log_lines(path: str) -> Optional[List[str]]:
 #  HTML HELPERS
 # ================================================================
 
-def html_escape(s: str) -> str:
-    """Escape HTML special characters."""
-    if not s:
+def html_escape(s) -> str:
+    """Escape HTML special characters. Handles None and non-string values."""
+    if s is None:
         return ""
+    s = str(s)
     return (s.replace("&", "&amp;")
              .replace("<", "&lt;")
              .replace(">", "&gt;")
