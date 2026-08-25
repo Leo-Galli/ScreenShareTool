@@ -91,7 +91,7 @@ export default function Guide() {
         <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
           <h3 className="text-lg font-semibold mb-4 text-cyan-400">Requisiti Minimi</h3>
           <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
-            <li>Rango ispettore ATTIVO e verificato da uno staff senior.</li>
+            <li>Rango ispettore attivo e verificato.</li>
             <li>Conoscenza pratica di tutti gli strumenti elencati nella Parte 1.</li>
             <li>Database locale degli hash SHA-256 per versioni Minecraft pulite (1.8.9 Vanilla, 1.8.9 Forge, 1.12.2 Vanilla — necessario per Flag E).</li>
             <li>Connessione stabile. NON avviare un SS con ping superiore a 150ms.</li>
@@ -104,7 +104,7 @@ export default function Guide() {
             <li>Non rivelare le procedure di questo manuale ai giocatori durante il controllo.</li>
             <li>Non minacciare, insultare o mettere pressione psicologica sul giocatore.</li>
             <li>Non prolungare il controllo oltre il tempo strettamente necessario.</li>
-            <li>Ogni ban DEVE essere documentato con screenshot delle prove nel canale staff.</li>
+            <li>Ogni ban DEVE essere documentato con screenshot delle prove.</li>
             <li>In caso di dubbio, consultare un ispettore senior PRIMA di emettere sanzioni.</li>
             <li>I dati personali (path utente, username reale, ecc.) NON devono essere diffusi.</li>
           </ol>
@@ -493,9 +493,9 @@ export default function Guide() {
           <div className="bg-gray-900/50 border border-yellow-500/20 rounded-2xl p-6">
             <h3 className="text-lg font-semibold mb-3 text-yellow-400">Procedura in Caso di Dubbio</h3>
             <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
-              <li>NON emettere ban in autonomia. Contatta uno staff senior con gli screenshot delle anomalie.</li>
+              <li>NON emettere ban in autonomia. Contatta un ispettore senior con gli screenshot delle anomalie.</li>
               <li>Documenta lo stato della macchina con screenshot dettagliati e salvali.</li>
-              <li>Il giocatore puo essere messo in stato &quot;In osservazione&quot; per un periodo definito dallo staff senior.</li>
+              <li>Il giocatore puo essere messo in stato &quot;In osservazione&quot; per un periodo definito dal team.</li>
               <li>Se le prove sono state distrutte ma non c&apos;e prova diretta del cheat: considera &quot;Rifiuto SS&quot; — Ban per rifiuto/ostruzione allo ScreenShare.</li>
             </ol>
           </div>
@@ -535,7 +535,7 @@ export default function Guide() {
 
         <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
           <h3 className="text-lg font-semibold mb-3 text-cyan-400">Documentazione Finale Obbligatoria</h3>
-          <p className="text-gray-400 text-sm mb-3">Da pubblicare nel canale staff dedicato:</p>
+          <p className="text-gray-400 text-sm mb-3">Da documentare e archiviare:</p>
           <div className="space-y-2">
             {[
               "Nickname del giocatore ispezionato",
@@ -554,9 +554,8 @@ export default function Guide() {
       </section>
 
       {/* Footer */}
-      <div className="border-t border-gray-800 pt-8 mt-12 text-center">
-        <p className="text-gray-500 text-sm">
-          CharlieRoleplay Staff Documentation — v3.0 — Redatto da LeoGalli
+      <div className="border-t border-gray-800 pt-8 mt-12 text-center">          <p className="text-gray-500 text-sm">
+          CharlieRoleplay ScreenShare Documentation — v3.0 — LeoGalli
         </p>
       </div>
     </div>
