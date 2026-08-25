@@ -1,4 +1,15 @@
-"use client";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Download",
+  description:
+    "Scarica CharlieRP ScreenShareTool v3.0. .exe standalone, sorgenti Python, winget. Strumento forense per analisi client Minecraft.",
+  openGraph: {
+    title: "Download — CharlieRP ScreenShareTool",
+    description:
+      "Scarica lo strumento forense per l'analisi di client Minecraft.",
+  },
+};
 
 export default function Download() {
   return (
