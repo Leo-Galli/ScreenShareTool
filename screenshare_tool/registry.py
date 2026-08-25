@@ -39,19 +39,12 @@ def analyze_registry(date_limit: datetime, days: int,
     else:
         write_block(out, ["  [--] Chiave Store non trovata."])
 
-    # ---- [11b] BAM ----
+    # ---- [11b] BAM (handled by the dedicated AstroSS-grade parser module) ----
     out = os.path.join(root_dir, "11_Regedit", f"BAM_{ts}.txt")
     new_report_file(out, "REGEDIT [11b] - BAM",
-                    r"HKLM\...\bam\State\UserSettings\ (solo Win10+)",
+                    "Ultime esecuzioni - vedi report BAM_AstroSS_* (modulo dedicato)",
                     win_name, win_build, days, date_limit)
-    if is_win10:
-        bam_entries = _analyze_bam(date_limit)
-        if bam_entries:
-            write_block(out, bam_entries)
-        else:
-            write_block(out, ["  [--] Nessun exe nel BAM nell'intervallo."])
-    else:
-        write_block(out, [f"  [--] BAM non disponibile su {win_name}."])
+    write_block(out, ["  [OK]  Analisi BAM completa eseguita dal modulo dedicato (BAM_AstroSS_*)."])
 
     # ---- [11c] WinRAR History ----
     out = os.path.join(root_dir, "11_Regedit", f"WinRAR_{ts}.txt")
@@ -132,12 +125,15 @@ def analyze_registry(date_limit: datetime, days: int,
             fe_entries.append(f"  [ - ] Nota            : {ext}")
     write_block(out, fe_entries if fe_entries else ["  [--] Nessuna estensione trovata."])
 
-    # ---- [11h] USB Devices ----
+    # ---- [11h] USB Devices + USBSTOR (ultima connessione) ----
     out = os.path.join(root_dir, "11_Regedit", f"USB_{ts}.txt")
     new_report_file(out, "REGEDIT [11h] - USB DEVICES",
-                    r"HKLM\SYSTEM\ControlSet001\Enum\USB",
+                    r"HKLM\SYSTEM\ControlSet001\Enum\USB + USBSTOR (timestamps)",
                     win_name, win_build, days, date_limit)
     usb_entries = _scan_usb_devices()
+    usb_entries.append("")
+    usb_entries.append("  ---- USBSTOR - ULTIMA CONNESSIONE ----")
+    usb_entries.extend(_scan_usbstor())
     write_block(out, usb_entries if usb_entries else ["  [--] Nessun dispositivo USB trovato."])
 
     # ---- [11i] ShimCache ----
@@ -238,3 +234,62 @@ def _scan_usb_recursive(key, base_path: str, entries: List[str], depth: int = 0)
                 break
     except Exception:
         pass
+
+
+def _scan_usbstor() -> List[str]:
+    """Scan USBSTOR for storage devices with last-connection timestamps."""
+    entries = []
+    try:
+        import winreg
+        base = r"SYSTEM\CurrentControlSet\Enum\USBSTOR"
+        key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, base)
+        try:
+            i = 0
+            while True:
+                try:
+                    dev = winreg.EnumKey(key, i)
+                except OSError:
+                    break
+                try:
+                    dev_key = winreg.OpenKey(key, dev)
+                    try:
+                        j = 0
+                        while True:
+                            try:
+                                inst = winreg.EnumKey(dev_key, j)
+                            except OSError:
+                                break
+                            try:
+                                inst_key = winreg.OpenKey(dev_key, inst)
+                                try:
+                                    friendly = ""
+                                    last = "N/A"
+                                    try:
+                                        friendly, _ = winreg.QueryValueEx(inst_key, "FriendlyName")
+                                    except OSError:
+                                        pass
+                                    try:
+                                        last_val, _ = winreg.QueryValueEx(inst_key, "LastWrite")
+                                        if isinstance(last_val, bytes) and len(last_val) >= 8:
+                                            ft = struct.unpack("<q", last_val[:8])[0]
+                                            dt = filetime_to_datetime(ft)
+                                            if dt:
+                                                last = format_timestamp(dt)
+                                    except OSError:
+                                        pass
+                                    entries.append(f"  [USBSTOR] {friendly or dev}  |  Ultima connessione: {last}")
+                                finally:
+                                    winreg.CloseKey(inst_key)
+                            except OSError:
+                                pass
+                            j += 1
+                    finally:
+                        winreg.CloseKey(dev_key)
+                    i += 1
+                except OSError:
+                    i += 1
+        finally:
+            winreg.CloseKey(key)
+    except Exception:
+        pass
+    return entries
