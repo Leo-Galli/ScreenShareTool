@@ -24,11 +24,11 @@ export const metadata: Metadata = {
   authors: [{ name: "LeoGalli" }],
   creator: "LeoGalli",
   publisher: "LeoGalli",
-  metadataBase: new URL("https://screensharetool.vercel.app"),
+  metadataBase: new URL("https://website-gamma-teal-94.vercel.app"),
   openGraph: {
     type: "website",
     locale: "it_IT",
-    url: "https://screensharetool.vercel.app",
+    url: "https://website-gamma-teal-94.vercel.app",
     siteName: "CharlieRP ScreenShareTool",
     title: "CharlieRP ScreenShareTool — Guida Completa Screen Share Minecraft",
     description:
@@ -61,7 +61,7 @@ export const metadata: Metadata = {
     },
   },
   alternates: {
-    canonical: "https://screensharetool.vercel.app",
+    canonical: "https://website-gamma-teal-94.vercel.app",
   },
 };
 
@@ -80,7 +80,7 @@ export default function RootLayout({
     description:
       "Strumento forense per l'analisi di client Minecraft. Rileva cheat, autodistruzione, multiaccount.",
     author: { "@type": "Person", name: "LeoGalli" },
-    url: "https://screensharetool.vercel.app",
+    url: "https://website-gamma-teal-94.vercel.app",
     downloadUrl:
       "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/screensharetool.exe",
     softwareVersion: "3.0.0",
@@ -90,12 +90,12 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "CharlieRP ScreenShareTool",
-    url: "https://screensharetool.vercel.app",
+    url: "https://website-gamma-teal-94.vercel.app",
     description:
       "Guida completa per lo screen share su Minecraft. Strumenti forensi, checklist, criteri di ban.",
     potentialAction: {
       "@type": "SearchAction",
-      target: "https://screensharetool.vercel.app/strings?q={search_term_string}",
+      target: "https://website-gamma-teal-94.vercel.app/strings?q={search_term_string}",
       "query-input": "required name=search_term_string",
     },
   };
@@ -104,7 +104,7 @@ export default function RootLayout({
     <html lang="it" className="dark">
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="canonical" href="https://screensharetool.vercel.app" />
+        <link rel="canonical" href="https://website-gamma-teal-94.vercel.app" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
