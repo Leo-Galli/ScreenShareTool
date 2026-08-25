@@ -1,0 +1,32 @@
+name: Verify Python Tool
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "screenshare_tool/**"
+      - ".github/workflows/ci-tool.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "screenshare_tool/**"
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Compile all modules
+        run: python -m py_compile screenshare_tool/__init__.py && python -m py_compile screenshare_tool/__main__.py && python -m py_compile screenshare_tool/config.py && python -m py_compile screenshare_tool/utils.py && python -m py_compile screenshare_tool/system.py && python -m py_compile screenshare_tool/network.py && python -m py_compile screenshare_tool/bam.py && python -m py_compile screenshare_tool/cheat.py && python -m py_compile screenshare_tool/minecraft.py && python -m py_compile screenshare_tool/registry.py && python -m py_compile screenshare_tool/journal.py && python -m py_compile screenshare_tool/prefetch.py && python -m py_compile screenshare_tool/macro.py && python -m py_compile screenshare_tool/nick_search.py && python -m py_compile screenshare_tool/events.py
+
+      - name: Verify imports
+        run: python -c "from screenshare_tool import config, utils, system, network, bam, cheat, minecraft, registry, journal, prefetch, macro, nick_search, events; print('All modules imported successfully')"
+
+      - name: Check cheat list count
+        run: python -c "from screenshare_tool.config import KNOWN_CHEATS; print(f'Known cheats: {len(KNOWN_CHEATS)}'); assert len(KNOWN_CHEATS) >= 40, f'Expected at least 40 cheats, got {len(KNOWN_CHEATS)}'"

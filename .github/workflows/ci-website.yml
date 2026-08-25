@@ -1,0 +1,44 @@
+name: Verify Website
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/**"
+      - ".github/workflows/ci-website.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "website/**"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: "npm"
+          cache-dependency-path: website/package-lock.json
+
+      - name: Install dependencies
+        working-directory: website
+        run: npm ci
+
+      - name: Build
+        working-directory: website
+        run: npm run build
+
+      - name: Verify all pages exist
+        run: |
+          test -f website/src/app/page.tsx
+          test -f website/src/app/guide/page.tsx
+          test -f website/src/app/strings/page.tsx
+          test -f website/src/app/download/page.tsx
+          test -f website/src/app/layout.tsx
+          test -f website/src/app/robots.ts
+          test -f website/src/app/sitemap.ts
+          echo "All pages verified"
