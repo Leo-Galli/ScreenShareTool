@@ -20,7 +20,7 @@ export default function Download() {
             Download
           </span>
         </h1>
-        <p className="text-gray-400 text-lg">Scarica lo strumento forense per il tuo sistema operativo</p>
+        <p className="text-gray-400 text-lg">Download the forensic tool for your operating system</p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-6 mb-12">
@@ -36,7 +36,7 @@ export default function Download() {
             </div>
           </div>
           <p className="text-gray-400 text-sm mb-4">
-            Eseguibile standalone compilato con PyInstaller. Non richiede Python installato. Estrai e clicca per avviare. Richiede privilegi di Amministratore.
+            Standalone executable compiled with PyInstaller. No Python required. Extract and click to run. Requires Administrator privileges.
           </p>
           <a
             href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/screensharetool.exe"
@@ -47,7 +47,7 @@ export default function Download() {
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            Scarica .exe
+            Download .exe
           </a>
         </div>
 
@@ -59,11 +59,11 @@ export default function Download() {
             </svg>
             <div>
               <h3 className="text-white font-semibold">CharlieRPScreenShareTool-v3.0.0.zip</h3>
-              <p className="text-gray-500 text-xs">Sorgenti Python — 56 KB — Cross-platform</p>
+              <p className="text-gray-500 text-xs">Python Sources — 56 KB — Cross-platform</p>
             </div>
           </div>
           <p className="text-gray-400 text-sm mb-4">
-            Pacchetto sorgente completo con tutti i moduli Python. Richiede Python 3.8+. Funziona su Windows, macOS e Linux.
+            Complete source package with all Python modules. Requires Python 3.8+. Works on Windows, macOS and Linux.
           </p>
           <a
             href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/CharlieRPScreenShareTool-v3.0.0.zip"
@@ -74,7 +74,7 @@ export default function Download() {
             <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
             </svg>
-            Scarica .zip
+            Download .zip
           </a>
         </div>
       </div>
@@ -83,7 +83,7 @@ export default function Download() {
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
         <h3 className="text-white font-semibold mb-3">Winget (Windows Package Manager)</h3>
         <p className="text-gray-400 text-sm mb-3">
-          Installa direttamente da terminale senza aprire il browser:
+          Install directly from terminal without opening the browser:
         </p>
         <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400">
           winget install LeoGalli.CharlieRPScreenShareTool
@@ -92,41 +92,41 @@ export default function Download() {
 
       {/* CLI Options */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
-        <h3 className="text-white font-semibold mb-3">Opzioni CLI</h3>
+        <h3 className="text-white font-semibold mb-3">CLI Options</h3>
         <div className="space-y-2 text-sm">
           <div className="flex items-start gap-3">
             <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--days N</code>
-            <span className="text-gray-400">Analizza gli ultimi N giorni (default: 7)</span>
+            <span className="text-gray-400">Analyze the last N days (default: 7)</span>
           </div>
           <div className="flex items-start gap-3">
             <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--output PATH</code>
-            <span className="text-gray-400">Directory di output personalizzata</span>
+            <span className="text-gray-400">Custom output directory</span>
           </div>
           <div className="flex items-start gap-3">
             <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--no-nick</code>
-            <span className="text-gray-400">Salta la ricerca nick su tutto il PC (piu veloce)</span>
+            <span className="text-gray-400">Skip nick search on entire PC (piu veloce)</span>
           </div>
         </div>
       </div>
 
       {/* Requirements */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-        <h3 className="text-white font-semibold mb-3">Requisiti</h3>
+        <h3 className="text-white font-semibold mb-3">Requirements</h3>
         <div className="grid md:grid-cols-2 gap-4 text-sm">
           <div>
             <p className="text-gray-400 font-medium mb-1">Windows (.exe)</p>
             <ul className="text-gray-500 space-y-1">
               <li>Windows 10/11</li>
-              <li>Privilegi di Amministratore</li>
-              <li>Nessuna dipendenza esterna</li>
+              <li>Administrator privileges</li>
+              <li>No external dependencies</li>
             </ul>
           </div>
           <div>
             <p className="text-gray-400 font-medium mb-1">Windows (Python)</p>
             <ul className="text-gray-500 space-y-1">
               <li>Python 3.8+</li>
-              <li>Zero dipendenze esterne</li>
-              <li>Privilegi di Amministratore</li>
+              <li>Zero external dependencies</li>
+              <li>Administrator privileges</li>
             </ul>
           </div>
         </div>

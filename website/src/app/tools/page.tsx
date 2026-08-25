@@ -2,7 +2,7 @@
 
 const tools = [
   {
-    category: "Analisi RAM e Processi",
+    category: "RAM and Process Analysis",
     items: [
       {
         name: "System Informer",
@@ -28,7 +28,7 @@ const tools = [
     ],
   },
   {
-    category: "Filesystem e Ricerca",
+    category: "Filesystem and Search",
     items: [
       {
         name: "Everything (VoidTools)",
@@ -54,7 +54,7 @@ const tools = [
     ],
   },
   {
-    category: "Forensica Java",
+    category: "Java Forensics",
     items: [
       {
         name: "Luyten",
@@ -80,7 +80,7 @@ const tools = [
     ],
   },
   {
-    category: "Forensica di Registro",
+    category: "Registry Forensics",
     items: [
       {
         name: "RegScanner (NirSoft)",
@@ -106,7 +106,7 @@ const tools = [
     ],
   },
   {
-    category: "Forensica Prefetch e Timeline",
+    category: "Prefetch and Timeline Forensics",
     items: [
       {
         name: "WinPrefetchView (NirSoft)",
@@ -139,7 +139,7 @@ const tools = [
     ],
   },
   {
-    category: "Forensica USB e Periferiche",
+    category: "USB and Peripheral Forensics",
     items: [
       {
         name: "USBDeview (NirSoft)",
@@ -158,7 +158,7 @@ const tools = [
     ],
   },
   {
-    category: "Forensica di Rete",
+    category: "Network Forensics",
     items: [
       {
         name: "Wireshark",
@@ -184,7 +184,7 @@ const tools = [
     ],
   },
   {
-    category: "Forensica Disco",
+    category: "Disk Forensics",
     items: [
       {
         name: "FTK Imager",
@@ -210,7 +210,7 @@ const tools = [
     ],
   },
   {
-    category: "Strumenti Sistema",
+    category: "System Tools",
     items: [
       {
         name: "Autoruns (Sysinternals)",
@@ -236,7 +236,7 @@ const tools = [
     ],
   },
   {
-    category: "Script e Automazione",
+    category: "Scripts and Automation",
     items: [
       {
         name: "AstroSS",
@@ -262,11 +262,11 @@ export default function ToolsPage() {
       <div className="mb-12">
         <h1 className="text-4xl font-bold mb-3">
           <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Enciclopedia Tool
+            Tool Encyclopedia
           </span>
         </h1>
         <p className="text-gray-400 text-lg">
-          Ogni tool usato negli screen share Minecraft. {tools.reduce((a, c) => a + c.items.length, 0)} strumenti documentati.
+          Every tool used in Minecraft screen shares. {tools.reduce((a, c) => a + c.items.length, 0)} tools documented.
         </p>
       </div>
 
@@ -288,11 +288,11 @@ export default function ToolsPage() {
                   </div>
                   <p className="text-gray-400 text-sm mb-3">{tool.desc}</p>
                   <div className="bg-gray-950 border border-gray-800 rounded-lg p-3 mb-2">
-                    <p className="text-gray-500 text-xs mb-1">Uso:</p>
+                    <p className="text-gray-500 text-xs mb-1">Usage:</p>
                     <p className="text-gray-300 text-sm">{tool.use}</p>
                   </div>
                   <div className="bg-gray-950 border border-gray-800 rounded-lg p-3">
-                    <p className="text-gray-500 text-xs mb-1">Installazione:</p>
+                    <p className="text-gray-500 text-xs mb-1">Installation:</p>
                     <p className="text-green-400 text-sm font-mono">{tool.install}</p>
                   </div>
                 </div>

@@ -1,0 +1,82 @@
+name: Verify macOS Strings
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "website/src/app/strings/**"
+      - ".github/workflows/verify-strings-macos.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "website/src/app/strings/**"
+  schedule:
+    - cron: "0 8 * * 1"
+
+jobs:
+  verify-macos-strings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Extract and validate macOS strings
+        run: |
+          python3 << 'PYEOF'
+          import re
+
+          with open("website/src/app/strings/page.tsx", "r", encoding="utf-8") as f:
+              content = f.read()
+
+          macos_strings = []
+          in_macos = False
+
+          for line in content.split("\n"):
+              if 'os: "macOS"' in line:
+                  in_macos = True
+              elif "os: \"" in line and "macOS" not in line:
+                  in_macos = False
+              elif in_macos:
+                  matches = re.findall(r'"([^"]+)"', line)
+                  for m in matches:
+                      if m and len(m) > 1 and not m.startswith("bg-") and not m.startswith("text-"):
+                          macos_strings.append(m)
+
+          print(f"Found {len(macos_strings)} macOS strings")
+
+          # Validate paths
+          paths = [s for s in macos_strings if s.startswith("~/") or s.startswith("/")]
+          print(f"\nFile paths: {len(paths)}")
+          for p in paths:
+              print(f"  {p}")
+
+          # Check for common forensic artifacts
+          artifacts = {
+              "Library caches": any("Library/Caches" in s for s in macos_strings),
+              "Application Support": any("Application Support" in s for s in macos_strings),
+              "LaunchAgents": any("LaunchAgents" in s for s in macos_strings),
+              "LaunchDaemons": any("LaunchDaemons" in s for s in macos_strings),
+              "System logs": any("/var/log" in s or "asl" in s for s in macos_strings),
+              "Login items": any("loginitems" in s.lower() or "LoginItem" in s for s in macos_strings),
+              "Minecraft paths": any(".minecraft" in s for s in macos_strings),
+              "Forensic tools (mdls, mdfind, xattr)": any(s in macos_strings for s in ["mdls", "mdfind", "xattr"]),
+          }
+
+          print("\n--- Artifact Coverage ---")
+          all_pass = True
+          for artifact, found in artifacts.items():
+              status = "PASS" if found else "FAIL"
+              if not found:
+                  all_pass = False
+              print(f"  {artifact}: {status}")
+
+          if all_pass:
+              print("\nAll macOS forensic artifacts covered!")
+          else:
+              print("\nSome artifacts missing!")
+              exit(1)
+          PYEOF

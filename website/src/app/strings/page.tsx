@@ -616,11 +616,11 @@ export default function StringsPage() {
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-3">
           <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-            Dizionario Stringhe Forensi
+            Forensic Strings Dictionary
           </span>
         </h1>
         <p className="text-gray-400 text-lg">
-          {totalStrings} stringhe reali in {categories.length} categorie. Registry, Journal, Prefetch, BAM, USB, RAM, Network, OS artifacts.
+          {totalStrings} real strings in {categories.length} categories. Registry, Journal, Prefetch, BAM, USB, RAM, Network, OS artifacts.
         </p>
       </div>
 
@@ -629,7 +629,7 @@ export default function StringsPage() {
         <div className="relative">
           <input
             type="text"
-            placeholder="Cerca stringa, chiave registry, percorso, nome file..."
+            placeholder="Search string, registry key, path, file name..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
@@ -651,7 +651,7 @@ export default function StringsPage() {
                   : "bg-gray-900/50 border-gray-700 text-gray-500 hover:text-white"
               }`}
             >
-              {os === "all" ? "Tutti" : os}
+              {os === "all" ? "All" : os}
             </button>
           ))}
           <button
@@ -662,17 +662,17 @@ export default function StringsPage() {
                 : "bg-gray-900/50 border-gray-700 text-gray-500 hover:text-white"
             }`}
           >
-            {highlight ? "Evidenza ON" : "Evidenza OFF"}
+            {highlight ? "Highlight ON" : "Highlight OFF"}
           </button>
           <button
             onClick={() => setOpenCats(openCats.length === filtered.length ? [] : filtered.map((_, i) => i))}
             className="text-xs px-3 py-1.5 rounded-lg border bg-gray-900/50 border-gray-700 text-gray-500 hover:text-white transition-colors"
           >
-            {openCats.length === filtered.length ? "Comprimi" : "Espandi Tutto"}
+            {openCats.length === filtered.length ? "Collapse" : "Expand All"}
           </button>
           {search && (
             <span className="text-xs text-gray-500 ml-2">
-              {filtered.reduce((a, c) => a + c.strings.length, 0)} risultati
+              {filtered.reduce((a, c) => a + c.strings.length, 0)} results
             </span>
           )}
         </div>
@@ -727,14 +727,14 @@ export default function StringsPage() {
 
       {filtered.length === 0 && (
         <div className="text-center py-12 text-gray-500">
-          <p className="text-lg mb-2">Nessun risultato</p>
-          <p className="text-sm">Prova con un&apos;altra stringa o cambia filtro OS.</p>
+          <p className="text-lg mb-2">No results</p>
+          <p className="text-sm">Try a&apos;different string or change OS filter.</p>
         </div>
       )}
 
       <div className="border-t border-gray-800 pt-8 mt-12 text-center">
         <p className="text-gray-500 text-sm">
-          CharlieRP Forensic Strings Reference — {totalStrings} stringhe documentate
+          CharlieRP Forensic Strings Reference — {totalStrings} strings documented
         </p>
       </div>
     </div>
