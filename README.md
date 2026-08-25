@@ -10,13 +10,13 @@
 [![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
 [![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)]()
 [![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
-[![winget](https://img.shields.io/badge/winget-Available-yellow?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/microsoft/winget-pkgs/pull/423511)
+[![winget](https://img.shields.io/badge/winget-Available-yellow?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/microsoft/winget-pkgs/pull/423780)
 
 **Network:** mc.charlieroleplay.it | **Developer:** LeoGalli
 
 ---
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Modules](#-modules) • [Dashboard](#-dashboard) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Modules](#-modules) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
 
 ---
 
@@ -26,7 +26,7 @@
 
 CharlieRP ScreenShareTool is a comprehensive forensic analysis tool designed for Minecraft server administration. It detects multi-accounting, cheat self-destruction, registry alterations, suspicious deletions, and account switches across multiple Minecraft launchers.
 
-Originally written in PowerShell, v3.0 has been completely rewritten in **Python** (Windows/macOS/Linux) and **Bash** (macOS/Linux/FreeBSD) with optimized performance, reduced false positives, and a modern HTML dashboard.
+Originally written in PowerShell, v3.0 has been completely rewritten in **Python** (Windows/macOS/Linux) and **Bash** (macOS/Linux/FreeBSD) with optimized performance, reduced false positives, and clean organized text reports.
 
 <div align="center">
 
@@ -48,16 +48,19 @@ Originally written in PowerShell, v3.0 has been completely rewritten in **Python
 | Module | Description |
 |:-------|:------------|
 | **NTFS Journal** | USN Journal analysis: DELETE, RENAME, ADS streams, DACL changes, Unicode spoofing |
-| **Registry** | BAM, Compatibility Store, MuiCache, WinRAR history, OpenSave MRU, USB devices, ShimCache |
+| **Registry** | Compatibility Store, MuiCache, WinRAR history, OpenSave MRU, USB devices, ShimCache |
+| **BAM (AstroSS-grade)** | Last-execution timestamps + Authenticode signature verification + timezone + user resolution |
 | **Prefetch** | EnablePrefetcher status, .pf file listing with date filtering |
 | **Macro Detection** | Razer, Logitech, Corsair, ROCCAT, Bloody, SteelSeries, AutoKey, xdotool |
 | **Minecraft Forensics** | 15+ launchers, account extraction, IGAS logs, server history, hidden mods |
-| **Cheat Self-Destruct** | 26 known cheat clients monitored for traces of self-deletion |
+| **Cheat Self-Destruct** | 48 known cheat clients monitored for traces of self-deletion |
+| **Whole-PC Scan** | Finds cheat files/folders across all user areas + last executions |
+| **USB Forensics** | USBSTOR history with last-connection timestamps |
+| **ADS Detection** | Alternate Data Streams (file hiding spots for exploits) |
 | **Nickname Search** | Parallel search across entire filesystem with ThreadPoolExecutor |
 | **System Info** | VM detection, VPN/Tunnel detection, hardware profiling |
 | **Network** | TCP connections, hosts file, DNS cache analysis |
 | **Event Logs** | Security event monitoring (4616, 1102, 3079, Volume Snapshots) |
-| **HTML Dashboard** | Modern interactive dashboard with 9 pages, dark theme |
 
 </div>
 
@@ -111,7 +114,7 @@ python -m screenshare_tool
 # With parameters
 python -m screenshare_tool --days 7
 python -m screenshare_tool --days 30 --output C:\MyOutput
-python -m screenshare_tool --no-open  # Don't auto-open dashboard
+python -m screenshare_tool --quick  # Skip slow modules (journal, full nick search)
 ```
 
 ### macOS/Linux
@@ -130,7 +133,7 @@ sudo bash ss_tool_unix.sh
 |:-------|:------------|
 | `--days N` | Analyze last N days (prompts if not specified) |
 | `--output PATH` | Custom output directory |
-| `--no-open` | Don't auto-open dashboard in browser |
+| `--quick` | Skip slow modules (journal, full nick search) |
 | `--version` | Show version and exit |
 
 ---
@@ -157,8 +160,7 @@ CharlieRP_SS/
 ├── 14_Minecraft/            # Launcher analysis, accounts, logs
 ├── 15_Misc/                 # Crash dumps, event logs, AnyDesk
 ├── 16_SystemInfo/           # VM, VPN, hardware info
-├── 17_Network/              # TCP connections, DNS, hosts
-└── DASHBOARD_*.html         # Interactive HTML dashboard
+└── 17_Network/              # TCP connections, DNS, hosts
 ```
 
 ---
@@ -182,14 +184,23 @@ Reads the USN Journal for each drive and filters by date range to extract:
 
 ### Registry Analysis (11)
 
-- **BAM**: Background Activity Moderator (execution timestamps)
 - **Store**: Compatibility Assistant (never-launched executables)
 - **MuiCache**: Application name cache
 - **WinRAR History**: Recent archive operations
 - **OpenSave**: File dialog history
 - **FileExts**: Non-standard registered extensions
-- **USB Devices**: Connected peripherals
+- **USB Devices + USBSTOR**: Connected peripherals with last-connection timestamps
 - **ShimCache**: Application compatibility cache
+
+### BAM / Last Executions (AstroSS-grade)
+
+A dedicated parser (based on [AstroSS](https://github.com/Jammy108/AstroSS/)) extracts every executable's **last run time** from the BAM registry key with:
+
+- **Timezone correction** (ActiveTimeBias / DaylightBias)
+- **SID → username** resolution
+- **Drive path reconstruction** (`\Device\HarddiskVolumeN` → `C:\`)
+- **Authenticode signature verification** of each executable
+- Both BAM key variants (`bam\State` and `bam\UserSettings`)
 
 ### Minecraft Forensics (14)
 
@@ -223,7 +234,7 @@ Features:
 
 ### Cheat Self-Destruct Detection (18)
 
-Monitors **26 known cheat clients** for traces of self-deletion:
+Monitors **48 known cheat clients** for traces of self-deletion:
 
 <div align="center">
 
@@ -234,14 +245,20 @@ Monitors **26 known cheat clients** for traces of self-deletion:
 | Vape | Ghost | Entropy | Horion | Ares |
 | Novoline | Remix | Rise | Zeroday | Drip |
 | Rusherhack | Tenacity | BleachHack | Raven | Omega |
-| Phase | | | | |
+| Phase | Astolfo | Kami | SalHack | Seppuku |
+| Phobos | Azura | NightX | Flux | Snow |
+| Moon | Skid | Zues | Sensation | Gamesense |
+| Oldfag | Abyss | AutoClicker | JNativeHook | Injector |
+| KillAura | Reach | Velocity | | |
 
 </div>
 
 Detection sources:
 - NTFS Journal (DELETE/RENAME on .jar files)
 - BAM / MuiCache / Store registry entries
+- UserAssist last-execution timestamps
 - Prefetch .pf files with cheat names
+- **Whole-PC scan** of all user areas (Desktop, Downloads, AppData, Temp...)
 - Ghost folders (empty after self-deletion)
 - Cleanup/self-destruct scripts
 - JumpList traces
@@ -249,24 +266,8 @@ Detection sources:
 - JVM suspicious arguments
 - DNS cache (cheat server domains)
 - Browser history (download traces)
-
----
-
-## Dashboard
-
-The tool generates an interactive HTML dashboard with **9 pages**:
-
-1. **Overview** — Alert summary, statistics, hardware info
-2. **Nick** — All nicknames found with sources and online status
-3. **Account** — Accounts extracted from launcher JSON files
-4. **IAS Log** — InGame Account Switcher account switch events
-5. **Cheat** — Cheat self-destruction detection results
-6. **System** — Hardware, VM, VPN detection
-7. **Network** — TCP connections, DNS cache, hosts file
-8. **Macro** — Gaming/macro software detected
-9. **Forensics** — Recycle bin, shell history, system users
-
-The dashboard opens automatically after analysis completes.
+- **Alternate Data Streams (ADS)** hiding spots
+- **Authenticode signature verification** of found executables
 
 ---
 
@@ -280,6 +281,7 @@ screenshare_tool/           # Python package (Windows + macOS + Linux)
 ├── utils.py                # I/O, console, registry, WMI helpers
 ├── journal.py              # NTFS USN Journal analysis (Windows)
 ├── registry.py             # Registry analysis (Windows)
+├── bam.py                  # AstroSS-grade BAM last-execution parser
 ├── prefetch.py             # Prefetch analysis (Windows)
 ├── macro.py                # Macro software detection (cross-platform)
 ├── minecraft.py            # Launcher detection + account extraction
@@ -287,8 +289,7 @@ screenshare_tool/           # Python package (Windows + macOS + Linux)
 ├── nick_search.py          # Parallel nickname search
 ├── system.py               # VM/VPN/hardware detection
 ├── network.py              # TCP/DNS/hosts analysis
-├── events.py               # Windows Event Log analysis
-└── dashboard.py            # HTML dashboard generator
+└── events.py               # Windows Event Log analysis
 
 ss_tool_unix.sh             # Bash script (macOS/Linux/FreeBSD)
 ```
@@ -317,12 +318,12 @@ ss_tool_unix.sh             # Bash script (macOS/Linux/FreeBSD)
 | **Platform** | Windows only | Windows, macOS, Linux |
 | **Language** | PowerShell | Python 3.8+ / Bash |
 | **Architecture** | Monolithic script | 15 modular files |
-| **False Positives** | Higher | Reduced with compiled regex |
+| **False Positives** | Higher | Reduced with compiled regex + context filtering |
 | **Performance** | RunspacePool | ThreadPoolExecutor |
-| **Dashboard** | Basic HTML | Modern 9-page dark theme |
+| **Output** | Basic HTML | Clean organized text reports |
 | **Dependencies** | PowerShell 5.1+ | None (stdlib only) |
 | **Distribution** | .exe only | .exe, .zip, pip, winget |
-| **Cheat Database** | ~20 clients | 26 clients |
+| **Cheat Database** | ~20 clients | 48 clients |
 | **Launcher Support** | ~10 launchers | 15+ launchers |
 
 ---

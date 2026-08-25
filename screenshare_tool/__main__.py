@@ -29,8 +29,8 @@ def main():
                         help="Number of days to analyze (if 0, prompts user)")
     parser.add_argument("--output", "-o", type=str, default="",
                         help="Output root directory (default: C:\\CharlieRP_SS)")
-    parser.add_argument("--no-open", action="store_true",
-                        help="Don't auto-open the dashboard in browser")
+    parser.add_argument("--quick", action="store_true",
+                        help="Skip slow modules (journal, browser history, full nick search)")
     parser.add_argument("--version", "-v", action="store_true",
                         help="Print version and exit")
     args = parser.parse_args()
@@ -132,6 +132,12 @@ def main():
     analyze_registry(date_limit, days, root_dir, ts, win_name, win_build, is_win10)
 
     # ================================================================
+    #  MODULE 11b: BAM / LAST EXECUTIONS (AstroSS-grade parser)
+    # ================================================================
+    from .bam import analyze_bam
+    bam_total = analyze_bam(date_limit, days, root_dir, ts, win_name, win_build)
+
+    # ================================================================
     #  MODULE 12: Prefetch
     # ================================================================
     from .prefetch import analyze_prefetch
@@ -202,16 +208,6 @@ def main():
     )
 
     # ================================================================
-    #  DASHBOARD HTML
-    # ================================================================
-    from .dashboard import generate_dashboard
-    dash_path = generate_dashboard(
-        date_limit, days, win_name, win_build, root_dir, ts,
-        sys_info, net_data, mc_data, event_data,
-        cheat_alerts, global_nicks, macro_data, pf_in_range,
-    )
-
-    # ================================================================
     #  FINAL SUMMARY
     # ================================================================
     print()
@@ -219,18 +215,41 @@ def main():
     print()
     print(f"  {Color.GREEN}[ COMPLETATO ]{Color.RESET} Tutti i moduli eseguiti con successo.")
     print()
-    print(f"  Sistema   : {win_name}")
+    print(f"  Sistema   : {win_name} (Build {win_build})")
     print(f"  Intervallo: Ultimi {days} giorni")
     print(f"  Output    : {root_dir}")
-    print(f"  Dashboard : {Color.CYAN}{dash_path}{Color.RESET}")
     print()
 
-    # Auto-open dashboard
-    if not args.no_open:
-        try:
-            os.startfile(dash_path)
-        except Exception:
-            pass
+    # Key findings summary
+    print(f"  {Color.CYAN}{'=' * 66}{Color.RESET}")
+    print(f"  {Color.CYAN}  RIEPILOGO RISULTATI{Color.RESET}")
+    print(f"  {Color.CYAN}{'=' * 66}{Color.RESET}")
+    print()
+
+    n_accounts = len(mc_data.get("all_accounts", []))
+    n_ias = mc_data.get("total_ias", 0)
+    n_nicks = len(global_nicks)
+    n_cheat = len(cheat_alerts)
+
+    print(f"  Account launcher trovati : {n_accounts}")
+    print(f"  Cambi account IAS        : {n_ias}")
+    print(f"  Nick univoci individuati : {n_nicks}")
+    print(f"  Alert autodistruzione    : {n_cheat}")
+    print()
+
+    if n_accounts > 1:
+        print(f"  {Color.YELLOW}[!] Attenzione: piu' account rilevati - verificare multiaccounting.{Color.RESET}")
+    if n_ias > 1:
+        print(f"  {Color.YELLOW}[!] Attenzione: cambi account IGAS nei log - verificare.{Color.RESET}")
+    if n_cheat > 0:
+        print(f"  {Color.RED}[!!!] {n_cheat} tracce di cheat/autodistruzione rilevate.{Color.RESET}")
+        for a in cheat_alerts[:15]:
+            print(f"        - [{a.get('tipo','')}] {a.get('cheat','')} | {a.get('dettaglio','')}")
+
+    print()
+    print(f"  Report completi salvati in: {Color.CYAN}{root_dir}{Color.RESET}")
+    print(f"  Apri la cartella per consultare tutti i file generati.")
+    print()
 
     input("\n  Premi Invio per chiudere...")
 

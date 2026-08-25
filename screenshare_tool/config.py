@@ -290,32 +290,74 @@ class CheatDef:
 
 
 KNOWN_CHEATS: List[CheatDef] = [
-    CheatDef("Doomsday", ["doomsday", "dday", "dd_", "d00msday"]),
-    CheatDef("Sigma", ["sigma", "sigma5", "sigma6", "sigma_", "sigmaclient"]),
-    CheatDef("Wurst", ["wurst", "wurst-", "wurst_", "wurstclient"]),
-    CheatDef("Meteor", ["meteor-client", "meteor_client", "meteorclient", "meteor-"]),
-    CheatDef("Aristois", ["aristois", "aristoi", "hacked-1", "hacked-fabric"]),
-    CheatDef("Impact", ["impact-", "impactclient", "impact_"]),
-    CheatDef("XRay", ["xray", "xray-mod", "xray_mod", "xraymod"]),
-    CheatDef("Inertia", ["inertia", "inertia-"]),
-    CheatDef("Future", ["future-", "futureclient", "future_client"]),
-    CheatDef("LiquidBounce", ["liquidbounce", "liquid-bounce", "liquid_bounce"]),
-    CheatDef("Vape", ["vape", "vape-", "vape_", "vape_lite", "vapelite"]),
-    CheatDef("Ghost", ["ghost-", "ghostclient", "ghost_client"]),
-    CheatDef("Entropy", ["entropy-", "entropyclient", "entropy_"]),
-    CheatDef("Horion", ["horion", "horion-"]),
-    CheatDef("Ares", ["ares-client", "aresclient", "ares_"]),
-    CheatDef("Novoline", ["novoline", "novoline-", "novo-"]),
-    CheatDef("Remix", ["remix-", "remixclient", "remix_"]),
-    CheatDef("Rise", ["rise-", "riseclient", "rise_client"]),
-    CheatDef("Zeroday", ["zeroday", "zero-day", "0day-"]),
-    CheatDef("Drip", ["dripx", "drip-", "drip_x", "dripplus"]),
-    CheatDef("Rusherhack", ["rusherhack", "rusher-"]),
-    CheatDef("Tenacity", ["tenacity-", "tenacityclient"]),
-    CheatDef("BleachHack", ["bleachhack", "bleach-hack", "bleach_"]),
-    CheatDef("Raven", ["raven-", "ravenclient", "raven_b", "ravenb"]),
-    CheatDef("Omega", ["omega-hack", "omegahack", "omega_hack"]),
-    CheatDef("Phase", ["phase-", "phaseclient", "phase_b"]),
+    # ---- Doomsday (self-destructing) ----
+    CheatDef("Doomsday", [
+        "doomsday", "dday", "dd_", "d00msday", "doomsdayclient",
+        "doomsday-client", "doomsday_client", "ddayclient", "dday-client",
+        "dday_client", "dd client", "doomsday client",
+    ]),
+    # ---- Major paid / free clients ----
+    CheatDef("Sigma", ["sigma", "sigma5", "sigma6", "sigma_", "sigmaclient", "sigma-client"]),
+    CheatDef("Wurst", ["wurst", "wurst-", "wurst_", "wurstclient", "wurst-client"]),
+    CheatDef("Meteor", ["meteor-client", "meteor_client", "meteorclient", "meteor-", "meteor addon"]),
+    CheatDef("Aristois", ["aristois", "aristoi", "hacked-1", "hacked-fabric", "aristois-client"]),
+    CheatDef("Impact", ["impact-", "impactclient", "impact_", "impact-client"]),
+    CheatDef("Inertia", ["inertia", "inertia-", "inertia-client", "inertia_client"]),
+    CheatDef("Future", ["future-", "futureclient", "future_client", "future-client"]),
+    CheatDef("LiquidBounce", ["liquidbounce", "liquid-bounce", "liquid_bounce", "liquidbounce-"]),
+    CheatDef("Vape", ["vape", "vape-", "vape_", "vape_lite", "vapelite", "vape v4", "vapev4", "vape client"]),
+    CheatDef("Ghost", ["ghost-", "ghostclient", "ghost_client", "ghost-client"]),
+    CheatDef("Entropy", ["entropy-", "entropyclient", "entropy_", "entropy-client"]),
+    CheatDef("Horion", ["horion", "horion-", "horion-client"]),
+    CheatDef("Ares", ["ares-client", "aresclient", "ares_", "ares-client-"]),
+    CheatDef("Novoline", ["novoline", "novoline-", "novo-", "novoline-client"]),
+    CheatDef("Remix", ["remix-", "remixclient", "remix_", "remix-client"]),
+    CheatDef("Rise", ["rise-", "riseclient", "rise_client", "rise-client"]),
+    CheatDef("Zeroday", ["zeroday", "zero-day", "0day-", "zeroday-client"]),
+    CheatDef("Drip", ["dripx", "drip-", "drip_x", "dripplus", "drip-client"]),
+    CheatDef("Rusherhack", ["rusherhack", "rusher-", "rusherhack-", "rusher-hack"]),
+    CheatDef("Tenacity", ["tenacity-", "tenacityclient", "tenacity-client"]),
+    CheatDef("BleachHack", ["bleachhack", "bleach-hack", "bleach_", "bleachhack-"]),
+    CheatDef("Raven", ["raven-", "ravenclient", "raven_b", "ravenb", "raven-b"]),
+    CheatDef("Omega", ["omega-hack", "omegahack", "omega_hack", "omega-hack-"]),
+    CheatDef("Phase", ["phase-", "phaseclient", "phase_b", "phase-b"]),
+    # ---- More known clients / modules ----
+    CheatDef("Astolfo", ["astolfo", "astolfo-", "astolfo-client"]),
+    CheatDef("Kami", ["kamiblue", "kami-blue", "kamiblue-", "kami-"]),
+    CheatDef("SalHack", ["salhack", "sal-hack", "salhack-"]),
+    CheatDef("Seppuku", ["seppuku", "seppuku-", "seppuku-client"]),
+    CheatDef("Phobos", ["phobos", "phobos-", "phobos-client"]),
+    CheatDef("Azura", ["azura", "azura-", "azura-client"]),
+    CheatDef("NightX", ["nightx", "nightx-", "nightx-client"]),
+    CheatDef("Flux", ["flux-b4", "flux b4", "flux-b", "fluxclient"]),
+    CheatDef("Snow", ["snowclient", "snow-client", "snow_client"]),
+    CheatDef("Moon", ["moonclient", "moon-client", "moon_client"]),
+    CheatDef("Skid", ["skidclient", "skid-client", "skid_client"]),
+    CheatDef("Zues", ["zues", "zues-", "zues-client"]),
+    CheatDef("Sensation", ["sensation", "sensation-", "sensation-client"]),
+    CheatDef("Gamesense", ["gamesense", "gamesense-", "game-sense"]),
+    CheatDef("Oldfag", ["oldfag", "oldfag-", "oldfag-client"]),
+    CheatDef("Abyss", ["abyss", "abyss-", "abyss-client"]),
+    CheatDef("XRay", ["xray", "xray-mod", "xray_mod", "xraymod", "xray-client"]),
+    # ---- Autoclickers / injectors / external tools ----
+    CheatDef("AutoClicker", [
+        "autoclicker", "auto-clicker", "auto_clicker", "op autoclicker",
+        "kauto", "butterflyclicker", "cpsclicker", "leftclicker",
+    ]),
+    CheatDef("JNativeHook", ["jnativehook", "j-native-hook", "jnativehook-"]),
+    CheatDef("Injector", ["injector", "injection", "dll-injector", "jar-injector"]),
+    CheatDef("KillAura", ["killaura", "kill-aura", "kill_aura", "aura-"]),
+    CheatDef("Reach", ["reach-", "reachmod", "reach-mod"]),
+    CheatDef("Velocity", ["velocity-hack", "velocityhack", "velocity_hack"]),
+]
+
+# Additional content strings used when scanning file *contents* (scripts, logs).
+# Kept separate from client names to reduce false positives on filenames.
+CHEAT_CONTENT_STRINGS = [
+    "killaura", "autoclicker", "selfdestruct", "self-destruct", "self destruct",
+    "screenshare bypass", "ss-bypass", "ssbypass", "cheat config",
+    "doomsdayclient", "doomsday-client", "wurst client", "meteor client",
+    "injector", "injection", "dll inject", "jar inject", "jni library",
 ]
 
 # Pre-compiled master regex for cheat detection
@@ -325,6 +367,12 @@ for _cheat in KNOWN_CHEATS:
         _CHEAT_PATTERNS.append(re.escape(_pat))
 
 CHEAT_RE = re.compile("(" + "|".join(_CHEAT_PATTERNS) + ")", re.IGNORECASE)
+
+# Regex for scanning file *contents* (uses the broader content strings)
+CHEAT_CONTENT_RE = re.compile(
+    "(" + "|".join(re.escape(s) for s in CHEAT_CONTENT_STRINGS) + ")",
+    re.IGNORECASE,
+)
 
 
 def identify_cheat(text: str) -> Optional[str]:

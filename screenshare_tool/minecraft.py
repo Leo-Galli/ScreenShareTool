@@ -397,16 +397,27 @@ def analyze_minecraft(date_limit: datetime, days: int,
     if not ias_found_accs:
         acc_lines.append("  [--] Nessun account IGAS trovato nei JSON.")
 
-    # Summary
+    # Summary — anti-false-positive: only distinct usernames count as
+    # multiaccounting; UUID variants of the same nick are noted separately.
     acc_lines.append("")
     acc_lines.append("  " + "=" * 64)
     acc_lines.append(f"  TOTALE ACCOUNT UNIVOCI TROVATI: {len(all_accounts)}")
-    if len(all_accounts) > 1:
-        acc_lines.append("  [!!!] PIU' DI 1 ACCOUNT - VERIFICARE MULTIACCOUNTING")
-        acc_lines.append("")
-        acc_lines.append("  Riepilogo nomi:")
-        for a in all_accounts:
-            acc_lines.append(f"    -> {a['name'].ljust(24)}  [{a.get('launcher', '?')}]")
+    distinct_names = sorted({a["name"].lower() for a in all_accounts})
+    offline_accounts = [a for a in all_accounts if str(a.get("online", "?")).lower() == "false"]
+    acc_lines.append(f"  Username distinti           : {len(distinct_names)}")
+    acc_lines.append(f"  Account offline/cracked     : {len(offline_accounts)}")
+    acc_lines.append("")
+    acc_lines.append("  Riepilogo nomi:")
+    for a in all_accounts:
+        offline_tag = "  <- OFFLINE/CRACKED" if str(a.get("online", "?")).lower() == "false" else ""
+        acc_lines.append(f"    -> {a['name'].ljust(24)}  [{a.get('launcher', '?')}]{offline_tag}")
+    acc_lines.append("")
+    if len(distinct_names) > 1:
+        acc_lines.append("  [!!!] PIU' USERNAME DISTINTI - VERIFICARE MULTIACCOUNTING")
+    elif len(all_accounts) > 1:
+        acc_lines.append("  [NB]  Stesso username con UUID diversi - possibile alt account o re-login")
+    if offline_accounts:
+        acc_lines.append("  [!!!] PRESENZA ACCOUNT OFFLINE/CRACKED - VERIFICARE")
     acc_lines.append("  " + "=" * 64)
     write_block(out_acc, acc_lines)
 

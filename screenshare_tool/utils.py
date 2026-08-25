@@ -278,6 +278,32 @@ def run_ps(command: str, timeout: int = 30) -> str:
         return ""
 
 
+def get_authenticode_signature(path: str) -> str:
+    """
+    Verify the Authenticode signature of a file (AstroSS-style).
+    Returns a human-readable verdict string.
+    """
+    if not path or not os.path.isfile(path):
+        return "File non trovato"
+    try:
+        status = run_ps(
+            f"(Get-AuthenticodeSignature -FilePath '{path}' -ErrorAction SilentlyContinue).Status",
+            timeout=15).strip()
+        if not status:
+            return "N/D"
+        if status == "Valid":
+            return "FIRMA VALIDA"
+        if status == "NotSigned":
+            return "NON FIRMATO"
+        if status == "HashMismatch":
+            return "FIRMA NON VALIDA (HashMismatch)"
+        if status == "NotTrusted":
+            return "FIRMA NON VALIDA (NotTrusted)"
+        return f"FIRMA NON VALIDA ({status})"
+    except Exception:
+        return "N/D"
+
+
 # ================================================================
 #  DATE / TIME HELPERS
 # ================================================================
