@@ -413,7 +413,7 @@ def analyze_minecraft(date_limit: datetime, days: int,
         acc_lines.append(f"    -> {a['name'].ljust(24)}  [{a.get('launcher', '?')}]{offline_tag}")
     acc_lines.append("")
     if len(distinct_names) > 1:
-        acc_lines.append("  [!!!] PIU' USERNAME DISTINTI - VERIFICARE MULTIACCOUNTING")
+        acc_lines.append("  [!!!] PIÙ USERNAME DISTINTI RILEVATI - VERIFICARE MULTIACCOUNTING")
     elif len(all_accounts) > 1:
         acc_lines.append("  [NB]  Stesso username con UUID diversi - possibile alt account o re-login")
     if offline_accounts:
@@ -452,7 +452,7 @@ def analyze_minecraft(date_limit: datetime, days: int,
 
     # --- [14d] Log Analysis ---
     log_lines, ias_log_entries, total_ias, total_multi = _analyze_logs(
-        found_launchers, date_limit, days, win_name, win_build
+        found_launchers, date_limit, days, win_name, win_build, root_dir, ts
     )
     write_block(out_log, log_lines)
 
@@ -498,7 +498,7 @@ def analyze_minecraft(date_limit: datetime, days: int,
 #  LOG ANALYSIS HELPER
 # ================================================================
 
-def _analyze_logs(found_launchers, date_limit, days, win_name, win_build):
+def _analyze_logs(found_launchers, date_limit, days, win_name, win_build, root_dir, ts):
     """Analyze all Minecraft logs for account changes."""
     log_lines = []
     ias_log_entries = []
@@ -616,11 +616,10 @@ def _analyze_logs(found_launchers, date_limit, days, win_name, win_build):
     if os.path.exists(latest):
         try:
             import shutil
-            dest = os.path.join(os.environ.get("SystemDrive", "C:"),
-                                "CharlieRP_SS", "14_Minecraft", f"latest_log_copy_{ts}.txt")
+            dest = os.path.join(root_dir, "14_Minecraft", f"latest_log_copy_{ts}.txt")
             shutil.copy2(latest, dest)
             log_lines.append("")
-            log_lines.append("  [OK] Copia di latest.log salvata in output.")
+            log_lines.append("  [OK] Copia di latest.log salvata nell'output.")
         except Exception:
             pass
 
@@ -669,7 +668,7 @@ def _analyze_usercache(found_launchers) -> List[str]:
             if isinstance(uc, list):
                 lines.append(f"  Voci totali   : {len(uc)}")
                 if len(uc) > 1:
-                    lines.append("  [NB] Piu' username = account multipli o altri giocatori visti sui server")
+                    lines.append("  [NB] Più username = account multipli o altri giocatori visti sui server")
                 lines.append("")
                 for entry in uc:
                     if isinstance(entry, dict):

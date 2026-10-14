@@ -6,7 +6,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="screenshare-tool",
-    version="3.0.0",
+    version="3.1.0",
     description="CharlieRP ScreenShareTool — Analisi forense anti-cheat per Minecraft",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",

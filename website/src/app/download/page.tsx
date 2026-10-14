@@ -3,11 +3,11 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Download",
   description:
-    "Scarica CharlieRP ScreenShareTool v3.0. .exe standalone, sorgenti Python, winget. Strumento forense per analisi client Minecraft.",
+    "Download CharlieRP ScreenShareTool v3.1.0 for Windows, macOS, or Linux — standalone .exe, winget, Python package, or Bash script.",
   openGraph: {
     title: "Download — CharlieRP ScreenShareTool",
     description:
-      "Scarica lo strumento forense per l'analisi di client Minecraft.",
+      "Download the cross-platform forensic analysis tool for Minecraft screen share inspections.",
   },
 };
 
@@ -20,10 +20,10 @@ export default function Download() {
             Download
           </span>
         </h1>
-        <p className="text-gray-400 text-lg">Download the forensic tool for your operating system</p>
+        <p className="text-gray-400 text-lg">Get the forensic analysis tool for your operating system</p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-12">
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
         {/* .exe */}
         <div className="bg-gray-900/50 border border-cyan-500/20 rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-4">
@@ -36,10 +36,10 @@ export default function Download() {
             </div>
           </div>
           <p className="text-gray-400 text-sm mb-4">
-            Standalone executable compiled with PyInstaller. No Python required. Extract and click to run. Requires Administrator privileges.
+            A standalone executable built with PyInstaller. No Python installation required — download and run directly. Requires Administrator privileges.
           </p>
           <a
-            href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/screensharetool.exe"
+            href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.1.0/screensharetool.exe"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-xl text-sm font-medium hover:bg-cyan-500/20 transition-colors"
@@ -58,15 +58,15 @@ export default function Download() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
             </svg>
             <div>
-              <h3 className="text-white font-semibold">CharlieRPScreenShareTool-v3.0.0.zip</h3>
-              <p className="text-gray-500 text-xs">Python Sources — 56 KB — Cross-platform</p>
+              <h3 className="text-white font-semibold">CharlieRPScreenShareTool-v3.1.0.zip</h3>
+              <p className="text-gray-500 text-xs">Portable bundle — 8.4 MB — Windows</p>
             </div>
           </div>
           <p className="text-gray-400 text-sm mb-4">
-            Complete source package with all Python modules. Requires Python 3.8+. Works on Windows, macOS and Linux.
+            A zipped bundle containing the standalone executable, a <code className="text-gray-300">run.bat</code> launcher, and the README. Same requirements as the .exe — useful when you want a single archive to transfer or store.
           </p>
           <a
-            href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/CharlieRPScreenShareTool-v3.0.0.zip"
+            href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.1.0/CharlieRPScreenShareTool-v3.1.0.zip"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-colors"
@@ -83,28 +83,61 @@ export default function Download() {
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
         <h3 className="text-white font-semibold mb-3">Winget (Windows Package Manager)</h3>
         <p className="text-gray-400 text-sm mb-3">
-          Install directly from terminal without opening the browser:
+          Install directly from a terminal, no browser required:
         </p>
         <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400">
           winget install LeoGalli.CharlieRPScreenShareTool
         </div>
       </div>
 
+      {/* Python */}
+      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
+        <h3 className="text-white font-semibold mb-3">Python (Windows, macOS, Linux)</h3>
+        <p className="text-gray-400 text-sm mb-3">
+          Run from source or install as a package. Requires Python 3.8+ and no external dependencies — standard library only.
+        </p>
+        <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400 whitespace-pre-wrap">
+{`git clone https://github.com/Leo-Galli/ScreenShareTool.git
+cd ScreenShareTool
+python -m screenshare_tool --days 7
+
+# or install as a package
+pip install -e .
+screenshare-tool --days 7`}
+        </div>
+      </div>
+
+      {/* Bash */}
+      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
+        <h3 className="text-white font-semibold mb-3">Bash Script (macOS, Linux, FreeBSD)</h3>
+        <p className="text-gray-400 text-sm mb-3">
+          A single self-contained script with no dependencies. Must be run as root.
+        </p>
+        <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400 whitespace-pre-wrap">
+{`curl -O https://raw.githubusercontent.com/Leo-Galli/ScreenShareTool/main/ss_tool_unix.sh
+sudo bash ss_tool_unix.sh`}
+        </div>
+      </div>
+
       {/* CLI Options */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
-        <h3 className="text-white font-semibold mb-3">CLI Options</h3>
+        <h3 className="text-white font-semibold mb-3">CLI Options (Python)</h3>
         <div className="space-y-2 text-sm">
           <div className="flex items-start gap-3">
             <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--days N</code>
-            <span className="text-gray-400">Analyze the last N days (default: 7)</span>
+            <span className="text-gray-400">Analyze the last N days. Prompted interactively if not specified.</span>
           </div>
           <div className="flex items-start gap-3">
             <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--output PATH</code>
             <span className="text-gray-400">Custom output directory</span>
           </div>
           <div className="flex items-start gap-3">
-            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--no-nick</code>
-            <span className="text-gray-400">Skip nick search on entire PC (piu veloce)</span>
+            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--quick</code>
+            <span className="text-gray-400">Skip slow modules (USN journal analysis, full nickname search)</span>
+          </div>
+          <div className="flex items-start gap-3">
+            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--version</code>
+            <span className="text-gray-400">Show the tool version and exit</span>
           </div>
         </div>
       </div>
@@ -112,9 +145,9 @@ export default function Download() {
       {/* Requirements */}
       <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
         <h3 className="text-white font-semibold mb-3">Requirements</h3>
-        <div className="grid md:grid-cols-2 gap-4 text-sm">
+        <div className="grid md:grid-cols-3 gap-4 text-sm">
           <div>
-            <p className="text-gray-400 font-medium mb-1">Windows (.exe)</p>
+            <p className="text-gray-400 font-medium mb-1">Windows (.exe / .zip)</p>
             <ul className="text-gray-500 space-y-1">
               <li>Windows 10/11</li>
               <li>Administrator privileges</li>
@@ -125,8 +158,16 @@ export default function Download() {
             <p className="text-gray-400 font-medium mb-1">Windows (Python)</p>
             <ul className="text-gray-500 space-y-1">
               <li>Python 3.8+</li>
-              <li>Zero external dependencies</li>
+              <li>No external dependencies</li>
               <li>Administrator privileges</li>
+            </ul>
+          </div>
+          <div>
+            <p className="text-gray-400 font-medium mb-1">macOS / Linux</p>
+            <ul className="text-gray-500 space-y-1">
+              <li>macOS 10.15+ or any modern Linux</li>
+              <li>Root access</li>
+              <li>Bash or Python 3.8+</li>
             </ul>
           </div>
         </div>
@@ -134,7 +175,7 @@ export default function Download() {
 
       <div className="border-t border-gray-800 pt-8 mt-12 text-center">
         <p className="text-gray-500 text-sm">
-          CharlieRP ScreenShareTool v3.0 — LeoGalli
+          CharlieRP ScreenShareTool v3.1.0 — LeoGalli
         </p>
       </div>
     </div>

@@ -21,17 +21,17 @@ def analyze_network(date_limit: datetime, days: int,
     Analyze network connections, hosts file, and DNS cache.
     Returns data for dashboard.
     """
-    show_step("NETWORK", "TCP connections, hosts file, DNS cache...")
+    show_step("RETE", "Connessioni TCP, file hosts, cache DNS...")
 
-    out = os.path.join(root_dir, "17_Network", f"Network_{ts}.txt")
-    new_report_file(out, "NETWORK [17] - CONNECTIONS AND DNS", "",
+    out = os.path.join(root_dir, "17_Network", f"Rete_{ts}.txt")
+    new_report_file(out, "RETE [17] - CONNESSIONI E DNS", "",
                     win_name, win_build, days, date_limit)
 
     lines = []
 
     # --- TCP Connections ---
     tcp_conns = _get_tcp_connections()
-    lines.append("  ---- ACTIVE TCP CONNECTIONS ----")
+    lines.append("  ---- CONNESSIONI TCP ATTIVE ----")
     for conn in tcp_conns:
         if isinstance(conn, dict):
             local = conn.get("Local") or conn.get("local", "")
@@ -44,14 +44,14 @@ def analyze_network(date_limit: datetime, days: int,
 
     # --- Hosts file ---
     lines.append("")
-    lines.append("  ---- HOSTS FILE ----")
+    lines.append("  ---- FILE HOSTS ----")
     hosts_entries = _read_hosts_file()
     for h in hosts_entries:
         lines.append(f"  [HST] {h}")
 
     # --- DNS Cache ---
     lines.append("")
-    lines.append("  ---- DNS CACHE ----")
+    lines.append("  ---- CACHE DNS ----")
     dns_cache = _get_dns_cache()
     for entry in dns_cache[:50]:
         if isinstance(entry, dict):
@@ -61,13 +61,13 @@ def analyze_network(date_limit: datetime, days: int,
 
     # --- Network Interfaces ---
     lines.append("")
-    lines.append("  ---- NETWORK INTERFACES ----")
+    lines.append("  ---- INTERFACCE DI RETE ----")
     interfaces = _get_interfaces()
     for iface in interfaces:
         lines.append(f"  {iface}")
 
     write_block(out, lines)
-    show_step("NETWORK", "Completed.", "green")
+    show_step("RETE", "Completato.", "green")
 
     return {
         "tcp_conns": tcp_conns,
@@ -133,7 +133,7 @@ def _read_hosts_file() -> List[str]:
                 if line and not line.startswith("#"):
                     entries.append(line)
     except Exception:
-        entries.append("[--] Hosts file not found.")
+        entries.append("[--] File hosts non trovato.")
     return entries
 
 

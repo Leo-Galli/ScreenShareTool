@@ -769,7 +769,7 @@ export default function StringsPage() {
           </span>
         </h1>
         <p className="text-gray-400 text-lg">
-          {totalStrings} real strings in {categories.length} categories. Real commands, real paths, real artifacts.
+          {totalStrings} forensic strings across {categories.length} categories — real commands, registry keys, and file paths, not guesses.
         </p>
       </div>
 
@@ -779,6 +779,7 @@ export default function StringsPage() {
           <input
             type="text"
             placeholder="Search command, registry key, path, file name..."
+            aria-label="Search forensic strings"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
@@ -792,6 +793,7 @@ export default function StringsPage() {
             <button
               key={os}
               onClick={() => setOsFilter(os)}
+              aria-pressed={osFilter === os}
               className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
                 osFilter === os
                   ? os === "all"
@@ -805,6 +807,7 @@ export default function StringsPage() {
           ))}
           <button
             onClick={() => setHighlight(!highlight)}
+            aria-pressed={highlight}
             className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ml-2 ${
               highlight
                 ? "bg-cyan-500/20 border-cyan-500/30 text-cyan-400"
@@ -836,6 +839,7 @@ export default function StringsPage() {
             <div key={ci} className="bg-gray-900/50 border border-gray-800 rounded-2xl overflow-hidden">
               <button
                 onClick={() => toggleCat(origIdx)}
+                aria-expanded={isOpen}
                 className="w-full flex items-center justify-between p-4 hover:bg-gray-800/30 transition-colors"
               >
                 <div className="flex items-center gap-3">

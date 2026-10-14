@@ -1,8 +1,8 @@
 @echo off
-:: CharlieRP ScreenShareTool v3.0 — Launcher
+:: CharlieRP ScreenShareTool v3.1 — Launcher
 :: Auto-elevates to Administrator if needed
 
-title CharlieRP ScreenShareTool v3.0
+title CharlieRP ScreenShareTool v3.1
 
 :: Check if already admin
 net session >nul 2>&1
@@ -20,7 +20,7 @@ exit /b
 :run
 echo.
 echo ================================================================
-echo   CharlieRP ScreenShareTool v3.0 — Python
+echo   CharlieRP ScreenShareTool v3.1 — Python
 echo   mc.charlieroleplay.it
 echo ================================================================
 echo.

@@ -62,7 +62,7 @@ def analyze_prefetch(date_limit: datetime, days: int,
     # ---- [12c] Complete .pf list ----
     out = os.path.join(root_dir, "12_Prefetch", f"Lista_{ts}.txt")
     new_report_file(out, "PREFETCH [12c] - LISTA COMPLETA .PF",
-                    f"{pf_dir} - dal piu' recente",
+                    f"{pf_dir} - dal più recente",
                     win_name, win_build, days, date_limit)
 
     pf_lines = []

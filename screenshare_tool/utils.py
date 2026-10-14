@@ -28,6 +28,7 @@ class Color:
 
 def show_banner():
     """Print the application banner."""
+    from . import __version__
     print()
     print(f"{Color.CYAN}      _____ _           _ _     _____     _         _           {Color.RESET}")
     print(f"{Color.CYAN}     |     | |_ ___ ___| |_|___| __  |___| |___ ___| |___ _ _   {Color.RESET}")
@@ -35,8 +36,8 @@ def show_banner():
     print(f"{Color.CYAN}     |_____|_|_|__,|_| |_|_|___|__|__|___|_|___|  _|_|__,|_  |  {Color.RESET}")
     print(f"{Color.CYAN}                                               |_|       |___|  {Color.RESET}")
     print()
-    print(f"        NETWORK: mc.charlieroleplay.it  |  Made by LeoGalli")
-    print(f"        PLATFORM: Windows  |  Tool v3.0 Python Optimized")
+    print(f"        Rete: mc.charlieroleplay.it  |  Sviluppato da LeoGalli")
+    print(f"        Piattaforma: Windows  |  Tool v{__version__} (Python)")
     print(f"  {'_' * 66}")
     print()
 

@@ -233,42 +233,42 @@ def analyze_system(date_limit: datetime, days: int,
                    root_dir: str, ts: str, win_name: str, win_build: int,
                    sys_info: Dict[str, Any]):
     """Write system info report (module 16)."""
-    show_step("SYSTEM INFO", "VM detection, VPN, hardware...")
+    show_step("INFO SISTEMA", "Rilevamento VM, VPN, hardware...")
 
-    out = os.path.join(root_dir, "16_SystemInfo", f"System_{ts}.txt")
-    new_report_file(out, "SYSTEM INFO [16] - VM / VPN / HARDWARE", "",
+    out = os.path.join(root_dir, "16_SystemInfo", f"Sistema_{ts}.txt")
+    new_report_file(out, "SISTEMA [16] - VM / VPN / HARDWARE", "",
                     win_name, win_build, days, date_limit)
 
     lines = []
 
     # VM
-    lines.append("  ---- VIRTUAL MACHINE ----")
+    lines.append("  ---- MACCHINA VIRTUALE ----")
     if sys_info["is_vm"]:
-        lines.append("  [!!!] VIRTUAL ENVIRONMENT DETECTED")
-        lines.append(f"        Info       : {sys_info['vm_info']}")
-        lines.append(f"        GPU        : {sys_info['gpu']}")
+        lines.append("  [!!!] AMBIENTE VIRTUALE RILEVATO")
+        lines.append(f"        Info     : {sys_info['vm_info']}")
+        lines.append(f"        GPU      : {sys_info['gpu']}")
     else:
-        lines.append("  [OK]  Physical hardware.")
-        lines.append(f"        Model    : {sys_info['model']}")
-        lines.append(f"        Vendor   : {sys_info['manufacturer']}")
+        lines.append("  [OK]  Hardware fisico.")
+        lines.append(f"        Modello  : {sys_info['model']}")
+        lines.append(f"        Marca    : {sys_info['manufacturer']}")
 
     # VPN
     lines.append("")
-    lines.append("  ---- ACTIVE VPN ----")
+    lines.append("  ---- VPN ATTIVA ----")
     if sys_info["vpn_active"]:
-        lines.append("  [!!!] VPN/TUNNEL INTERFACES:")
+        lines.append("  [!!!] INTERFACCE VPN/TUNNEL RILEVATE:")
         for v in sys_info["vpn_active"]:
             lines.append(f"        - {v.get('Name', '?')} : {v.get('Desc', '?')}")
     else:
-        lines.append("  [OK]  No VPN detected.")
+        lines.append("  [OK]  Nessuna VPN rilevata.")
 
     # Hardware
     lines.append("")
     lines.append("  ---- HARDWARE ----")
-    lines.append(f"  CPU : {sys_info['cpu']}")
-    lines.append(f"  RAM : {sys_info['ram_gb']} GB")
-    lines.append(f"  GPU : {sys_info['gpu']}")
-    lines.append(f"  OS  : {win_name} (Build {win_build})")
+    lines.append(f"  CPU    : {sys_info['cpu']}")
+    lines.append(f"  RAM    : {sys_info['ram_gb']} GB")
+    lines.append(f"  GPU    : {sys_info['gpu']}")
+    lines.append(f"  Sistema: {win_name} (Build {win_build})")
 
     write_block(out, lines)
-    show_step("SYSTEM INFO", "Completed.", "green")
+    show_step("INFO SISTEMA", "Completato.", "green")

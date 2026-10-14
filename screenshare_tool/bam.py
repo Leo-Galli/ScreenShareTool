@@ -48,10 +48,10 @@ def _build_drive_map() -> dict:
         while True:
             try:
                 name, value, _ = winreg.EnumValue(key, i)
-                # Name like: \\DosDevices\\C:  or  \\??\\C:
-                m = re.match(r"\\\\[?DosDevices]*\\([A-Z]):", name)
+                # Name like: \DosDevices\C:  or  \??\C:
+                m = re.match(r"\\(?:\?\?|DosDevices)\\([A-Za-z]):", name)
                 if m and isinstance(value, bytes):
-                    vol = value.decode("utf-16-le", errors="replace").strip("\\x00")
+                    vol = value.decode("utf-16-le", errors="replace").strip("\x00")
                     if vol:
                         mapping[vol.lower()] = f"{m.group(1)}:"
                 i += 1
@@ -72,12 +72,12 @@ def _resolve_device_path(device_path: str) -> str:
     mapping = _build_drive_map()
     for vol, letter in mapping.items():
         if low.startswith(vol.lower()):
-            rest = device_path[len(vol):]
-            return f"{letter}\\{rest.lstrip('\\\\')}"
-    # Fallback: strip the device prefix
-    m = re.match(r"\\\\Device\\\\[^\\\\]+(?:\\(\\d+))?\\\\?(.*)", device_path)
+            rest = device_path[len(vol):].lstrip("\\")
+            return f"{letter}\\{rest}"
+    # Fallback: strip the device prefix (e.g. \Device\HarddiskVolume3\path -> path)
+    m = re.match(r"\\Device\\[^\\]+\\?(.*)", device_path)
     if m:
-        return m.group(2).replace("\\\\", "\\")
+        return m.group(1).replace("\\\\", "\\")
     return device_path
 
 

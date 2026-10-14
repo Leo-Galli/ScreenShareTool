@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SiteNav from "./components/SiteNav";
 
 export const metadata: Metadata = {
   title: {
-    default: "CharlieRP ScreenShareTool — Complete Minecraft Screen Share Guide",
+    default: "CharlieRP ScreenShareTool — Minecraft Forensic Anti-Cheat Analysis",
     template: "%s | CharlieRP ScreenShareTool",
   },
   description:
-    "Complete forensic tool for Minecraft client analysis. Detects cheats, self-destruction, multi-accounting and system manipulation. 48 clients monitored, 300+ forensic strings, full operational guide.",
+    "A cross-platform forensic analysis tool for Minecraft server staff. Detects cheat self-destruction, multi-accounting, and system tampering across 48 known cheat clients, backed by an 800+ entry forensic string reference and a complete screen share operational guide.",
   keywords: [
     "minecraft screenshare",
     "anti cheat",
@@ -30,24 +31,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "https://screenshare-guide.vercel.app",
     siteName: "CharlieRP ScreenShareTool",
-    title: "CharlieRP ScreenShareTool — Complete Minecraft Screen Share Guide",
+    title: "CharlieRP ScreenShareTool — Minecraft Forensic Anti-Cheat Analysis",
     description:
-      "Complete forensic tool for Minecraft client analysis. Detects cheats, self-destruction, multi-accounting and system manipulation.",
-    images: [
-      {
-        url: "/og.png",
-        width: 1200,
-        height: 630,
-        alt: "CharlieRP ScreenShareTool",
-      },
-    ],
+      "A cross-platform forensic analysis tool for Minecraft server staff. Detects cheat self-destruction, multi-accounting, and system tampering.",
   },
   twitter: {
     card: "summary_large_image",
     title: "CharlieRP ScreenShareTool",
     description:
-      "Complete forensic tool for Minecraft client analysis. 48 clients monitored, 300+ forensic strings.",
-    images: ["/og.png"],
+      "Forensic analysis tool for Minecraft server staff. 48 known cheat clients tracked, 800+ forensic strings documented.",
   },
   robots: {
     index: true,
@@ -74,16 +66,16 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "CharlieRP ScreenShareTool",
-    operatingSystem: "Windows",
+    operatingSystem: "Windows, macOS, Linux",
     applicationCategory: "SecurityApplication",
     offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     description:
-      "Forensic tool for Minecraft client analysis. Detects cheats, self-destruction, multi-accounting.",
+      "Forensic analysis tool for Minecraft server staff. Detects cheat self-destruction, multi-accounting, and system tampering.",
     author: { "@type": "Person", name: "LeoGalli" },
     url: "https://screenshare-guide.vercel.app",
     downloadUrl:
-      "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/screensharetool.exe",
-    softwareVersion: "3.0.0",
+      "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.1.0/screensharetool.exe",
+    softwareVersion: "3.1.0",
   };
 
   const websiteJsonLd = {
@@ -92,7 +84,7 @@ export default function RootLayout({
     name: "CharlieRP ScreenShareTool",
     url: "https://screenshare-guide.vercel.app",
     description:
-      "Complete guide for Minecraft screen sharing. Forensic tools, checklists, ban criteria.",
+      "Operational guide for Minecraft screen share inspections — forensic tools, checklists, and ban criteria.",
     potentialAction: {
       "@type": "SearchAction",
       target: "https://screenshare-guide.vercel.app/strings?q={search_term_string}",
@@ -115,51 +107,11 @@ export default function RootLayout({
         />
       </head>
       <body className="bg-gray-950 text-gray-100 min-h-screen antialiased">
-        <nav className="sticky top-0 z-50 bg-gray-950/80 backdrop-blur-xl border-b border-gray-800">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <a href="/" className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl flex items-center justify-center font-bold text-white text-lg shadow-lg shadow-cyan-500/20">
-                  S
-                </div>
-                <span className="text-lg font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-                  ScreenShareTool
-                </span>
-              </a>
-              <div className="hidden md:flex items-center gap-6">
-                <a href="/" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                  Home
-                </a>
-                <a href="/guide" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                  Guide
-                </a>
-                <a href="/strings" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                  Strings
-                </a>
-                <a href="/tools" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                  Tools
-                </a>
-                <a href="/download" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
-                  Download
-                </a>
-                <a href="/guide#flags" className="px-4 py-2 bg-gradient-to-r from-red-500 to-orange-500 rounded-lg text-white text-sm font-semibold hover:shadow-lg hover:shadow-red-500/25 transition-all">
-                  Ban Flags
-                </a>
-              </div>
-              <div className="md:hidden">
-                <button id="mobile-menu-btn" className="text-gray-400 hover:text-white">
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
+        <SiteNav />
         <main>{children}</main>
         <footer className="border-t border-gray-800 bg-gray-950 mt-20">
           <div className="max-w-7xl mx-auto px-4 py-12 text-center text-gray-500 text-sm">
-            <p>CharlieRP ScreenShareTool v3.0 — Made by LeoGalli</p>
+            <p>CharlieRP ScreenShareTool v3.1.0 — Made by LeoGalli</p>
             <p className="mt-2">mc.charlieroleplay.it</p>
           </div>
         </footer>
