@@ -14,3 +14,5 @@ build/
 venv/
 env/
 .freebuff/
+changed_files.txt
+commit_message.txt

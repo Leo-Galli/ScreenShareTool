@@ -109,16 +109,16 @@ jobs:
         if: success()
         run: |
           if [ -f changed_files.txt ]; then
-            git config --local user.email "action@github.com"
-            git config --local user.name "Emoji Cleaner Bot"
-            git add -A
             {
               echo "chore: remove emojis from codebase"
               echo
               echo "Auto-detected and removed emojis from the following files:"
               sed 's/^/- /' changed_files.txt
-            } > commit_message.txt
-            git commit -F commit_message.txt
+            } > /tmp/commit_message.txt
+            rm -f changed_files.txt
+            git config --local user.email "action@github.com"
+            git config --local user.name "Emoji Cleaner Bot"
+            git add -A
+            git commit -F /tmp/commit_message.txt
             git push
-            rm -f changed_files.txt commit_message.txt
           fi
