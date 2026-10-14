@@ -4,7 +4,7 @@
 
 ### Advanced Forensic Anti-Cheat Analysis Tool
 
-[![Version](https://img.shields.io/badge/Version-3.0.0-blue?style=for-the-badge&logo=github)](https://github.com/Leo-Galli/ScreenShareTool/releases)
+[![Version](https://img.shields.io/badge/Version-3.1.0-blue?style=for-the-badge&logo=github)](https://github.com/Leo-Galli/ScreenShareTool/releases)
 [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blueviolet?style=for-the-badge&logo=windows&logoColor=white)]()
 [![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
@@ -357,7 +357,7 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 | **Guide** | [screenshare-guide.vercel.app](https://screenshare-guide.vercel.app) |
 | **Original Developer** | LeoGalli (PowerShell v2.0.0) |
 | **Python/Bash Rewrite** | Complete cross-platform rewrite |
-| **Version** | 3.0.0 |
+| **Version** | 3.1.0 |
 
 ---
 

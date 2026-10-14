@@ -687,7 +687,7 @@ def _scan_ads(date_limit, lines, alerts) -> int:
                 # ADS lines contain a colon after the file name, e.g. "file.exe:hidden"
                 if ":" not in line:
                     continue
-                m = re.search(r"([A-Za-z]:\\\\[^:]+:[^ ]+)", line)
+                m = re.search(r"([A-Za-z]:\\[^:]+:[^ ]+)", line)
                 if not m:
                     continue
                 ads_path = m.group(1)

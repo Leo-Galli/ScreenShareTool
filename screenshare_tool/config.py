@@ -20,7 +20,7 @@ IS_UNIX = IS_MACOS or IS_LINUX
 #  SYSTEM
 # ================================================================
 APP_NAME = "CharlieRP ScreenShareTool"
-APP_VERSION = "3.0.0"
+APP_VERSION = "3.1.0"
 NETWORK = "mc.charlieroleplay.it"
 
 # ================================================================

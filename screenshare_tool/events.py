@@ -19,7 +19,7 @@ def analyze_events(date_limit: datetime, days: int,
     Analyze Windows Event Logs for suspicious activities.
     Returns event data for dashboard.
     """
-    show_step("MISC", "CrashDumps, PS history, utenti, event log...")
+    show_step("VARIE", "CrashDump, cronologia PowerShell, utenti, event log...")
 
     results = {
         "crash_dumps": [],
@@ -28,12 +28,13 @@ def analyze_events(date_limit: datetime, days: int,
         "users": [],
         "ev_4616": [],
         "ev_1102": [],
+        "ev_3079": [],
         "volume_snapshots": [],
     }
 
     # --- [15a] Crash Dumps ---
     out = os.path.join(root_dir, "15_Misc", f"CrashDumps_{ts}.txt")
-    new_report_file(out, "MISC [15a] - CRASH DUMPS",
+    new_report_file(out, "VARIE [15a] - CRASH DUMP",
                     r"%LOCALAPPDATA%\CrashDumps",
                     win_name, win_build, days, date_limit)
     dump_lines = _analyze_crash_dumps(date_limit)
@@ -41,7 +42,7 @@ def analyze_events(date_limit: datetime, days: int,
 
     # --- [15b] PowerShell History ---
     out = os.path.join(root_dir, "15_Misc", f"PS_History_{ts}.txt")
-    new_report_file(out, "MISC [15b] - POWERSHELL HISTORY",
+    new_report_file(out, "VARIE [15b] - CRONOLOGIA POWERSHELL",
                     "ConsoleHost_history.txt",
                     win_name, win_build, days, date_limit)
     ps_lines, ps_susp = _analyze_ps_history()
@@ -50,7 +51,7 @@ def analyze_events(date_limit: datetime, days: int,
 
     # --- [15c] System Users ---
     out = os.path.join(root_dir, "15_Misc", f"Utenti_{ts}.txt")
-    new_report_file(out, "MISC [15c] - UTENTI DI SISTEMA",
+    new_report_file(out, "VARIE [15c] - UTENTI DI SISTEMA",
                     "Win32_UserAccount",
                     win_name, win_build, days, date_limit)
     user_lines, users = _analyze_users()
@@ -59,11 +60,11 @@ def analyze_events(date_limit: datetime, days: int,
 
     # --- [15d-15f] Event Logs ---
     ev_table = [
-        {"file": "EventLog_CambioOrario_{}.txt".format(ts), "title": "MISC [15d] - CAMBIO ORARIO",
+        {"file": "EventLog_CambioOrario_{}.txt".format(ts), "title": "VARIE [15d] - CAMBIO ORARIO DI SISTEMA",
          "log": "Security", "id": 4616, "max": 50, "key": "ev_4616"},
-        {"file": "EventLog_EliminazioneLog_{}.txt".format(ts), "title": "MISC [15e] - ELIMINAZIONE LOG",
+        {"file": "EventLog_EliminazioneLog_{}.txt".format(ts), "title": "VARIE [15e] - ELIMINAZIONE EVENT LOG",
          "log": "Security", "id": 1102, "max": 20, "key": "ev_1102"},
-        {"file": "EventLog_Journal_{}.txt".format(ts), "title": "MISC [15f] - ELIMINAZIONE JOURNAL",
+        {"file": "EventLog_Journal_{}.txt".format(ts), "title": "VARIE [15f] - ELIMINAZIONE USN JOURNAL",
          "log": "Application", "id": 3079, "max": 20, "key": "ev_3079"},
     ]
     for ev in ev_table:
@@ -78,21 +79,22 @@ def analyze_events(date_limit: datetime, days: int,
 
     # --- [15g] Volume Snapshot ---
     out = os.path.join(root_dir, "15_Misc", f"EventLog_VolumeSnapshot_{ts}.txt")
-    new_report_file(out, "MISC [15g] - VOLUME SNAPSHOT (ID 116/117)",
+    new_report_file(out, "VARIE [15g] - VOLUME SNAPSHOT (ID 116/117)",
                     "VolumeSnapshot-Driver",
                     win_name, win_build, days, date_limit)
-    vs_lines = _analyze_volume_snapshots(date_limit)
+    vs_events, vs_lines = _analyze_volume_snapshots(date_limit)
     write_block(out, vs_lines)
+    results["volume_snapshots"] = vs_events
 
     # --- [15j] AnyDesk Logs ---
     out = os.path.join(root_dir, "15_Misc", f"AnyDeskLogs_{ts}.txt")
-    new_report_file(out, "MISC [15j] - ANYDESK SESSION LOGS",
-                    "File transfer / connection traces",
+    new_report_file(out, "VARIE [15j] - LOG SESSIONI ANYDESK",
+                    "Tracce di trasferimento file / connessioni remote",
                     win_name, win_build, days, date_limit)
     ad_lines = _analyze_anydesk()
     write_block(out, ad_lines)
 
-    show_step("MISC", "Completato.", "green")
+    show_step("VARIE", "Completato.", "green")
     return results
 
 
@@ -231,7 +233,8 @@ def _get_events(log_name: str, event_id: int, date_limit: datetime,
 #  VOLUME SNAPSHOTS
 # ================================================================
 
-def _analyze_volume_snapshots(date_limit: datetime) -> List[str]:
+def _analyze_volume_snapshots(date_limit: datetime):
+    events = []
     lines = []
     start_str = date_limit.strftime('%Y-%m-%d %H:%M:%S')
     for ev_id in [116, 117]:
@@ -257,11 +260,12 @@ def _analyze_volume_snapshots(date_limit: datetime) -> List[str]:
                     data = [data]
                 for ev in data:
                     lines.append("  [ID{}] {}  |  {}".format(ev_id, ev.get('Time', '?'), ev.get('Msg', '?')))
+                    events.append(ev)
             else:
                 lines.append("  [--] ID {} : nessun evento.".format(ev_id))
         except Exception:
             lines.append("  [--] ID {} : errore lettura.".format(ev_id))
-    return lines
+    return events, lines
 
 
 # ================================================================

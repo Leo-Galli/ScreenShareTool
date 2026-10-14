@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: [],
       },
     ],
-    sitemap: "https://screensharetool.vercel.app/sitemap.xml",
+    sitemap: "https://screenshare-guide.vercel.app/sitemap.xml",
   };
 }

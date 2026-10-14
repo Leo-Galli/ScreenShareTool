@@ -1,13 +1,14 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "CharlieRP ScreenShareTool — Complete Minecraft Screen Share Guide",
+  title: "CharlieRP ScreenShareTool — Minecraft Forensic Anti-Cheat Analysis",
   description:
-    "The most complete guide ever written on Minecraft screen sharing. Every technique, every tool, every forensic string, every known cheat. From zero to professional level.",
+    "A complete reference for Minecraft screen share inspections: an operational guide, an 800+ entry forensic string dictionary, a tool encyclopedia, and the CharlieRP forensic analysis tool itself.",
   openGraph: {
-    title: "CharlieRP ScreenShareTool — Complete Minecraft Screen Share Guide",
+    title: "CharlieRP ScreenShareTool — Minecraft Forensic Anti-Cheat Analysis",
     description:
-      "The most complete guide ever written on Minecraft screen sharing.",
+      "A complete reference for Minecraft screen share inspections — operational guide, forensic strings, and tools.",
     url: "https://screenshare-guide.vercel.app",
   },
 };
@@ -15,31 +16,31 @@ export const metadata: Metadata = {
 const sections = [
   {
     title: "Operational Manual",
-    desc: "Complete step-by-step procedure for conducting a professional screen share. From initial checklist to closure.",
+    desc: "A complete, step-by-step procedure for conducting a professional screen share, from the initial checklist to closure and cleanup.",
     href: "/guide",
     color: "cyan",
-    stats: "16 parts, 50+ checks",
+    stats: "10 parts, 50+ checks",
   },
   {
     title: "Forensic Strings Dictionary",
-    desc: "Every single forensic string known to humanity. 300+ strings in 28 categories. Instant search.",
+    desc: "A searchable reference of forensic strings, registry keys, and commands across 34 categories — real artifacts, not guesses.",
     href: "/strings",
     color: "red",
-    stats: "300+ strings, 28 categories",
+    stats: "800+ strings, 34 categories",
   },
   {
     title: "Tool Encyclopedia",
-    desc: "Every tool used in screen shares: System Informer, Everything, Luyten, NirSoft, Process Hacker, and dozens more.",
+    desc: "Every tool used in a screen share: System Informer, Everything, Luyten, the NirSoft suite, Process Hacker, and more.",
     href: "/tools",
     color: "purple",
-    stats: "25+ tools documented",
+    stats: "29 tools documented",
   },
   {
-    title: "Download Tool",
-    desc: "Download the CharlieRP forensic tool. Standalone exe, Python sources, winget.",
+    title: "Download the Tool",
+    desc: "Get the CharlieRP forensic analysis tool: standalone .exe, Python package, winget, or the cross-platform Bash script.",
     href: "/download",
     color: "green",
-    stats: "v3.0 — Cross-platform",
+    stats: "v3.1.0 — Windows, macOS, Linux",
   },
 ];
 
@@ -85,37 +86,37 @@ export default function Home() {
         <div className="relative">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-6">
             <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-            v3.0 — The most complete guide ever written
+            v3.1.0 — Operational guide, forensic reference, and analysis tool
           </div>
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-4">
             <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
               MINECRAFT
             </span>
             <br />
-            <span className="text-white text-4xl md:text-5xl">SCREENSHARE</span>
+            <span className="text-white text-4xl md:text-5xl">SCREEN SHARE</span>
           </h1>
           <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-2">
-            Every technique, every tool, every forensic string, every known cheat.
+            Techniques, tools, forensic strings, and known cheats, organized for inspectors.
             <br />
-            From zero to professional level.
+            From first screen share to professional casework.
           </p>
           <p className="text-gray-600 text-sm max-w-2xl mx-auto mb-8">
-            Guides, enciclopedias, string dictionaries, forensic tools, detection methods,
-            bypass, anti-forensics, and everything related to screen sharing on Minecraft.
+            Operational guides, a tool encyclopedia, a forensic string dictionary, detection
+            methods, and anti-forensics coverage for Minecraft screen share inspections.
           </p>
           <div className="flex justify-center gap-3 flex-wrap">
-            <a href="/guide" className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
-              Complete Guide
-            </a>
-            <a href="/strings" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
-              300+ Forensic Strings
-            </a>
-            <a href="/tools" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
+            <Link href="/guide" className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
+              Operational Guide
+            </Link>
+            <Link href="/strings" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
+              800+ Forensic Strings
+            </Link>
+            <Link href="/tools" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
               Tool Encyclopedia
-            </a>
-            <a href="/download" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
+            </Link>
+            <Link href="/download" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
               Download
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -123,21 +124,21 @@ export default function Home() {
       {/* Main Sections */}
       <div className="grid md:grid-cols-2 gap-4 mb-20">
         {sections.map((s, i) => (
-          <a key={i} href={s.href} className={`bg-gray-900/50 border ${colorMap[s.color]} rounded-2xl p-6 transition-all hover:shadow-lg block`}>
+          <Link key={i} href={s.href} className={`bg-gray-900/50 border ${colorMap[s.color]} rounded-2xl p-6 transition-all hover:shadow-lg block`}>
             <div className="flex items-center gap-2 mb-3">
               <span className={`w-2 h-2 ${dotColor[s.color]} rounded-full`} />
               <h3 className="text-white font-bold">{s.title}</h3>
             </div>
             <p className="text-gray-400 text-sm mb-3 leading-relaxed">{s.desc}</p>
             <span className="text-gray-600 text-xs">{s.stats}</span>
-          </a>
+          </Link>
         ))}
       </div>
 
       {/* What You'll Learn */}
       <div className="mb-20">
         <h2 className="text-2xl font-bold text-center mb-3">What You Will Learn</h2>
-        <p className="text-gray-500 text-sm text-center mb-8">Everything that exists about Minecraft screen sharing</p>
+        <p className="text-gray-500 text-sm text-center mb-8">The core knowledge behind a professional Minecraft screen share</p>
         <div className="grid md:grid-cols-2 gap-2">
           {knowledge.map((k, i) => (
             <div key={i} className="flex items-start gap-2 text-sm text-gray-400 py-2 px-3 rounded-lg bg-gray-900/30">
@@ -171,7 +172,7 @@ export default function Home() {
 
       {/* Footer */}
       <div className="border-t border-gray-800 pt-8 text-center">
-        <p className="text-gray-600 text-sm">CharlieRP ScreenShareTool v3.0 — LeoGalli</p>
+        <p className="text-gray-600 text-sm">CharlieRP ScreenShareTool v3.1.0 — LeoGalli</p>
       </div>
     </div>
   );

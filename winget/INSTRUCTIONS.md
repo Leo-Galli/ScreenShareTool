@@ -3,12 +3,12 @@
 ## Step 1: Crea la Release su GitHub
 
 1. Vai su https://github.com/Leo-Galli/ScreenShareTool/releases/new
-2. **Tag:** `v3.0.0`
-3. **Title:** `v3.0.0 — Python Rewrite (Optimized)`
+2. **Tag:** `v3.1.0`
+3. **Title:** `v3.1.0 — Python Rewrite (Optimized)`
 4. **Description:**
 
 ```markdown
-## CharlieRP ScreenShareTool v3.0.0 — Python Rewrite
+## CharlieRP ScreenShareTool v3.1.0 — Python Rewrite
 
 Riscrittura completa in Python dello strumento PowerShell di analisi forense anti-cheat.
 
@@ -50,7 +50,7 @@ C:\CharlieRP_SS\
 **Network:** mc.charlieroleplay.it | **Made by** LeoGalli
 ```
 
-5. **Upload il file:** `CharlieRPScreenShareTool-v3.0.0.zip`
+5. **Upload il file:** `CharlieRPScreenShareTool-v3.1.0.zip`
    (lo trovi nella cartella `release/` del progetto)
 6. Clicca **"Publish release"**
 
@@ -66,8 +66,8 @@ winget install wingetcreate
 
 # Crea la PR automaticamente
 wingetcreate update LeoGalli.CharlieRPScreenShareTool `
-  --version 3.0.0 `
-  --urls "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.0.0/CharlieRPScreenShareTool-v3.0.0.zip" `
+  --version 3.1.0 `
+  --urls "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.1.0/CharlieRPScreenShareTool-v3.1.0.zip" `
   --submit
 ```
 
@@ -81,19 +81,19 @@ git clone https://github.com/TUO-USERNAME/winget-pkgs.git
 cd winget-pkgs
 
 # 3. Crea il branch
-git checkout -b update-charlierolescreensharetool-3.0.0
+git checkout -b update-charlierolescreensharetool-3.1.0
 
 # 4. Copia i manifest (trovi nella cartella winget/ del progetto)
-mkdir -p manifests/l/LeoGalli/CharlieRPScreenShareTool/3.0.0
-cp ../winget/LeoGalli.CharlieRPScreenShareTool/3.0.0/*.yaml manifests/l/LeoGalli/CharlieRPScreenShareTool/3.0.0/
+mkdir -p manifests/l/LeoGalli/CharlieRPScreenShareTool/3.1.0
+cp ../winget/LeoGalli.CharlieRPScreenShareTool/3.1.0/*.yaml manifests/l/LeoGalli/CharlieRPScreenShareTool/3.1.0/
 
 # 5. Verifica
-winget validate --manifest manifests/l/LeoGalli/CharlieRPScreenShareTool/3.0.0
+winget validate --manifest manifests/l/LeoGalli/CharlieRPScreenShareTool/3.1.0
 
 # 6. Commit e push
-git add manifests/l/LeoGalli/CharlieRPScreenShareTool/3.0.0/
-git commit -m "Update: LeoGalli.CharlieRPScreenShareTool to v3.0.0 (Python rewrite)"
-git push origin update-charlierolescreensharetool-3.0.0
+git add manifests/l/LeoGalli/CharlieRPScreenShareTool/3.1.0/
+git commit -m "Update: LeoGalli.CharlieRPScreenShareTool to v3.1.0 (Python rewrite)"
+git push origin update-charlierolescreensharetool-3.1.0
 
 # 7. Crea la PR su GitHub
 ```
@@ -101,7 +101,7 @@ git push origin update-charlierolescreensharetool-3.0.0
 ### Template PR Description
 
 ```markdown
-## Update: LeoGalli.CharlieRPScreenShareTool version 3.0.0
+## Update: LeoGalli.CharlieRPScreenShareTool version 3.1.0
 
 Replaces the PowerShell v2.0.0 with a complete Python rewrite.
 
@@ -127,10 +127,10 @@ Replaces the PowerShell v2.0.0 with a complete Python rewrite.
 ## File manifest creati
 
 ```
-winget/LeoGalli.CharlieRPScreenShareTool/3.0.0/
+winget/LeoGalli.CharlieRPScreenShareTool/3.1.0/
 ├── LeoGalli.CharlieRPScreenShareTool.yaml           # Version manifest
 ├── LeoGalli.CharlieRPScreenShareTool.locale.en-US.yaml  # Locale/description
 └── LeoGalli.CharlieRPScreenShareTool.installer.yaml    # Installer details
 ```
 
-**SHA256 del zip:** `d79754246e9bfc7862a5e804fe615fc54fde0681d07371916a3e97838425c3c0`
+**SHA256 del zip:** `9540F78936CC468A2CA01D7A35CDC5827FB82340BBCA5D67D8593E4D5471FB70`
