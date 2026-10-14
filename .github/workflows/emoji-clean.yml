@@ -101,29 +101,24 @@ jobs:
               with open("changed_files.txt", "w") as f:
                   for fp in changed_files:
                       f.write(fp + "\n")
-              exit(0)
           else:
               print("No emojis found!")
-              exit(1)
           PYEOF
 
       - name: Commit and push changes
-        if: success() && steps.emoji-clean.outcome == 'success'
+        if: success()
         run: |
           if [ -f changed_files.txt ]; then
             git config --local user.email "action@github.com"
             git config --local user.name "Emoji Cleaner Bot"
             git add -A
-            git commit -m "$(cat <<'EOF'
-            chore: remove emojis from codebase
-
-            Auto-detected and removed emojis from the following files:
-            $(cat changed_files.txt | sed 's/^/- /')
-
-            Generated with Codebuff
-            Co-Authored-By: Codebuff <noreply@codebuff.com>
-            EOF
-            )"
+            {
+              echo "chore: remove emojis from codebase"
+              echo
+              echo "Auto-detected and removed emojis from the following files:"
+              sed 's/^/- /' changed_files.txt
+            } > commit_message.txt
+            git commit -F commit_message.txt
             git push
-            rm -f changed_files.txt
+            rm -f changed_files.txt commit_message.txt
           fi
