@@ -17,7 +17,7 @@
 
 ---
 
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Guide](https://screenshare-guide.vercel.app/guide) • [Modules](#-modules) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
+[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Guide](https://screenshare-guide.vercel.app/guide) • [Changelog](https://screenshare-guide.vercel.app/changelog) • [Modules](#-modules) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
 
 ---
 
@@ -355,9 +355,10 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 |:-----|:-----|
 | **Network** | [mc.charlieroleplay.it](https://charlieroleplay.it) |
 | **Guide** | [screenshare-guide.vercel.app](https://screenshare-guide.vercel.app) |
+| **Changelog** | [screenshare-guide.vercel.app/changelog](https://screenshare-guide.vercel.app/changelog) |
 | **Original Developer** | LeoGalli (PowerShell v2.0.0) |
 | **Python/Bash Rewrite** | Complete cross-platform rewrite |
-| **Version** | 3.1.0 |
+| **Version** | 4.0.0 |
 
 ---
 
