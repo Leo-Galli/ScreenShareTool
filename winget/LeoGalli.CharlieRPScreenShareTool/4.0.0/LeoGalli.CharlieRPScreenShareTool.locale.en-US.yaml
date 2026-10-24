@@ -29,6 +29,6 @@ Documentations:
 - DocumentLabel: Website
   DocumentUrl: https://screenshare-guide.vercel.app
 - DocumentLabel: Changelog
-  DocumentUrl: https://screenshare-guide.vercel.app/changelog
+  DocumentUrl: https://github.com/Leo-Galli/ScreenShareTool/blob/main/CHANGELOG.md
 ManifestType: defaultLocale
 ManifestVersion: 1.12.0
