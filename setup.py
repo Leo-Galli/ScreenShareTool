@@ -1,12 +1,12 @@
 """
-CharlieRP ScreenShareTool v3.0 — Setup
+CharlieRP ScreenShareTool v4.0.0 — Setup
 """
 
 from setuptools import setup, find_packages
 
 setup(
     name="screenshare-tool",
-    version="3.1.0",
+    version="4.0.0",
     description="CharlieRP ScreenShareTool — Analisi forense anti-cheat per Minecraft",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
@@ -14,16 +14,23 @@ setup(
     url="https://github.com/Leo-Galli/ScreenShareTool",
     packages=find_packages(),
     python_requires=">=3.8",
+    install_requires=[],
+    extras_require={
+        "gui": ["customtkinter>=5.2.0"],
+    },
     entry_points={
         "console_scripts": [
             "screenshare-tool=screenshare_tool.__main__:main",
+        ],
+        "gui_scripts": [
+            "screenshare-tool-gui=screenshare_tool.gui:launch_gui",
         ],
     },
     classifiers=[
         "Development Status :: 4 - Beta",
         "Intended Audience :: End Users/Desktop",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: Microsoft :: Windows",
+        "Operating System :: OS Independent",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",

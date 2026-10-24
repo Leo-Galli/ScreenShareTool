@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ScreenShareTool</title>
+  <style>
+    :root {
+      --bg: #000000;
+      --panel: rgba(10, 10, 10, 0.72);
+      --muted: #8a8a8a;
+      --faint: #5c5c5c;
+      --rule: rgba(255, 255, 255, 0.09);
+      --accent: #7eb6ff;
+      --ok: #4ade9b;
+      --warn: #f5c84c;
+      --err: #ff5c5c;
+      --text: #ffffff;
+      --display: "Segoe UI Variable Display", "Segoe UI", system-ui, sans-serif;
+      --sans: "Segoe UI Variable Text", "Segoe UI", system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body {
+      font-family: var(--sans);
+      color: var(--text);
+      background: var(--bg);
+      user-select: none;
+      -webkit-user-select: none;
+      position: relative;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .atmosphere {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 55% at 0% 100%, rgba(45, 110, 255, 0.32), transparent 55%),
+        radial-gradient(ellipse 60% 45% at 100% 0%, rgba(70, 90, 210, 0.18), transparent 50%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(255, 255, 255, 0.02), transparent 70%);
+    }
+    .grid {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.18;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 20%, transparent 75%);
+    }
+
+    .shell {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding: 28px 28px 24px;
+    }
+
+    .top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .mark {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mark-orb {
+      width: 36px;
+      height: 36px;
+      border-radius: 11px;
+      background:
+        radial-gradient(circle at 30% 25%, #cfe3ff, #4d8fff 45%, #1a3a8a 100%);
+      box-shadow: 0 0 28px rgba(80, 140, 255, 0.45);
+      flex-shrink: 0;
+    }
+    .brand {
+      font-family: var(--display);
+      font-size: 1.15rem;
+      font-weight: 650;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+    .sub {
+      margin-top: 3px;
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .admin {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--muted);
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--rule);
+      max-width: 180px;
+      line-height: 1.25;
+    }
+    .admin .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--warn);
+      flex-shrink: 0;
+      box-shadow: 0 0 8px rgba(245, 200, 76, 0.55);
+    }
+    .admin.ok { color: #9aefc4; border-color: rgba(74, 222, 155, 0.25); }
+    .admin.ok .dot {
+      background: var(--ok);
+      box-shadow: 0 0 8px rgba(74, 222, 155, 0.55);
+    }
+
+    .hero {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 0;
+    }
+    .kicker {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 12px;
+    }
+    .headline {
+      font-family: var(--display);
+      font-size: clamp(1.85rem, 5.5vw, 2.35rem);
+      font-weight: 700;
+      letter-spacing: -0.045em;
+      line-height: 1.08;
+      margin-bottom: 10px;
+    }
+    .lede {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 28rem;
+      margin-bottom: 28px;
+    }
+
+    .panel {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.35rem;
+      border: 1px solid var(--rule);
+      background: var(--panel);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      padding: 18px;
+    }
+    .panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -40% -80% -40%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, rgba(70, 130, 255, 0.28), transparent 68%);
+      pointer-events: none;
+    }
+    .panel-inner { position: relative; z-index: 1; }
+
+    .label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin-bottom: 10px;
+    }
+
+    .days {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      padding: 5px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 14px;
+    }
+    .days button {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 11px 0;
+      font-family: inherit;
+      font-size: 0.86rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.18s ease, color 0.18s ease, box-shadow 0.18s ease;
+    }
+    .days button:hover:not(:disabled):not(.active) { color: #fff; }
+    .days button.active {
+      color: #000;
+      background: #fff;
+      box-shadow: 0 4px 18px rgba(255, 255, 255, 0.18);
+    }
+    .days button:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .go {
+      width: 100%;
+      border: none;
+      border-radius: 999px;
+      padding: 15px 18px;
+      font-family: inherit;
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #000;
+      cursor: pointer;
+      background: #fff;
+      transition: opacity 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+      box-shadow: 0 8px 28px rgba(255, 255, 255, 0.08);
+    }
+    .go:hover:not(:disabled) {
+      opacity: 0.92;
+      transform: translateY(-1px);
+      box-shadow: 0 12px 32px rgba(255, 255, 255, 0.12);
+    }
+    .go:active:not(:disabled) { transform: translateY(0); }
+    .go:disabled { opacity: 0.5; cursor: wait; box-shadow: none; }
+    .go.running {
+      background: linear-gradient(90deg, #fff 0%, #d6e8ff 50%, #fff 100%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: 100% 0; }
+      100% { background-position: -100% 0; }
+    }
+
+    .progress-block {
+      margin-top: 16px;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      pointer-events: none;
+    }
+    .progress-block.on {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 0.72rem;
+      font-weight: 500;
+    }
+    .progress-meta .state { color: var(--muted); }
+    .progress-meta .state.run { color: var(--accent); }
+    .progress-meta .state.ok { color: var(--ok); }
+    .progress-meta .state.err { color: var(--err); }
+    .progress-meta .pct {
+      color: var(--faint);
+      font-variant-numeric: tabular-nums;
+    }
+    .track {
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(255, 255, 255, 0.07);
+      overflow: hidden;
+    }
+    .fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 99px;
+      background: linear-gradient(90deg, #3a7dff, #9ec5ff);
+      box-shadow: 0 0 12px rgba(126, 182, 255, 0.55);
+      transition: width 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .mod {
+      margin-top: 8px;
+      font-size: 0.7rem;
+      color: var(--faint);
+      min-height: 1rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .links {
+      display: none;
+      gap: 8px;
+      margin-top: 14px;
+    }
+    .links.on { display: grid; grid-template-columns: 1fr 1fr; }
+    .links button {
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(255, 255, 255, 0.03);
+      color: #fff;
+      border-radius: 999px;
+      padding: 11px 12px;
+      font-family: inherit;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.15s ease, background 0.15s ease;
+    }
+    .links button:hover {
+      border-color: rgba(255, 255, 255, 0.35);
+      background: rgba(255, 255, 255, 0.06);
+    }
+    .links button.primary {
+      background: #fff;
+      color: #000;
+      border-color: transparent;
+    }
+    .links button.primary:hover {
+      opacity: 0.9;
+      background: #fff;
+    }
+
+    .foot {
+      margin-top: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.66rem;
+      color: var(--faint);
+      letter-spacing: 0.02em;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .go.running { animation: none; }
+      .go:hover:not(:disabled) { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+  <div class="grid" aria-hidden="true"></div>
+
+  <div class="shell">
+    <header class="top">
+      <div class="mark">
+        <div class="mark-orb" aria-hidden="true"></div>
+        <div>
+          <div class="brand">ScreenShareTool</div>
+          <p class="sub" id="version">__VERSION_LINE__</p>
+        </div>
+      </div>
+      <div class="admin __ADMIN_CLASS__" id="admin" role="status">
+        <span class="dot" aria-hidden="true"></span>
+        <span id="adminText">__ADMIN_TEXT__</span>
+      </div>
+    </header>
+
+    <main class="hero" aria-label="Analisi">
+      <p class="kicker">Analisi forense</p>
+      <h1 class="headline">Pronto per<br />lo screen share.</h1>
+      <p class="lede">
+        Scegli la finestra temporale e avvia. A fine scansione apri la dashboard HTML.
+      </p>
+
+      <section class="panel">
+        <div class="panel-inner">
+          <p class="label">Finestra temporale</p>
+          <div class="days" role="group" aria-label="Giorni">
+            <button type="button" data-days="1" aria-pressed="false">1 giorno</button>
+            <button type="button" data-days="7" class="active" aria-pressed="true">7 giorni</button>
+            <button type="button" data-days="30" aria-pressed="false">30 giorni</button>
+          </div>
+
+          <button type="button" class="go" id="go">Avvia analisi</button>
+
+          <div class="progress-block" id="progressBlock">
+            <div class="progress-meta">
+              <span class="state" id="status">Pronto</span>
+              <span class="pct" id="pct">0%</span>
+            </div>
+            <div class="track" id="track" aria-hidden="true"><div class="fill" id="fill"></div></div>
+            <p class="mod" id="mod"></p>
+          </div>
+
+          <div class="links" id="links">
+            <button type="button" class="primary" id="dash">Apri dashboard</button>
+            <button type="button" id="out">Cartella output</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="foot">
+      <span>MIT · LeoGalli</span>
+      <span>Evidence without noise</span>
+    </footer>
+  </div>
+
+  <script>
+    let days = 7
+    let running = false
+    const go = document.getElementById("go")
+    const status = document.getElementById("status")
+    const mod = document.getElementById("mod")
+    const fill = document.getElementById("fill")
+    const pct = document.getElementById("pct")
+    const links = document.getElementById("links")
+    const progressBlock = document.getElementById("progressBlock")
+
+    document.querySelectorAll(".days button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (running) return
+        document.querySelectorAll(".days button").forEach((b) => {
+          b.classList.remove("active")
+          b.setAttribute("aria-pressed", "false")
+        })
+        btn.classList.add("active")
+        btn.setAttribute("aria-pressed", "true")
+        days = Number(btn.dataset.days)
+      })
+    })
+
+    const setStatus = (text, cls = "") => {
+      status.textContent = text
+      status.className = "state" + (cls ? " " + cls : "")
+    }
+    const setProgress = (frac) => {
+      progressBlock.classList.add("on")
+      const n = Math.round(Math.min(1, Math.max(0, frac)) * 100)
+      fill.style.width = n + "%"
+      pct.textContent = n + "%"
+    }
+
+    window.onProgress = (payload) => {
+      try {
+        const data = typeof payload === "string" ? JSON.parse(payload) : payload
+        setProgress(data.frac || 0)
+        if (data.label) mod.textContent = data.label
+        if (data.state) setStatus(data.state, "run")
+      } catch (_) {}
+    }
+
+    window.onDone = (payload) => {
+      running = false
+      go.disabled = false
+      go.classList.remove("running")
+      go.textContent = "Avvia analisi"
+      document.querySelectorAll(".days button").forEach((b) => { b.disabled = false })
+      try {
+        const data = typeof payload === "string" ? JSON.parse(payload) : payload
+        if (data.error) {
+          setStatus(data.error, "err")
+          setProgress(0)
+          return
+        }
+        setProgress(1)
+        setStatus(data.summary || "Completata", "ok")
+        mod.textContent = ""
+        links.classList.add("on")
+      } catch (_) {
+        setStatus("Completata", "ok")
+      }
+    }
+
+    go.addEventListener("click", async () => {
+      if (running) return
+      running = true
+      go.disabled = true
+      go.classList.add("running")
+      go.textContent = "Analisi in corso…"
+      document.querySelectorAll(".days button").forEach((b) => { b.disabled = true })
+      links.classList.remove("on")
+      setProgress(0.02)
+      setStatus("Avvio…", "run")
+      mod.textContent = ""
+      try {
+        await window.pywebview.api.start_scan(days)
+      } catch (e) {
+        running = false
+        go.disabled = false
+        go.classList.remove("running")
+        go.textContent = "Avvia analisi"
+        document.querySelectorAll(".days button").forEach((b) => { b.disabled = false })
+        setStatus(String(e), "err")
+      }
+    })
+
+    document.getElementById("dash").addEventListener("click", () => window.pywebview.api.open_dashboard())
+    document.getElementById("out").addEventListener("click", () => window.pywebview.api.open_output())
+  </script>
+</body>
+</html>

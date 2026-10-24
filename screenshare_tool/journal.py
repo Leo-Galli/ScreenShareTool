@@ -23,17 +23,21 @@ from .utils import (
 )
 
 
+_USN_DATE_RE = re.compile(r'(\d{1,2}/\d{1,2}/\d{4}\s+\d{1,2}:\d{2}:\d{2})')
+
+
 def read_journal(drive_letter: str) -> List[str]:
     """Read the USN Journal for a given drive letter using fsutil."""
     dl = drive_letter.upper().rstrip("\\")[0]
+    # Non-system drives get a shorter timeout — journal dumps can be huge.
+    timeout = 90 if dl == "C" else 35
     try:
         result = subprocess.run(
             ["cmd", "/c", f"fsutil usn readjournal {dl}: csv"],
-            capture_output=True, text=True, timeout=120,
+            capture_output=True, text=True, timeout=timeout,
             creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0),
         )
-        lines = [l for l in result.stdout.split("\n") if l.strip()]
-        return lines
+        return [l for l in result.stdout.splitlines() if l.strip()]
     except Exception:
         return []
 
@@ -41,17 +45,19 @@ def read_journal(drive_letter: str) -> List[str]:
 def filter_journal_by_date(lines: List[str], date_limit: datetime) -> List[str]:
     """Filter journal lines to only include entries within the date range."""
     filtered = []
+    append = filtered.append
+    search = _USN_DATE_RE.search
     for line in lines:
-        m = re.search(r'(\d{1,2}/\d{1,2}/\d{4}\s+\d{1,2}:\d{2}:\d{2})', line)
-        if m:
-            try:
-                dt = parse_usn_timestamp(m.group(1))
-                if dt and dt >= date_limit:
-                    filtered.append(line)
-            except Exception:
-                filtered.append(line)
-        else:
-            filtered.append(line)
+        m = search(line)
+        if not m:
+            append(line)
+            continue
+        try:
+            dt = parse_usn_timestamp(m.group(1))
+            if dt is None or dt >= date_limit:
+                append(line)
+        except Exception:
+            append(line)
     return filtered
 
 
@@ -59,14 +65,13 @@ def match_journal(lines: List[str], flags_pattern: str,
                   file_pattern: str = "") -> List[str]:
     """Filter journal lines by USN flags and optional file extension pattern."""
     flag_parts = flags_pattern.split("|")
+    fp_re = re.compile(file_pattern, re.IGNORECASE) if file_pattern else None
     result = []
     for line in lines:
         if not any(fp in line for fp in flag_parts):
             continue
-        if file_pattern:
-            fp_re = re.compile(file_pattern, re.IGNORECASE)
-            if not fp_re.search(line):
-                continue
+        if fp_re is not None and not fp_re.search(line):
+            continue
         result.append(line)
     return result
 

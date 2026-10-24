@@ -19,19 +19,21 @@ IS_UNIX = IS_MACOS or IS_LINUX
 # ================================================================
 #  SYSTEM
 # ================================================================
-APP_NAME = "CharlieRP ScreenShareTool"
-APP_VERSION = "3.1.0"
+APP_NAME = "ScreenShareTool"
+# Keep legacy path alias for older installs that still write to CharlieRP_SS
+OUTPUT_ROOT_NAME = "ScreenShareTool_SS"
+APP_VERSION = "4.0.0"
 NETWORK = "mc.charlieroleplay.it"
 
 # ================================================================
 #  OUTPUT PATHS (Cross-platform)
 # ================================================================
 if IS_WINDOWS:
-    OUTPUT_ROOT = os.path.join(os.environ.get("SystemDrive", "C:"), "CharlieRP_SS")
+    OUTPUT_ROOT = os.path.join(os.environ.get("SystemDrive", "C:"), OUTPUT_ROOT_NAME)
 elif IS_MACOS:
-    OUTPUT_ROOT = os.path.join("/tmp", "CharlieRP_SS")
+    OUTPUT_ROOT = os.path.join("/tmp", OUTPUT_ROOT_NAME)
 else:
-    OUTPUT_ROOT = os.path.join("/tmp", "CharlieRP_SS")
+    OUTPUT_ROOT = os.path.join("/tmp", OUTPUT_ROOT_NAME)
 
 OUTPUT_DIRS = [
     "01_AccountFiles", "02_DeletedRenamed", "03_JNativeHook",

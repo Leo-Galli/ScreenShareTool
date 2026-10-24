@@ -1,8 +1,8 @@
-import { ImageResponse } from "next/og";
+import { ImageResponse } from "next/og"
 
-export const alt = "CharlieRP ScreenShareTool — Minecraft forensic anti-cheat analysis";
-export const size = { width: 1200, height: 630 };
-export const contentType = "image/png";
+export const alt = "ScreenShareTool — Minecraft forensic anti-cheat"
+export const size = { width: 1200, height: 630 }
+export const contentType = "image/png"
 
 export default function Image() {
   return new ImageResponse(
@@ -14,81 +14,68 @@ export default function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
-          alignItems: "center",
-          background: "#0a0f1a",
-          backgroundImage:
-            "radial-gradient(circle at 50% 0%, rgba(6,182,212,0.18), rgba(10,15,26,0) 60%)",
+          padding: "72px 96px",
+          background: "#000000",
           fontFamily: "sans-serif",
+          position: "relative",
         }}
       >
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            gap: 24,
-            marginBottom: 32,
+            position: "absolute",
+            inset: 0,
+            background:
+              "radial-gradient(ellipse 55% 45% at 10% 100%, rgba(50,110,255,0.35), transparent 55%), radial-gradient(ellipse 40% 35% at 90% 0%, rgba(80,90,200,0.18), transparent 50%)",
+          }}
+        />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            position: "relative",
           }}
         >
           <div
             style={{
               display: "flex",
-              width: 96,
-              height: 96,
-              borderRadius: 24,
-              alignItems: "center",
-              justifyContent: "center",
-              fontSize: 56,
-              fontWeight: 800,
-              color: "white",
-              background: "linear-gradient(135deg, #06b6d4, #2563eb)",
+              fontSize: 16,
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color: "#8a8a8a",
+              marginBottom: 28,
+              fontWeight: 600,
             }}
           >
-            S
+            v4.0.0
           </div>
           <div
             style={{
               display: "flex",
-              fontSize: 56,
-              fontWeight: 800,
-              color: "white",
-              letterSpacing: -1,
+              fontSize: 80,
+              fontWeight: 650,
+              color: "#ffffff",
+              letterSpacing: "-0.045em",
+              lineHeight: 1.05,
+              marginBottom: 24,
             }}
           >
             ScreenShareTool
           </div>
-        </div>
-        <div
-          style={{
-            display: "flex",
-            fontSize: 30,
-            color: "#94a3b8",
-            marginBottom: 48,
-          }}
-        >
-          Forensic anti-cheat analysis for Minecraft servers
-        </div>
-        <div style={{ display: "flex", gap: 16 }}>
-          {["48 cheat clients", "800+ forensic strings", "Windows · macOS · Linux"].map(
-            (label) => (
-              <div
-                key={label}
-                style={{
-                  display: "flex",
-                  padding: "12px 24px",
-                  borderRadius: 999,
-                  border: "1px solid rgba(6,182,212,0.3)",
-                  color: "#22d3ee",
-                  fontSize: 22,
-                  fontWeight: 600,
-                }}
-              >
-                {label}
-              </div>
-            )
-          )}
+          <div
+            style={{
+              display: "flex",
+              fontSize: 26,
+              color: "#8a8a8a",
+              maxWidth: 720,
+              lineHeight: 1.4,
+            }}
+          >
+            Forensic analysis for Minecraft screen shares
+          </div>
         </div>
       </div>
     ),
     { ...size }
-  );
+  )
 }

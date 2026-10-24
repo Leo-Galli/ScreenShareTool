@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Tool Encyclopedia",
   description:
     "29 forensic tools used during Minecraft screen shares — System Informer, Everything, Luyten, the NirSoft suite, Wireshark, and more, with install commands and usage notes.",
-};
+}
 
 const tools = [
   {
@@ -27,7 +27,7 @@ const tools = [
       {
         name: "Strings (Sysinternals)",
         desc: "Extracts printable text strings from any binary file. Useful for analyzing .jar, .exe, and .dll files.",
-        use: "strings javaw.exe | findstr /i \"killaura velocity fly\" to search for strings inside a binary.",
+        use: 'strings javaw.exe | findstr /i "killaura velocity fly" to search for strings inside a binary.',
         install: "Part of the Sysinternals Suite",
         url: "https://docs.microsoft.com/en-us/sysinternals/downloads/strings",
       },
@@ -252,74 +252,72 @@ const tools = [
         url: "https://github.com/Jammy108/AstroSS",
       },
       {
-        name: "CharlieRP ScreenShareTool",
-        desc: "The complete Python/Bash forensic tool behind this site: 48 tracked cheat clients, a BAM parser, a whole-PC scan, and false-positive filtering.",
-        use: "python -m screenshare_tool --days 7 for a full analysis.",
+        name: "ScreenShareTool",
+        desc: "The forensic GUI/CLI behind this site: 48 tracked cheat clients, BAM parser, whole-PC scan, and false-positive filtering.",
+        use: "python -m screenshare_tool --gui for the app, or --days 7 for CLI.",
         install: "winget install LeoGalli.CharlieRPScreenShareTool",
         url: "https://github.com/Leo-Galli/ScreenShareTool",
       },
     ],
   },
-];
+]
 
 export default function ToolsPage() {
-  const toolCount = tools.reduce((a, c) => a + c.items.length, 0);
+  const toolCount = tools.reduce((a, c) => a + c.items.length, 0)
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-3">
-          <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            Tool Encyclopedia
-          </span>
+    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
+      <div className="mb-14 max-w-3xl">
+        <h1
+          className="font-display font-semibold tracking-tight text-white"
+          style={{ fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.04em" }}
+        >
+          Tool Encyclopedia
         </h1>
-        <p className="text-gray-400 text-lg">
-          Every tool used during a Minecraft screen share — {toolCount} tools documented, with install commands and usage notes.
+        <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+          {toolCount} tools for Minecraft screen shares — install commands and usage notes.
         </p>
       </div>
 
-      <div className="space-y-12">
+      <div className="space-y-16">
         {tools.map((group, gi) => (
           <div key={gi}>
-            <h2 className="text-xl font-bold mb-4 flex items-center gap-2">
-              <span className="w-1.5 h-6 bg-gradient-to-b from-purple-400 to-pink-500 rounded-full" />
+            <h2 className="font-display mb-2 text-2xl font-semibold tracking-tight text-white">
               {group.category}
             </h2>
-            <div className="space-y-3">
+            <div className="mt-2">
               {group.items.map((tool, ti) => (
-                <div key={ti} className="bg-gray-900/50 border border-gray-800 rounded-2xl p-5">
-                  <div className="flex items-start justify-between gap-4 mb-2">
-                    <h3 className="text-white font-semibold">{tool.name}</h3>
+                <div key={ti} className="list-row">
+                  <div className="flex items-start justify-between gap-4">
+                    <h3 className="font-display text-lg font-semibold tracking-tight text-white">
+                      {tool.name}
+                    </h3>
                     <a
                       href={tool.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label={`Open the official site for ${tool.name} (opens in a new tab)`}
-                      className="text-cyan-400 text-xs hover:text-cyan-300 shrink-0"
+                      aria-label={`Official site for ${tool.name} (opens in new tab)`}
+                      className="link-amber shrink-0 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded"
                     >
-                      Official site
+                      site ↗
                     </a>
                   </div>
-                  <p className="text-gray-400 text-sm mb-3">{tool.desc}</p>
-                  <div className="bg-gray-950 border border-gray-800 rounded-lg p-3 mb-2">
-                    <p className="text-gray-500 text-xs mb-1">Usage:</p>
-                    <p className="text-gray-300 text-sm">{tool.use}</p>
+                  <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                    {tool.desc}
+                  </p>
+                  <div className="guide-inset mt-4">
+                    <p className="mb-1 text-xs font-medium" style={{ color: "var(--muted)" }}>
+                      Usage
+                    </p>
+                    <p className="text-sm text-white">{tool.use}</p>
                   </div>
-                  <div className="bg-gray-950 border border-gray-800 rounded-lg p-3">
-                    <p className="text-gray-500 text-xs mb-1">Installation:</p>
-                    <p className="text-green-400 text-sm font-mono">{tool.install}</p>
-                  </div>
+                  <div className="cmd-box mt-3">{tool.install}</div>
                 </div>
               ))}
             </div>
           </div>
         ))}
       </div>
-
-      <div className="border-t border-gray-800 pt-8 mt-12 text-center">
-        <p className="text-gray-500 text-sm">
-          CharlieRP Screen Share Tools Reference — LeoGalli
-        </p>
-      </div>
     </div>
-  );
+  )
 }

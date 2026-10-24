@@ -1,179 +1,313 @@
-import type { Metadata } from "next";
-import Link from "next/link";
+import type { Metadata } from "next"
+import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "CharlieRP ScreenShareTool — Minecraft Forensic Anti-Cheat Analysis",
+  title: "ScreenShareTool — Minecraft Forensic Anti-Cheat",
   description:
-    "A complete reference for Minecraft screen share inspections: an operational guide, an 800+ entry forensic string dictionary, a tool encyclopedia, and the CharlieRP forensic analysis tool itself.",
+    "Operational guide, 800+ forensic strings, tool encyclopedia, and a cross-platform analysis app for Minecraft screen shares.",
   openGraph: {
-    title: "CharlieRP ScreenShareTool — Minecraft Forensic Anti-Cheat Analysis",
+    title: "ScreenShareTool — Minecraft Forensic Anti-Cheat",
     description:
-      "A complete reference for Minecraft screen share inspections — operational guide, forensic strings, and tools.",
+      "Operational guide, forensic strings, and tools for Minecraft screen share inspections.",
     url: "https://screenshare-guide.vercel.app",
   },
-};
+}
 
-const sections = [
+const featured = [
   {
     title: "Operational Manual",
-    desc: "A complete, step-by-step procedure for conducting a professional screen share, from the initial checklist to closure and cleanup.",
+    desc: "Ten-part procedure: roles, tool deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, false positives, closure.",
     href: "/guide",
-    color: "cyan",
-    stats: "10 parts, 50+ checks",
+    meta: "10 parts",
   },
   {
-    title: "Forensic Strings Dictionary",
-    desc: "A searchable reference of forensic strings, registry keys, and commands across 34 categories — real artifacts, not guesses.",
+    title: "Forensic Strings",
+    desc: "Searchable registry keys, USN journal commands, Event IDs, paths, and real artifacts — not guesses.",
     href: "/strings",
-    color: "red",
-    stats: "800+ strings, 34 categories",
+    meta: "800+ strings",
   },
+]
+
+const rows = [
   {
     title: "Tool Encyclopedia",
-    desc: "Every tool used in a screen share: System Informer, Everything, Luyten, the NirSoft suite, Process Hacker, and more.",
+    desc: "System Informer, Everything, Luyten, NirSoft, Wireshark, and more — install commands and usage notes.",
     href: "/tools",
-    color: "purple",
-    stats: "29 tools documented",
+    meta: "29 tools · Reference",
   },
   {
-    title: "Download the Tool",
-    desc: "Get the CharlieRP forensic analysis tool: standalone .exe, Python package, winget, or the cross-platform Bash script.",
-    href: "/download",
-    color: "green",
-    stats: "v3.1.0 — Windows, macOS, Linux",
+    title: "Changelog",
+    desc: "Full version history from v1.0.0 PowerShell to v4.0.0 GUI — every fix and feature.",
+    href: "/changelog",
+    meta: "v1 → v4 · Updates",
   },
-];
+  {
+    title: "Download",
+    desc: "Native GUI for Windows, macOS, and Linux. Winget, standalone exe, Python, or Bash.",
+    href: "/download",
+    meta: "v4.0.0 · Release",
+  },
+]
 
-const colorMap: Record<string, string> = {
-  cyan: "border-cyan-500/20 hover:border-cyan-500/40",
-  red: "border-red-500/20 hover:border-red-500/40",
-  purple: "border-purple-500/20 hover:border-purple-500/40",
-  green: "border-green-500/20 hover:border-green-500/40",
-};
+const capabilities = [
+  {
+    title: "BAM & Prefetch",
+    desc: "Last executions and launch history for executables that matter during a share.",
+  },
+  {
+    title: "Minecraft accounts",
+    desc: "Launchers, usercache, IAS logs, and account switches across common clients.",
+  },
+  {
+    title: "Cheat self-delete",
+    desc: "Traces of known clients and cleanup scripts that try to erase evidence mid-share.",
+  },
+  {
+    title: "Registry & journal",
+    desc: "UserAssist, RunMRU, ShellBags, and NTFS USN journal signals when you go deep.",
+  },
+  {
+    title: "Macros & peripherals",
+    desc: "Gaming software and devices that can run autoclickers or scripted input.",
+  },
+  {
+    title: "HTML dashboard",
+    desc: "One self-contained report with KPIs, tables, and charts — ready to archive.",
+  },
+]
 
-const dotColor: Record<string, string> = {
-  cyan: "bg-cyan-400",
-  red: "bg-red-400",
-  purple: "bg-purple-400",
-  green: "bg-green-400",
-};
-
-const knowledge = [
-  "Ghost Clients (LiquidBounce, Wurst, Sigma, FDP, Vape, Meteor, Rise, Future, Impact, Aristois, Inertia, Do0mClient, MoonClient, Tenacity, Astolfo, Kami, Phobos, SalHack, Seppuku, Flux, Snow, Rusher)",
-  "Autoclickers (Koid, Dream, Drip, Whiteout, Itami, 7Clicker, Mango, Murmur, Phantom, JNativeHook)",
-  "Self-Destruct / Anti-Forensics (Doomsday, ClassLoader, defineClass, unload, clean tracks, wipe logs)",
-  "External cheats (VPN tunnel, Hamachi, ZeroTier, Radmin, ngrok, USB Rubber Ducky, BadUSB)",
-  "Movement hacks (Speed, Fly, NoFall, Scaffold, Tower, Jesus, BoatFly, ElytraFly, Spider, Bhop)",
-  "Combat hacks (KillAura, Reach, Velocity, AntiKnockback, Aimbot, Triggerbot, Criticals)",
-  "Render hacks (XRay, ESP, PlayerESP, ChestESP, Nametags, Tracers, FullBright, Chams, Tomograph)",
-  "Registry forensics (BAM, UserAssist, MuiCache, USBSTOR, Prefetch, USN Journal, ShellBags)",
-  "RAM forensics (System Informer, DLL injection, memory strings, loaded modules)",
-  "Minecraft internals (launcher_profiles.json, usercache.json, IAS mod, Lunar/Badlion/Fabric/Forge)",
-  "Network forensics (TCP connections, DNS cache, hosts file, VPN detection, proxy detection)",
-  "Anti-cheat bypass (Grim, Vulcan, Matrix, Intave, Rewind, Polar, AAC, NCP, Watchdog)",
-  "Obfuscation (ProGuard, R8, Mixin, SRG, Notch, Mojang, Yarn mappings)",
-  "Java runtime exploitation (ClassLoader, Runtime.exec, ProcessBuilder, reflection)",
-  "File system forensics (NTFS ADS, Alternate Data Streams, $Recycle.Bin, USN Journal)",
-  "Hardware forensics (USB device history, disk serial numbers, hardware fingerprints)",
-];
+const faq = [
+  {
+    q: "What is ScreenShareTool?",
+    a: "A forensic kit for Minecraft screen shares: an operational guide, an 800+ string dictionary, a tool encyclopedia, and a cross-platform analysis app that writes a dashboard at the end of each scan.",
+  },
+  {
+    q: "Who is it for?",
+    a: "Server staff and inspectors who need a repeatable procedure and machine-readable evidence — not casual players looking for a “ban button.”",
+  },
+  {
+    q: "Does it replace manual inspection?",
+    a: "No. It accelerates collection and highlights leads. Final verdicts still come from a trained inspector reading the report and the live session.",
+  },
+  {
+    q: "Which platforms are supported?",
+    a: "Windows gets the full module set (BAM, Prefetch, Event Log, Registry). macOS and Linux run the GUI/CLI with the modules available on those systems.",
+  },
+  {
+    q: "Is it free?",
+    a: "Yes. MIT licensed. Download the exe, install via winget, or run from source with Python.",
+  },
+]
 
 export default function Home() {
   return (
-    <div className="max-w-6xl mx-auto px-4 py-16">
-      {/* Hero */}
-      <div className="text-center mb-20 relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/5 via-transparent to-transparent pointer-events-none" />
-        <div className="relative">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 text-xs font-medium mb-6">
-            <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
-            v3.1.0 — Operational guide, forensic reference, and analysis tool
+    <>
+      <section className="relative min-h-[92svh] overflow-hidden" aria-label="Hero">
+        <div className="relative z-10 mx-auto flex max-w-6xl flex-col justify-center px-6 pb-24 pt-24 sm:px-8 sm:pt-32">
+          <p className="animate-hero-in section-label !mb-6">ScreenShareTool · v4.0.0</p>
+          <div className="animate-hero-in-late max-w-4xl">
+            <h1
+              className="font-display font-semibold leading-[1.05] tracking-[-0.045em] text-white"
+              style={{ fontSize: "clamp(2.8rem, 8.5vw, 5.75rem)" }}
+            >
+              Forensic analysis,
+              <br />
+              built for inspectors.
+            </h1>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-4">
-            <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
-              MINECRAFT
-            </span>
-            <br />
-            <span className="text-white text-4xl md:text-5xl">SCREEN SHARE</span>
-          </h1>
-          <p className="text-gray-400 text-lg max-w-3xl mx-auto mb-2">
-            Techniques, tools, forensic strings, and known cheats, organized for inspectors.
-            <br />
-            From first screen share to professional casework.
-          </p>
-          <p className="text-gray-600 text-sm max-w-2xl mx-auto mb-8">
-            Operational guides, a tool encyclopedia, a forensic string dictionary, detection
-            methods, and anti-forensics coverage for Minecraft screen share inspections.
-          </p>
-          <div className="flex justify-center gap-3 flex-wrap">
-            <Link href="/guide" className="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-xl text-sm font-semibold hover:shadow-lg hover:shadow-cyan-500/25 transition-all">
-              Operational Guide
-            </Link>
-            <Link href="/strings" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
-              800+ Forensic Strings
-            </Link>
-            <Link href="/tools" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
-              Tool Encyclopedia
-            </Link>
-            <Link href="/download" className="px-6 py-3 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-all">
-              Download
-            </Link>
+
+          <div className="animate-hero-in-later mt-8 max-w-xl">
+            <p className="text-base leading-relaxed sm:text-lg" style={{ color: "var(--muted)" }}>
+              Guide, strings, tools, and a modern analysis app for Minecraft screen shares —
+              evidence without the noise.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-3">
+              <Link
+                href="/download"
+                className="cta-primary rounded-full px-7 py-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                Download
+              </Link>
+              <Link
+                href="/guide"
+                className="cta-ghost rounded-full px-7 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                Read the guide
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Sections */}
-      <div className="grid md:grid-cols-2 gap-4 mb-20">
-        {sections.map((s, i) => (
-          <Link key={i} href={s.href} className={`bg-gray-900/50 border ${colorMap[s.color]} rounded-2xl p-6 transition-all hover:shadow-lg block`}>
-            <div className="flex items-center gap-2 mb-3">
-              <span className={`w-2 h-2 ${dotColor[s.color]} rounded-full`} />
-              <h3 className="text-white font-bold">{s.title}</h3>
-            </div>
-            <p className="text-gray-400 text-sm mb-3 leading-relaxed">{s.desc}</p>
-            <span className="text-gray-600 text-xs">{s.stats}</span>
-          </Link>
-        ))}
-      </div>
-
-      {/* What You'll Learn */}
-      <div className="mb-20">
-        <h2 className="text-2xl font-bold text-center mb-3">What You Will Learn</h2>
-        <p className="text-gray-500 text-sm text-center mb-8">The core knowledge behind a professional Minecraft screen share</p>
-        <div className="grid md:grid-cols-2 gap-2">
-          {knowledge.map((k, i) => (
-            <div key={i} className="flex items-start gap-2 text-sm text-gray-400 py-2 px-3 rounded-lg bg-gray-900/30">
-              <span className="text-cyan-500 mt-0.5 shrink-0">/</span>
-              <span>{k}</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Quick Start */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-8 mb-16">
-        <h2 className="text-xl font-bold mb-6">Quick Start — How to Conduct a Screen Share</h2>
-        <div className="grid md:grid-cols-4 gap-4">
+      <div className="relative z-10 mx-auto max-w-6xl px-6 pb-28 sm:px-8">
+        <div className="mb-24 grid gap-6 border-y border-white/10 py-10 sm:grid-cols-4">
           {[
-            { step: "1", title: "AnyDesk Access", desc: "Connect via AnyDesk to the player's PC. Verify stable ping." },
-            { step: "2", title: "Deploy Tools", desc: "Download and run Everything, System Informer, Luyten, NirSoft Suite." },
-            { step: "3", title: "Analysis", desc: "Run Pre-Analysis Checklist, then all checks: Registry, RAM, Prefetch, BAM, Cheats, USB." },
-            { step: "4", title: "Verdict", desc: "Collect evidence, document with screenshots, issue sanction or acquit." },
-          ].map((item, i) => (
-            <div key={i} className="text-center">
-              <div className="w-10 h-10 bg-cyan-500/10 border border-cyan-500/20 rounded-full flex items-center justify-center text-cyan-400 font-bold mx-auto mb-3">
-                {item.step}
+            { k: "800+", l: "Forensic strings" },
+            { k: "48", l: "Cheat clients tracked" },
+            { k: "29", l: "Documented tools" },
+            { k: "3", l: "OS platforms" },
+          ].map((s) => (
+            <div key={s.l}>
+              <div className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                {s.k}
               </div>
-              <h4 className="text-white font-semibold text-sm mb-1">{item.title}</h4>
-              <p className="text-gray-500 text-xs">{item.desc}</p>
+              <div className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
+                {s.l}
+              </div>
             </div>
           ))}
         </div>
-      </div>
 
-      {/* Footer */}
-      <div className="border-t border-gray-800 pt-8 text-center">
-        <p className="text-gray-600 text-sm">CharlieRP ScreenShareTool v3.1.0 — LeoGalli</p>
+        <p className="section-label">Capabilities</p>
+        <h2 className="font-display mb-10 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          What the scanner covers
+        </h2>
+        <div className="mb-24 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {capabilities.map((c) => (
+            <div key={c.title} className="glow-card !min-h-0 p-7">
+              <div className="relative z-10">
+                <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+                  {c.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                  {c.desc}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <p className="section-label">Resources</p>
+        <h2 className="font-display mb-8 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          Everything in one kit
+        </h2>
+
+        <div className="mb-4 grid gap-5 md:grid-cols-2">
+          {featured.map((s) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              className="glow-card group flex flex-col justify-end p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              aria-label={s.title}
+            >
+              <div className="relative z-10">
+                <span className="mb-3 block text-xs font-medium" style={{ color: "var(--muted)" }}>
+                  {s.meta}
+                </span>
+                <h3 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  {s.title}
+                </h3>
+                <p className="mt-3 max-w-sm text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                  {s.desc}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="mb-24 mt-6">
+          {rows.map((s) => (
+            <Link
+              key={s.href}
+              href={s.href}
+              className="list-row focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              aria-label={s.title}
+            >
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
+                <h3 className="font-display text-2xl font-semibold tracking-tight text-white">
+                  {s.title}
+                </h3>
+                <span className="text-xs font-medium" style={{ color: "var(--muted)" }}>
+                  {s.meta}
+                </span>
+              </div>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                {s.desc}
+              </p>
+            </Link>
+          ))}
+        </div>
+
+        <div className="glow-card !min-h-0 mb-24 p-8 sm:p-10">
+          <div className="relative z-10">
+            <p className="section-label">Workflow</p>
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+              Screen share in four moves
+            </h2>
+            <div className="mt-10 grid gap-8 sm:grid-cols-4">
+              {[
+                { n: "01", t: "Connect", d: "AnyDesk or equivalent. Aim for ping under 150ms." },
+                { n: "02", t: "Deploy", d: "Everything, System Informer, Luyten — see the tool list." },
+                { n: "03", t: "Analyze", d: "Run ScreenShareTool with the right day window." },
+                { n: "04", t: "Verdict", d: "Read the dashboard, then sanction or clear." },
+              ].map((item) => (
+                <div key={item.n}>
+                  <div className="mb-3 text-xs font-medium" style={{ color: "var(--accent)" }}>
+                    {item.n}
+                  </div>
+                  <h3 className="font-display text-base font-semibold text-white">{item.t}</h3>
+                  <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
+                    {item.d}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-10">
+              <Link
+                href="/guide#p2"
+                className="cta-ghost inline-flex rounded-full px-6 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              >
+                Open the checklist
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-24 grid gap-12 lg:grid-cols-2">
+          <div>
+            <p className="section-label">FAQ</p>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-white">
+              Common questions
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              Short answers. Deep procedure lives in the operational manual.
+            </p>
+          </div>
+          <div>
+            {faq.map((item) => (
+              <details key={item.q} className="faq-item">
+                <summary>{item.q}</summary>
+                <p>{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+
+        <div className="glow-card !min-h-0 p-8 sm:flex sm:items-end sm:justify-between sm:gap-10 sm:p-12">
+          <div className="relative z-10 max-w-xl">
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Ready to run a share?
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              Install the GUI, open the guide, keep the string dictionary nearby.
+            </p>
+          </div>
+          <div className="relative z-10 mt-8 flex flex-wrap gap-3 sm:mt-0 sm:shrink-0">
+            <Link
+              href="/download"
+              className="cta-primary rounded-full px-7 py-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              Download v4.0.0
+            </Link>
+            <Link
+              href="/strings"
+              className="cta-ghost rounded-full px-7 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              Browse strings
+            </Link>
+          </div>
+        </div>
       </div>
-    </div>
-  );
+    </>
+  )
 }

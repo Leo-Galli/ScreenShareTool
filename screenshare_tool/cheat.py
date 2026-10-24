@@ -538,7 +538,7 @@ def _scan_whole_pc(date_limit, lines, alerts) -> int:
         # Walk with a depth limit to avoid pathological recursion
         for dirpath, dirnames, filenames in os.walk(root):
             depth = dirpath[len(root):].count(os.sep)
-            if depth > 6:
+            if depth > 4:
                 dirnames[:] = []
                 continue
             # Prune heavy system dirs

@@ -9,25 +9,22 @@ export const metadata: Metadata = {
 
 function FlagBadge({ f }: { f: string }) {
   return (
-    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-bold bg-red-500/10 text-red-400 border border-red-500/20">
+    <span
+      className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold font-mono"
+      style={{
+        color: "var(--danger)",
+        border: "1px solid rgba(255,92,92,0.45)",
+        backgroundColor: "rgba(255,92,92,0.1)",
+      }}
+    >
       Flag {f}
     </span>
-  );
+  )
 }
 
 function CmdBox({ children }: { children: ReactNode }) {
-  return (
-    <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 my-3 font-mono text-sm text-green-400 overflow-x-auto whitespace-pre-wrap">
-      {children}
-    </div>
-  );
+  return <pre className="cmd-box">{children}</pre>
 }
-
-const headingGradient: Record<string, string> = {
-  cyan: "from-cyan-400 to-blue-500",
-  red: "from-red-400 to-red-600",
-  yellow: "from-yellow-400 to-yellow-600",
-};
 
 function PartSection({
   id,
@@ -42,13 +39,19 @@ function PartSection({
   color?: "cyan" | "red" | "yellow";
   children: ReactNode;
 }) {
+  const accentColor = color === "red" ? "var(--danger)" : "var(--amber)";
   return (
     <section id={id} className="mb-16 scroll-mt-20">
-      <h2 className="text-3xl font-bold mb-6 flex items-center gap-3">
-        <span className={`w-1.5 h-8 bg-gradient-to-b ${headingGradient[color]} rounded-full`} />
-        <span>
-          Part {num} — {title}
-        </span>
+      <h2
+        className="font-display text-2xl font-bold mb-6 flex items-center gap-3"
+        style={{ color: "#fff" }}
+      >
+        <span
+          className="w-0.5 h-7 shrink-0"
+          style={{ backgroundColor: accentColor }}
+          aria-hidden="true"
+        />
+        Part {num} — {title}
       </h2>
       {children}
     </section>
@@ -57,8 +60,12 @@ function PartSection({
 
 function CheckItem({ children }: { children: ReactNode }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-gray-300 cursor-pointer">
-      <input type="checkbox" className="w-4 h-4 rounded bg-gray-800 border-gray-600 text-cyan-500 accent-cyan-500" />
+    <label className="flex items-center gap-2 text-sm cursor-pointer" style={{ color: "var(--chalk)" }}>
+      <input
+        type="checkbox"
+        className="w-4 h-4"
+        style={{ accentColor: "var(--amber)" }}
+      />
       <span>{children}</span>
     </label>
   );
@@ -79,35 +86,41 @@ const toc = [
 
 export default function Guide() {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-3">
-          <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">
-            Screen Share Operational Manual
-          </span>
+    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
+      <div className="mb-14 max-w-3xl">
+        <h1
+          className="font-display font-semibold tracking-tight text-white"
+          style={{ fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.04em" }}
+        >
+          Operational Manual
         </h1>
-        <p className="text-gray-400 text-lg">
-          A complete procedure for conducting a professional screen share inspection
+        <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+          Complete procedure for a professional Minecraft screen share.
         </p>
-        <div className="flex flex-wrap gap-2 mt-4">
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
-            v3.1.0
-          </span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-500/10 text-yellow-400 border border-yellow-500/20">
-            Windows
-          </span>
-          <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500/10 text-green-400 border border-green-500/20">
-            mc.charlieroleplay.it
-          </span>
+        <div className="mt-6 flex flex-wrap gap-2">
+          {["v4.0.0", "Windows", "macOS", "Linux"].map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full px-3 py-1 text-xs font-medium"
+              style={{ color: "var(--muted)", border: "1px solid var(--rule)" }}
+            >
+              {tag}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* TOC */}
-      <nav className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-12" aria-label="Guide table of contents">
-        <h2 className="text-lg font-bold mb-4">Table of Contents</h2>
-        <div className="grid md:grid-cols-2 gap-1.5 text-sm">
+      <nav className="guide-panel mb-14" aria-label="Guide table of contents">
+        <h2 className="font-display mb-4 text-sm font-semibold" style={{ color: "var(--accent)" }}>
+          Contents
+        </h2>
+        <div className="grid md:grid-cols-2 gap-1 text-sm">
           {toc.map((l, i) => (
-            <a key={i} href={l.href} className="text-cyan-400 hover:text-cyan-300 py-1 transition-colors">
+            <a
+              key={i}
+              href={l.href}
+              className="toc-link py-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--amber)] rounded"
+            >
               {l.t}
             </a>
           ))}
@@ -116,9 +129,9 @@ export default function Guide() {
 
       {/* PART 0 */}
       <PartSection id="p0" num={0} title="Roles, Requirements, and Code of Conduct">
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-4 text-cyan-400">Minimum Requirements</h3>
-          <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-4 guide-h">Minimum Requirements</h3>
+          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
             <li>Active and verified inspector rank.</li>
             <li>Practical knowledge of every tool listed in Part 1.</li>
             <li>A local database of SHA-256 hashes for clean Minecraft versions (1.8.9 Vanilla, 1.8.9 Forge, 1.12.2 Vanilla — required for Flag E).</li>
@@ -126,9 +139,9 @@ export default function Guide() {
           </ol>
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
+        <div className="guide-panel">
           <h3 className="text-lg font-semibold mb-4 text-yellow-400">Code of Conduct</h3>
-          <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
+          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
             <li>Do not reveal the procedures in this manual to players during the check.</li>
             <li>Do not threaten, insult, or psychologically pressure the player.</li>
             <li>Do not extend the check beyond strictly necessary time.</li>
@@ -141,35 +154,35 @@ export default function Guide() {
 
       {/* PART 1 */}
       <PartSection id="p1" num={1} title="Tool Deployment via Terminal">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           All tools are downloaded and run from the command line on the player&apos;s PC, through the active AnyDesk session.
         </p>
 
         {/* 1.1 Everything */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-cyan-400">1.1 Everything (VoidTools) — MFT Indexer</h3>
-          <p className="text-gray-400 text-sm mb-3">Enables instant searches across the entire filesystem without waiting for Windows indexing.</p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-2 guide-h">1.1 Everything (VoidTools) — MFT Indexer</h3>
+          <p className="text-[var(--muted)] text-sm mb-3">Enables instant searches across the entire filesystem without waiting for Windows indexing.</p>
           <CmdBox>winget install voidtools.Everything --silent</CmdBox>
         </div>
 
         {/* 1.2 System Informer */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-cyan-400">1.2 System Informer — RAM and Process Analyzer</h3>
-          <p className="text-gray-400 text-sm mb-3">A modern replacement for Process Hacker. Supports memory dumps, inspection of loaded DLLs, and full RAM string scanning.</p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-2 guide-h">1.2 System Informer — RAM and Process Analyzer</h3>
+          <p className="text-[var(--muted)] text-sm mb-3">A modern replacement for Process Hacker. Supports memory dumps, inspection of loaded DLLs, and full RAM string scanning.</p>
           <CmdBox>winget install SystemInformer.SystemInformer --silent</CmdBox>
         </div>
 
         {/* 1.3 Luyten */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-cyan-400">1.3 Luyten — Java Decompiler (.jar)</h3>
-          <p className="text-gray-400 text-sm mb-3">Opens and inspects the bytecode of any .jar file.</p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-2 guide-h">1.3 Luyten — Java Decompiler (.jar)</h3>
+          <p className="text-[var(--muted)] text-sm mb-3">Opens and inspects the bytecode of any .jar file.</p>
           <CmdBox>{`powershell -Command "Invoke-WebRequest -Uri 'https://github.com/deathmarine/Luyten/releases/download/v0.5.4_Rebuilt_with_Latest_Depenencies/luyten-0.5.4.exe' -OutFile '$env:USERPROFILE\\Desktop\\Luyten.exe'"`}</CmdBox>
         </div>
 
         {/* 1.4 Suite NirSoft */}
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-2 text-cyan-400">1.4 NirSoft Suite — 5 Forensic Tools</h3>
-          <p className="text-gray-400 text-sm mb-3">Each command downloads the zip, extracts it to the Desktop, and removes the archive.</p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-2 guide-h">1.4 NirSoft Suite — 5 Forensic Tools</h3>
+          <p className="text-[var(--muted)] text-sm mb-3">Each command downloads the zip, extracts it to the Desktop, and removes the archive.</p>
           <div className="grid md:grid-cols-2 gap-3 mb-4">
             {[
               { name: "LastActivityView", desc: "Recent operating system activity" },
@@ -178,20 +191,20 @@ export default function Guide() {
               { name: "RecentFilesView", desc: "Recently opened or modified files" },
               { name: "USBDeview", desc: "History of connected USB devices" },
             ].map((t, i) => (
-              <div key={i} className="bg-gray-800/50 rounded-lg p-3">
-                <span className="text-cyan-400 font-medium text-sm">{t.name}</span>
-                <span className="text-gray-500 text-sm ml-2">— {t.desc}</span>
+              <div key={i} className="guide-inset">
+                <span className="guide-h font-medium text-sm">{t.name}</span>
+                <span className="text-[var(--muted)] text-sm ml-2">— {t.desc}</span>
               </div>
             ))}
           </div>
           <CmdBox>{`powershell -Command "Invoke-WebRequest -Uri 'https://www.nirsoft.net/utils/lastactivityview.zip' -OutFile '$env:USERPROFILE\\Desktop\\lastactivityview.zip'; Expand-Archive -Path '$env:USERPROFILE\\Desktop\\lastactivityview.zip' -DestinationPath '$env:USERPROFILE\\Desktop\\LastActivityView' -Force; Remove-Item '$env:USERPROFILE\\Desktop\\lastactivityview.zip'"`}</CmdBox>
-          <p className="text-gray-500 text-xs mt-2">Repeat the same pattern, substituting lastactivityview with winprefetchview, executedprogramslist, recentfilesview, or usbdeview.</p>
+          <p className="text-[var(--muted)] text-xs mt-2">Repeat the same pattern, substituting lastactivityview with winprefetchview, executedprogramslist, recentfilesview, or usbdeview.</p>
         </div>
       </PartSection>
 
       {/* PART 2 */}
       <PartSection id="p2" num={2} title="Pre-Analysis Checklist">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           Run IMMEDIATELY after gaining AnyDesk access, BEFORE launching any tool. Purpose: capture the machine&apos;s initial state and detect tampering already in progress.
         </p>
         <div className="space-y-3">
@@ -203,13 +216,13 @@ export default function Guide() {
             { ctrl: "2.5 Active USB Devices", proc: "Open USBDeview and check connected devices. Devices disconnected minutes before the screen share: anomaly.", flag: "D" },
             { ctrl: "2.6 Initial Screenshot", proc: "Capture screenshots of: Desktop, Task Manager, and the .minecraft/mods folder. This forms your documentation baseline.", flag: null },
           ].map((item, i) => (
-            <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center gap-3">
+            <div key={i} className="guide-panel flex flex-col md:flex-row md:items-center gap-3">
               <div className="md:w-64 shrink-0">
                 <CheckItem>
                   <span className="font-medium text-white">{item.ctrl}</span>
                 </CheckItem>
               </div>
-              <p className="text-gray-400 text-sm flex-1">{item.proc}</p>
+              <p className="text-[var(--muted)] text-sm flex-1">{item.proc}</p>
               <div className="shrink-0">
                 {item.flag ? (
                   item.flag === "Note" ? (
@@ -220,7 +233,7 @@ export default function Guide() {
                     <FlagBadge f={item.flag} />
                   )
                 ) : (
-                  <span className="text-gray-600 text-xs">—</span>
+                  <span className="text-[var(--muted)] text-xs">—</span>
                 )}
               </div>
             </div>
@@ -230,78 +243,82 @@ export default function Guide() {
 
       {/* PART 3 */}
       <PartSection id="p3" num={3} title="Multi-Accounting and Ban Evasion">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           Suspicion: the player holds undeclared alternate accounts, or connected to the network to evade an active ban.
         </p>
 
         <div className="space-y-6">
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">3.1 Historical Game Logs (.log and .log.gz)</h3>
-            <p className="text-gray-400 text-sm mb-3">Official and custom clients log every account switch and login session.</p>
-            <div className="text-gray-300 text-sm mb-3 space-y-1">
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">3.1 Historical Game Logs (.log and .log.gz)</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">Official and custom clients log every account switch and login session.</p>
+            <div className="text-white/80 text-sm mb-3 space-y-1">
               <p>Vanilla/Forge: %appdata%\.minecraft\logs\</p>
               <p>Lunar Client: C:\Users\%USERNAME%\.lunarclient\offline\logs\</p>
               <p>Badlion Client: C:\Users\%USERNAME%\AppData\Roaming\.minecraft\logs\blclient\</p>
             </div>
-            <p className="text-gray-400 text-sm mb-2">Procedure: in Everything, search for latest.log, open it with Notepad++, and search with Ctrl+F for:</p>
-            <CmdBox>{`LwjglWindow: Title: Minecraft\nLogging in as\nConnecting to mc.charlieroleplay.it\n[Client thread/INFO]: Setting user:\n[Client thread/INFO]: (Session ID is`}</CmdBox>
-            <p className="text-gray-400 text-sm mt-3">Record every nickname found. Cross-reference it against the ban database. A match with a banned account = BAN FOR SANCTION EVASION.</p>
+            <p className="text-[var(--muted)] text-sm mb-2">Procedure: in Everything, search for latest.log, open it with Notepad++, and search with Ctrl+F for:</p>
+            <CmdBox>{`LwjglWindow: Title: Minecraft
+Logging in as
+Connecting to
+[Client thread/INFO]: Setting user:
+[Client thread/INFO]: (Session ID is`}</CmdBox>
+            <p className="text-[var(--muted)] text-sm mt-3">Record every nickname found. Cross-reference it against the ban database. A match with a banned account = BAN FOR SANCTION EVASION.</p>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">3.2 Launcher Configuration Files (.json)</h3>
-            <p className="text-gray-400 text-sm mb-3">Launchers store account history, tokens, and profiles locally.</p>
-            <div className="text-gray-300 text-sm space-y-1 mb-3">
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">3.2 Launcher Configuration Files (.json)</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">Launchers store account history, tokens, and profiles locally.</p>
+            <div className="text-white/80 text-sm space-y-1 mb-3">
               <p>Vanilla/Forge: %appdata%\.minecraft\launcher_profiles.json, launcher_accounts.json</p>
               <p>TLauncher: %appdata%\.minecraft\TlauncherProfiles.json</p>
             </div>
-            <p className="text-gray-400 text-sm">Search for: &quot;displayName&quot; &quot;username&quot; &quot;localId&quot; &quot;name&quot;. Every name found is an account associated with this machine.</p>
+            <p className="text-[var(--muted)] text-sm">Search for: &quot;displayName&quot; &quot;username&quot; &quot;localId&quot; &quot;name&quot;. Every name found is an account associated with this machine.</p>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">3.3 IAS Mod — In-Game Account Switcher</h3>
-            <p className="text-gray-400 text-sm mb-3">This mod allows switching accounts without restarting the game. Its configuration file contains the full list of stored accounts.</p>
-            <p className="text-gray-400 text-sm">In Everything, search for ias.json or ias-accounts.json. The file contains: nickname, UUID, and authentication type (Mojang / Microsoft / Cracked).</p>
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">3.3 IAS Mod — In-Game Account Switcher</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">This mod allows switching accounts without restarting the game. Its configuration file contains the full list of stored accounts.</p>
+            <p className="text-[var(--muted)] text-sm">In Everything, search for ias.json or ias-accounts.json. The file contains: nickname, UUID, and authentication type (Mojang / Microsoft / Cracked).</p>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">3.4 Discord and Telegram Cache</h3>
-            <p className="text-gray-400 text-sm mb-3">Messaging apps can contain traces of account trading, shared credentials, or purchases of alt Minecraft accounts.</p>
-            <p className="text-gray-400 text-sm">Discord path: %appdata%\Discord\Cache\Cache_Data\. Search for: alts, account, mojang, mail:pass, token.</p>
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">3.4 Discord and Telegram Cache</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">Messaging apps can contain traces of account trading, shared credentials, or purchases of alt Minecraft accounts.</p>
+            <p className="text-[var(--muted)] text-sm">Discord path: %appdata%\Discord\Cache\Cache_Data\. Search for: alts, account, mojang, mail:pass, token.</p>
           </div>
         </div>
       </PartSection>
 
       {/* PART 4 */}
       <PartSection id="p4" num={4} title="Ghost Clients">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           Suspicion: anomalous movement, constant critical hits, unnatural aim trajectories, or the ability to see through blocks (X-Ray, ESP). A Ghost Client is a cheat built directly into the Minecraft client.
         </p>
 
         <div className="space-y-6">
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">4.1 Inspecting the Version .json File</h3>
-            <p className="text-gray-400 text-sm mb-3">Ghost Clients replace Minecraft&apos;s launch classes by modifying the installed version&apos;s .json file.</p>
-            <p className="text-gray-400 text-sm mb-3">Path: %appdata%\.minecraft\versions\[version]\[version].json</p>
-            <p className="text-gray-400 text-sm mb-2">Find the &quot;mainClass&quot; line and compare it against:</p>
-            <div className="bg-gray-800/50 rounded-lg p-4 text-sm">
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">4.1 Inspecting the Version .json File</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">Ghost Clients replace Minecraft&apos;s launch classes by modifying the installed version&apos;s .json file.</p>
+            <p className="text-[var(--muted)] text-sm mb-3">Path: %appdata%\.minecraft\versions\[version]\[version].json</p>
+            <p className="text-[var(--muted)] text-sm mb-2">Find the &quot;mainClass&quot; line and compare it against:</p>
+            <div className="guide-inset text-sm">
               <div className="mb-3">
                 <p className="text-green-400 font-medium mb-1">Legitimate values:</p>
-                <p className="text-gray-300">Vanilla: net.minecraft.client.main.Main</p>
-                <p className="text-gray-300">Forge: net.minecraft.launchwrapper.Launch</p>
+                <p className="text-white/80">Vanilla: net.minecraft.client.main.Main</p>
+                <p className="text-white/80">Forge: net.minecraft.launchwrapper.Launch</p>
               </div>
               <div>
                 <p className="text-red-400 font-medium mb-1">Suspicious values:</p>
-                <p className="text-gray-300">net.knet.Client, net.wurst.Client, fdp.client.Main, liquidbounce.Launch</p>
-                <p className="text-gray-400 text-xs">any path that doesn&apos;t trace back to Mojang or MinecraftForge</p>
+                <p className="text-white/80">net.knet.Client, net.wurst.Client, fdp.client.Main, liquidbounce.Launch</p>
+                <p className="text-[var(--muted)] text-xs">any path that doesn&apos;t trace back to Mojang or MinecraftForge</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">4.2 RAM Dump — Modules Removed While Running (Unload)</h3>
-            <p className="text-gray-400 text-sm mb-3">Some cheats delete themselves from disk while the game is running (unload), but remain mapped in RAM until the process is closed.</p>
-            <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">4.2 RAM Dump — Modules Removed While Running (Unload)</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">Some cheats delete themselves from disk while the game is running (unload), but remain mapped in RAM until the process is closed.</p>
+            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
               <li>Launch System Informer as Administrator.</li>
               <li>Find the javaw.exe process, right-click, Properties, Memory tab.</li>
               <li>Disable &quot;Hide free regions&quot;, set minimum size to 4, and enable the Image and Mapped filters.</li>
@@ -310,22 +327,22 @@ export default function Guide() {
             </ol>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">4.3 Ghost Client Forensic Strings in RAM</h3>
-            <p className="text-gray-400 text-sm mb-3">In the Memory tab of javaw.exe, open &quot;Strings&quot; (minimum length: 4).</p>
-            <div className="bg-gray-800/50 rounded-lg p-4 text-sm">
-              <p className="text-cyan-400 font-medium mb-2">LiquidBounce</p>
-              <p className="text-gray-300 mb-3">liquidbounce / net.ccbluex.liquidbounce / ccbluex</p>
-              <p className="text-cyan-400 font-medium mb-2">Wurst</p>
-              <p className="text-gray-300 mb-3">wurstclient / net.wurstclient</p>
-              <p className="text-cyan-400 font-medium mb-2">Sigma</p>
-              <p className="text-gray-300 mb-3">sigma.modules / net.sigmaclient</p>
-              <p className="text-cyan-400 font-medium mb-2">FDPClient</p>
-              <p className="text-gray-300 mb-3">fdpclient / fdp.client.Main</p>
-              <p className="text-cyan-400 font-medium mb-2">Vape V4</p>
-              <p className="text-gray-300 mb-3">net.vape.client / vape.v4 / vape.render</p>
-              <p className="text-cyan-400 font-medium mb-2">Generic</p>
-              <p className="text-gray-300">aura.class / speed.class / fly.class / noslowdown / nfall / nofall / reach.class</p>
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">4.3 Ghost Client Forensic Strings in RAM</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">In the Memory tab of javaw.exe, open &quot;Strings&quot; (minimum length: 4).</p>
+            <div className="guide-inset text-sm">
+              <p className="guide-h font-medium mb-2">LiquidBounce</p>
+              <p className="text-white/80 mb-3">liquidbounce / net.ccbluex.liquidbounce / ccbluex</p>
+              <p className="guide-h font-medium mb-2">Wurst</p>
+              <p className="text-white/80 mb-3">wurstclient / net.wurstclient</p>
+              <p className="guide-h font-medium mb-2">Sigma</p>
+              <p className="text-white/80 mb-3">sigma.modules / net.sigmaclient</p>
+              <p className="guide-h font-medium mb-2">FDPClient</p>
+              <p className="text-white/80 mb-3">fdpclient / fdp.client.Main</p>
+              <p className="guide-h font-medium mb-2">Vape V4</p>
+              <p className="text-white/80 mb-3">net.vape.client / vape.v4 / vape.render</p>
+              <p className="guide-h font-medium mb-2">Generic</p>
+              <p className="text-white/80">aura.class / speed.class / fly.class / noslowdown / nfall / nofall / reach.class</p>
             </div>
           </div>
         </div>
@@ -333,15 +350,15 @@ export default function Guide() {
 
       {/* PART 5 */}
       <PartSection id="p5" num={5} title="External Clients and Autoclickers">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           Suspicion: abnormal CPS (a fixed or unnaturally constant 16-20+ CPS), or a complete absence of knockback slowdown (NoVelocity).
         </p>
 
         <div className="space-y-6">
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">5.1 Detecting JNativeHook (Java Autoclickers)</h3>
-            <p className="text-gray-400 text-sm mb-3">The JNativeHook library is used by Java autoclickers to intercept mouse clicks outside the game window.</p>
-            <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">5.1 Detecting JNativeHook (Java Autoclickers)</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">The JNativeHook library is used by Java autoclickers to intercept mouse clicks outside the game window.</p>
+            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
               <li>In System Informer, open the explorer.exe process — Properties — Memory.</li>
               <li>Filter for: JNativeHook</li>
               <li>If you find a DLL like JNativeHook-[string].dll mapped in memory, search Everything for JNativeHook.</li>
@@ -349,30 +366,30 @@ export default function Guide() {
             </ol>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">5.2 Autoclicker Forensic Strings in RAM</h3>
-            <div className="bg-gray-800/50 rounded-lg p-4 text-sm">
-              <p className="text-cyan-400 font-medium mb-1">Koid</p>
-              <p className="text-gray-300 mb-3">koid / koid.gg / koidclicker / Clicker.java</p>
-              <p className="text-cyan-400 font-medium mb-1">Dream Client</p>
-              <p className="text-gray-300 mb-3">dreamclient / dream.clicker / dream.gg / dream.club</p>
-              <p className="text-cyan-400 font-medium mb-1">Drip Client</p>
-              <p className="text-gray-300 mb-3">drip.client / drip.gg / drip_autoclicker</p>
-              <p className="text-cyan-400 font-medium mb-1">Whiteout</p>
-              <p className="text-gray-300 mb-3">whiteout.gg / whiteout_client / wo_clicker</p>
-              <p className="text-cyan-400 font-medium mb-1">Itami</p>
-              <p className="text-gray-300 mb-3">itami.exe / itami_clicker / itami.club</p>
-              <p className="text-cyan-400 font-medium mb-1">7Clicker / Mango</p>
-              <p className="text-gray-300 mb-3">7clicker / mangoclicker / left_click_jitter / right_click_jitter</p>
-              <p className="text-cyan-400 font-medium mb-1">Murmur / Phantom</p>
-              <p className="text-gray-300">murmurclicker / phantom.gg / phantom_clicker</p>
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">5.2 Autoclicker Forensic Strings in RAM</h3>
+            <div className="guide-inset text-sm">
+              <p className="guide-h font-medium mb-1">Koid</p>
+              <p className="text-white/80 mb-3">koid / koid.gg / koidclicker / Clicker.java</p>
+              <p className="guide-h font-medium mb-1">Dream Client</p>
+              <p className="text-white/80 mb-3">dreamclient / dream.clicker / dream.gg / dream.club</p>
+              <p className="guide-h font-medium mb-1">Drip Client</p>
+              <p className="text-white/80 mb-3">drip.client / drip.gg / drip_autoclicker</p>
+              <p className="guide-h font-medium mb-1">Whiteout</p>
+              <p className="text-white/80 mb-3">whiteout.gg / whiteout_client / wo_clicker</p>
+              <p className="guide-h font-medium mb-1">Itami</p>
+              <p className="text-white/80 mb-3">itami.exe / itami_clicker / itami.club</p>
+              <p className="guide-h font-medium mb-1">7Clicker / Mango</p>
+              <p className="text-white/80 mb-3">7clicker / mangoclicker / left_click_jitter / right_click_jitter</p>
+              <p className="guide-h font-medium mb-1">Murmur / Phantom</p>
+              <p className="text-white/80">murmurclicker / phantom.gg / phantom_clicker</p>
             </div>
           </div>
 
-          <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-            <h3 className="text-lg font-semibold mb-3 text-cyan-400">5.3 Prefetch Analysis: conhost.exe and javaw.exe</h3>
-            <p className="text-gray-400 text-sm mb-3">Script-based autoclickers spawn hidden instances of the Windows console (conhost.exe), which leave traces in Prefetch.</p>
-            <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
+          <div className="guide-panel">
+            <h3 className="text-lg font-semibold mb-3 guide-h">5.3 Prefetch Analysis: conhost.exe and javaw.exe</h3>
+            <p className="text-[var(--muted)] text-sm mb-3">Script-based autoclickers spawn hidden instances of the Windows console (conhost.exe), which leave traces in Prefetch.</p>
+            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
               <li>Open WinPrefetchView as Administrator.</li>
               <li>Search for Conhost.exe.pf and check its referenced files. The presence of .bat, .cmd, or files in %temp%: HIGH SUSPICION.</li>
               <li>Search for Javaw.exe.pf and check whether its loaded files include unrelated executables or foreign DLLs.</li>
@@ -383,7 +400,7 @@ export default function Guide() {
 
       {/* PART 6 */}
       <PartSection id="p6" num={6} title="Forensic String Dictionary">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           Use this in the &quot;Strings&quot; tab of System Informer, filtering on javaw.exe, explorer.exe, csrss.exe, or any suspicious executable.
         </p>
 
@@ -409,9 +426,9 @@ export default function Guide() {
             { cat: "VPN / Tunnel", items: "Hamachi, ZeroTier, Tailscale, Radmin, ngrok, Cloudflare, WARP, WireGuard, OpenVPN, NordVPN, ExpressVPN, ProtonVPN, Mullvad" },
             { cat: "Hidden / Stealth Software", items: "HiddenMouse, HID, USB Rubber Ducky, Teensy, Arduino, BadUSB, Keylogger, KeySpy, ActivityMonitor, Spyrix, Refog, Agent, HiddenWindow, WindowHider" },
           ].map((cat, i) => (
-            <div key={i} className="bg-gray-900/50 border border-gray-800 rounded-xl p-4">
-              <h4 className="text-cyan-400 font-semibold text-sm mb-2">{cat.cat}</h4>
-              <p className="text-gray-300 text-sm leading-relaxed">{cat.items}</p>
+            <div key={i} className="guide-panel">
+              <h4 className="guide-h font-semibold text-sm mb-2">{cat.cat}</h4>
+              <p className="text-white/80 text-sm leading-relaxed">{cat.items}</p>
             </div>
           ))}
         </div>
@@ -429,28 +446,28 @@ export default function Guide() {
             { flag: "F", desc: "System registry altered", cat: "Policy manipulation" },
             { flag: "G", desc: "Mod jar containing illicit or obfuscated classes", cat: "Unauthorized mod" },
           ].map((item, i) => (
-            <div key={i} className="bg-gray-900/50 border border-red-500/20 rounded-xl p-4 flex items-center gap-4">
+            <div key={i} className="guide-panel flex items-center gap-4">
               <FlagBadge f={item.flag} />
               <div className="flex-1">
                 <p className="text-white text-sm font-medium">{item.desc}</p>
-                <p className="text-gray-500 text-xs">{item.cat}</p>
+                <p className="text-[var(--muted)] text-xs">{item.cat}</p>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
+        <div className="guide-panel">
           <h3 className="text-lg font-semibold mb-3">Summary Table</h3>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-700">
-                  <th className="text-left p-2 text-gray-300">Flag</th>
-                  <th className="text-left p-2 text-gray-300">Anomaly</th>
-                  <th className="text-left p-2 text-gray-300">Ban</th>
+                  <th className="text-left p-2 text-white/80">Flag</th>
+                  <th className="text-left p-2 text-white/80">Anomaly</th>
+                  <th className="text-left p-2 text-white/80">Ban</th>
                 </tr>
               </thead>
-              <tbody className="text-gray-400">
+              <tbody className="text-[var(--muted)]">
                 <tr className="border-b border-gray-800"><td className="p-2"><FlagBadge f="A" /></td><td>Recycle Bin emptied</td><td>Yes</td></tr>
                 <tr className="border-b border-gray-800"><td className="p-2"><FlagBadge f="B" /></td><td>Prefetch altered</td><td>Yes</td></tr>
                 <tr className="border-b border-gray-800"><td className="p-2"><FlagBadge f="C" /></td><td>Executable renamed</td><td>Yes</td></tr>
@@ -467,7 +484,7 @@ export default function Guide() {
       {/* PART 8 */}
       <PartSection id="p8" num={8} title="Borderline Cases and False Positives" color="yellow">
         <div className="space-y-6">
-          <div className="bg-gray-900/50 border border-yellow-500/20 rounded-2xl p-6">
+          <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-4 text-yellow-400">When NOT to Ban</h3>
             <div className="space-y-3">
               {[
@@ -477,17 +494,17 @@ export default function Guide() {
                 { sit: "Unknown files in %TEMP%", mot: "Updaters, drivers, and antivirus software generate temporary files routinely. The date MUST line up with the freeze." },
                 { sit: "IAS mod with multiple accounts present", mot: "Having multiple accounts is not a violation. The violation is a match with a BANNED account." },
               ].map((item, i) => (
-                <div key={i} className="bg-gray-800/50 rounded-lg p-4">
+                <div key={i} className="guide-inset">
                   <p className="text-white text-sm font-medium mb-1">{item.sit}</p>
-                  <p className="text-gray-400 text-sm">{item.mot}</p>
+                  <p className="text-[var(--muted)] text-sm">{item.mot}</p>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-gray-900/50 border border-yellow-500/20 rounded-2xl p-6">
+          <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 text-yellow-400">Procedure in Case of Doubt</h3>
-            <ol className="text-gray-300 text-sm space-y-2 list-decimal list-inside">
+            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
               <li>Do NOT issue a ban on your own. Contact a senior inspector with screenshots of the anomalies.</li>
               <li>Document the machine&apos;s state with detailed screenshots and save them.</li>
               <li>The player can be placed &quot;Under observation&quot; for a period defined by the team.</li>
@@ -499,17 +516,17 @@ export default function Guide() {
 
       {/* PART 9 */}
       <PartSection id="p9" num={9} title="Closure and Machine Cleanup">
-        <p className="text-gray-400 text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-6">
           At the end of the inspection — whether the player is cleared or sanctioned — the inspector MUST completely remove all downloaded tools.
         </p>
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-cyan-400">Full Cleanup Command</h3>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">Full Cleanup Command</h3>
           <CmdBox>{`powershell -Command "Remove-Item -Path '$env:USERPROFILE\\Desktop\\LastActivityView', '$env:USERPROFILE\\Desktop\\WinPrefetchView', '$env:USERPROFILE\\Desktop\\RecentFilesView', '$env:USERPROFILE\\Desktop\\USBDeview', '$env:USERPROFILE\\Desktop\\ExecutedProgramsList', '$env:USERPROFILE\\Desktop\\Luyten.exe' -Recurse -Force -ErrorAction SilentlyContinue"`}</CmdBox>
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-6">
-          <h3 className="text-lg font-semibold mb-3 text-cyan-400">Manual Post-Cleanup Verification</h3>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">Manual Post-Cleanup Verification</h3>
           <div className="space-y-2">
             <CheckItem>Desktop restored to its original state.</CheckItem>
             <CheckItem>No tool processes still running in Task Manager.</CheckItem>
@@ -517,9 +534,9 @@ export default function Guide() {
           </div>
         </div>
 
-        <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-          <h3 className="text-lg font-semibold mb-3 text-cyan-400">Mandatory Final Documentation</h3>
-          <p className="text-gray-400 text-sm mb-3">To document and archive:</p>
+        <div className="guide-panel">
+          <h3 className="text-lg font-semibold mb-3 guide-h">Mandatory Final Documentation</h3>
+          <p className="text-[var(--muted)] text-sm mb-3">To document and archive:</p>
           <div className="space-y-2">
             <CheckItem>Nickname of the inspected player</CheckItem>
             <CheckItem>Outcome: Cleared / Banned / Under observation</CheckItem>
@@ -530,10 +547,6 @@ export default function Guide() {
         </div>
       </PartSection>
 
-      {/* Footer */}
-      <div className="border-t border-gray-800 pt-8 mt-12 text-center">
-        <p className="text-gray-500 text-sm">CharlieRP Screen Share Documentation — v3.1.0 — LeoGalli</p>
-      </div>
     </div>
   );
 }

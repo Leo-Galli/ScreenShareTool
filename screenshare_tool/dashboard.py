@@ -494,169 +494,305 @@ _PAGE_TEMPLATE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>CharlieRP ScreenShareTool - Dashboard Forense</title>
+<title>ScreenShareTool — Dashboard</title>
 <style>
   :root {{
     color-scheme: dark;
-    --surface-1: #1a1a19;
-    --surface-2: #222221;
-    --page-plane: #0d0d0d;
+    --bg: #000000;
+    --surface-1: #0a0a0a;
+    --surface-2: #111111;
     --text-primary: #ffffff;
-    --text-secondary: #c3c2b7;
-    --text-muted: #898781;
-    --gridline: #2c2c2a;
-    --border: rgba(255,255,255,0.10);
-    --chart-seq: #3987e5;
-    --status-good: #0ca30c;
-    --status-warning: #fab219;
-    --status-critical: #d03b3b;
-    --status-muted: #6b6a64;
+    --text-secondary: #c8c8c8;
+    --text-muted: #8a8a8a;
+    --gridline: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --accent: #7eb6ff;
+    --glow: rgba(70,130,255,0.35);
+    --chart-seq: #7eb6ff;
+    --status-good: #4ade9b;
+    --status-warning: #fbbf24;
+    --status-critical: #ff5c5c;
+    --status-muted: #6a6a6a;
   }}
   :root[data-theme="light"] {{
     color-scheme: light;
-    --surface-1: #fcfcfb;
-    --surface-2: #f3f2ef;
-    --page-plane: #f9f9f7;
-    --text-primary: #0b0b0b;
-    --text-secondary: #52514e;
-    --text-muted: #898781;
-    --gridline: #e1e0d9;
-    --border: rgba(11,11,11,0.10);
-    --chart-seq: #2a78d6;
-    --status-good: #0ca30c;
-    --status-warning: #fab219;
-    --status-critical: #d03b3b;
-    --status-muted: #c3c2b7;
+    --bg: #f4f4f5;
+    --surface-1: #ffffff;
+    --surface-2: #f0f0f2;
+    --text-primary: #0a0a0a;
+    --text-secondary: #3f3f46;
+    --text-muted: #71717a;
+    --gridline: rgba(0,0,0,0.06);
+    --border: rgba(0,0,0,0.1);
+    --accent: #2563eb;
+    --glow: rgba(37,99,235,0.18);
+    --chart-seq: #2563eb;
+    --status-good: #16a34a;
+    --status-warning: #ca8a04;
+    --status-critical: #dc2626;
+    --status-muted: #a1a1aa;
   }}
   * {{ box-sizing: border-box; }}
   html, body {{
     margin: 0; padding: 0;
-    background: var(--page-plane);
+    background: var(--bg);
     color: var(--text-primary);
     font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     font-size: 15px;
     line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
   }}
-  a {{ color: var(--chart-seq); }}
-  code {{ background: var(--surface-2); padding: 1px 5px; border-radius: 4px; font-size: 0.9em; }}
+  body::before {{
+    content: "";
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 40% at 8% 100%, rgba(50,110,255,0.22), transparent 55%),
+      radial-gradient(ellipse 40% 30% at 92% 0%, rgba(80,90,200,0.1), transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }}
+  :root[data-theme="light"] body::before {{ opacity: 0.35; }}
+  a {{ color: var(--accent); }}
+  code {{
+    background: var(--surface-2);
+    padding: 1px 6px;
+    border-radius: 6px;
+    font-size: 0.88em;
+    border: 1px solid var(--border);
+  }}
+
+  .viz-root {{ position: relative; z-index: 1; }}
 
   .topbar {{
     position: sticky; top: 0; z-index: 10;
-    background: var(--surface-1);
+    background: rgba(0,0,0,0.72);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
-    padding: 14px 24px;
+    padding: 16px 24px;
   }}
+  :root[data-theme="light"] .topbar {{ background: rgba(244,244,245,0.85); }}
   .topbar-inner {{
-    max-width: 1180px; margin: 0 auto;
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    max-width: 1120px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 14px;
   }}
-  .brand {{ display: flex; flex-direction: column; }}
-  .brand .name {{ font-weight: 700; font-size: 1.05rem; }}
-  .brand .sub {{ color: var(--text-muted); font-size: 0.82rem; }}
-  .nav-links {{ display: flex; flex-wrap: wrap; gap: 14px; font-size: 0.88rem; }}
-  .nav-links a {{ text-decoration: none; color: var(--text-secondary); }}
-  .nav-links a:hover {{ color: var(--chart-seq); }}
+  .brand {{ display: flex; flex-direction: column; gap: 2px; }}
+  .brand .name {{
+    font-weight: 650; font-size: 1.05rem;
+    letter-spacing: -0.03em;
+  }}
+  .brand .sub {{ color: var(--text-muted); font-size: 0.78rem; }}
+  .nav-links {{ display: flex; flex-wrap: wrap; gap: 6px; font-size: 0.82rem; }}
+  .nav-links a {{
+    text-decoration: none; color: var(--text-muted);
+    padding: 6px 12px; border-radius: 999px;
+    transition: color 0.15s, background 0.15s;
+  }}
+  .nav-links a:hover {{
+    color: var(--text-primary);
+    background: rgba(255,255,255,0.05);
+  }}
   .theme-toggle {{
-    background: var(--surface-2); color: var(--text-primary);
-    border: 1px solid var(--border); border-radius: 6px;
-    padding: 6px 12px; font-size: 0.82rem; cursor: pointer;
+    background: #fff; color: #000;
+    border: none; border-radius: 999px;
+    padding: 8px 16px; font-size: 0.78rem; font-weight: 650;
+    cursor: pointer;
+  }}
+  :root[data-theme="light"] .theme-toggle {{
+    background: #0a0a0a; color: #fff;
   }}
 
-  .wrap {{ max-width: 1180px; margin: 0 auto; padding: 24px; }}
+  .wrap {{ max-width: 1120px; margin: 0 auto; padding: 28px 24px 48px; }}
+
+  .hero {{
+    margin-bottom: 28px;
+  }}
+  .hero h1 {{
+    margin: 0 0 8px;
+    font-size: clamp(1.75rem, 4vw, 2.4rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1.15;
+  }}
+  .hero p {{
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    max-width: 36rem;
+  }}
 
   .meta-bar {{
-    display: flex; flex-wrap: wrap; gap: 20px;
-    background: var(--surface-1); border: 1px solid var(--border);
-    border-radius: 10px; padding: 16px 20px; margin-bottom: 20px;
-    font-size: 0.86rem; color: var(--text-secondary);
+    display: flex; flex-wrap: wrap; gap: 18px 28px;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    padding: 18px 22px;
+    margin-bottom: 22px;
+    font-size: 0.84rem;
+    color: var(--text-muted);
   }}
-  .meta-bar b {{ color: var(--text-primary); }}
+  .meta-bar b {{ color: var(--text-primary); font-weight: 600; }}
 
   .kpi-grid {{
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-    gap: 12px; margin-bottom: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
   }}
   .tile {{
-    background: var(--surface-1); border: 1px solid var(--border);
-    border-radius: 10px; padding: 16px 18px;
-    border-left: 3px solid var(--gridline);
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 1.25rem;
+    padding: 18px 18px 16px;
   }}
-  .tile-value {{ font-size: 1.7rem; font-weight: 700; }}
-  .tile-label {{ color: var(--text-muted); font-size: 0.80rem; margin-top: 2px; }}
-  .tile-good {{ border-left-color: var(--status-good); }}
+  .tile::after {{
+    content: "";
+    position: absolute;
+    inset: auto -40% -70% -40%;
+    height: 90%;
+    background: radial-gradient(ellipse at center, var(--glow), transparent 70%);
+    pointer-events: none;
+    opacity: 0.55;
+  }}
+  .tile-value {{
+    position: relative; z-index: 1;
+    font-size: 1.75rem; font-weight: 700;
+    letter-spacing: -0.03em;
+  }}
+  .tile-label {{
+    position: relative; z-index: 1;
+    color: var(--text-muted); font-size: 0.78rem; margin-top: 4px;
+  }}
   .tile-good .tile-value {{ color: var(--status-good); }}
-  .tile-warning {{ border-left-color: var(--status-warning); }}
   .tile-warning .tile-value {{ color: var(--status-warning); }}
-  .tile-critical {{ border-left-color: var(--status-critical); }}
   .tile-critical .tile-value {{ color: var(--status-critical); }}
 
   .card {{
-    background: var(--surface-1); border: 1px solid var(--border);
-    border-radius: 12px; margin-bottom: 20px; overflow: hidden;
+    position: relative;
+    overflow: hidden;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 1.5rem;
+    margin-bottom: 18px;
   }}
-  .card-header {{ padding: 18px 22px 4px; border-bottom: 1px solid var(--border); }}
-  .card-header h2 {{ margin: 0 0 4px; font-size: 1.15rem; }}
-  .card-subtitle {{ color: var(--text-muted); font-size: 0.84rem; margin: 0 0 14px; }}
-  .card-body {{ padding: 18px 22px 22px; }}
-  .card-body h3 {{ font-size: 0.95rem; margin: 22px 0 10px; color: var(--text-secondary); }}
-  .card-body h3:first-child {{ margin-top: 0; }}
+  .card::after {{
+    content: "";
+    position: absolute;
+    inset: auto -25% -55% -25%;
+    height: 55%;
+    background: radial-gradient(ellipse at center, var(--glow), transparent 70%);
+    pointer-events: none;
+    opacity: 0.35;
+  }}
+  .card-header {{
+    position: relative; z-index: 1;
+    padding: 22px 24px 12px;
+  }}
+  .card-header h2 {{
+    margin: 0 0 4px;
+    font-size: 1.25rem;
+    font-weight: 650;
+    letter-spacing: -0.03em;
+  }}
+  .card-subtitle {{
+    color: var(--text-muted); font-size: 0.84rem; margin: 0;
+  }}
+  .card-body {{
+    position: relative; z-index: 1;
+    padding: 8px 24px 24px;
+  }}
+  .card-body h3 {{
+    font-size: 0.9rem; margin: 22px 0 10px;
+    color: var(--text-secondary); font-weight: 600;
+  }}
+  .card-body h3:first-child {{ margin-top: 4px; }}
 
-  .kpi-mini {{ display: flex; flex-wrap: wrap; gap: 18px; font-size: 0.86rem; color: var(--text-secondary); margin-bottom: 14px; }}
+  .kpi-mini {{
+    display: flex; flex-wrap: wrap; gap: 18px;
+    font-size: 0.84rem; color: var(--text-muted); margin-bottom: 14px;
+  }}
   .kpi-mini b {{ color: var(--text-primary); }}
 
   .alert-banner {{
-    background: rgba(208,59,59,0.12); border: 1px solid var(--status-critical);
-    color: var(--text-primary); padding: 8px 14px; border-radius: 8px;
-    font-size: 0.86rem; margin: 0 0 14px;
+    background: rgba(255,92,92,0.1);
+    border: 1px solid rgba(255,92,92,0.35);
+    color: var(--text-primary);
+    padding: 10px 14px; border-radius: 0.85rem;
+    font-size: 0.84rem; margin: 0 0 14px;
   }}
 
-  .table-wrap {{ overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }}
+  .table-wrap {{
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-radius: 0.85rem;
+    background: rgba(0,0,0,0.25);
+  }}
+  :root[data-theme="light"] .table-wrap {{ background: rgba(0,0,0,0.02); }}
   table {{ border-collapse: collapse; width: 100%; font-size: 0.84rem; min-width: 480px; }}
   thead th {{
-    text-align: left; background: var(--surface-2); color: var(--text-secondary);
-    font-weight: 600; padding: 9px 12px; border-bottom: 1px solid var(--border);
-    white-space: nowrap; position: sticky; top: 0;
+    text-align: left; background: var(--surface-2); color: var(--text-muted);
+    font-weight: 600; padding: 10px 14px; border-bottom: 1px solid var(--border);
+    white-space: nowrap;
   }}
-  tbody td {{ padding: 8px 12px; border-bottom: 1px solid var(--gridline); vertical-align: top; }}
+  tbody td {{
+    padding: 9px 14px; border-bottom: 1px solid var(--gridline); vertical-align: top;
+  }}
   tbody tr:last-child td {{ border-bottom: none; }}
-  tbody tr:hover {{ background: var(--surface-2); }}
-  .table-note {{ color: var(--text-muted); font-size: 0.78rem; margin: 8px 2px 0; }}
-  .empty-state {{ color: var(--text-muted); font-size: 0.88rem; font-style: italic; }}
+  tbody tr:hover {{ background: rgba(126,182,255,0.04); }}
+  .table-note {{ color: var(--text-muted); font-size: 0.76rem; margin: 10px 2px 0; }}
+  .empty-state {{ color: var(--text-muted); font-size: 0.88rem; }}
 
   .pill {{
-    display: inline-block; padding: 2px 9px; border-radius: 99px;
-    font-size: 0.74rem; font-weight: 600; white-space: nowrap;
+    display: inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: 0.72rem; font-weight: 650; white-space: nowrap;
   }}
-  .pill-critical {{ background: rgba(208,59,59,0.18); color: var(--status-critical); }}
-  .pill-warning {{ background: rgba(250,178,25,0.18); color: #b8810f; }}
-  :root[data-theme="dark"] .pill-warning {{ color: var(--status-warning); }}
+  .pill-critical {{ background: rgba(255,92,92,0.15); color: var(--status-critical); }}
+  .pill-warning {{ background: rgba(251,191,36,0.15); color: var(--status-warning); }}
   .pill-muted {{ background: var(--surface-2); color: var(--text-muted); }}
 
-  .chart-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 18px; margin-bottom: 10px; }}
-  .chart-block h4 {{ font-size: 0.86rem; color: var(--text-secondary); margin: 0 0 10px; font-weight: 600; }}
+  .chart-grid {{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 18px; margin-bottom: 10px;
+  }}
+  .chart-block h4 {{
+    font-size: 0.84rem; color: var(--text-muted);
+    margin: 0 0 12px; font-weight: 600;
+  }}
   .bar-chart {{ overflow: visible; }}
   .bar-fill {{ fill: var(--chart-seq); }}
-  .bar-label {{ fill: var(--text-secondary); font-size: 12px; }}
+  .bar-label {{ fill: var(--text-muted); font-size: 12px; }}
   .bar-value {{ fill: var(--text-primary); font-size: 12px; font-variant-numeric: tabular-nums; }}
 
-  .stacked-bar {{ display: block; border-radius: 4px; overflow: hidden; }}
+  .stacked-bar {{ display: block; border-radius: 6px; overflow: hidden; }}
   .seg {{ stroke: var(--surface-1); stroke-width: 2; }}
   .seg-good {{ fill: var(--status-good); }}
   .seg-critical {{ fill: var(--status-critical); }}
   .seg-muted {{ fill: var(--status-muted); }}
-  .legend-row {{ display: flex; flex-wrap: wrap; gap: 16px; margin-top: 10px; font-size: 0.82rem; color: var(--text-secondary); }}
+  .legend-row {{
+    display: flex; flex-wrap: wrap; gap: 16px;
+    margin-top: 12px; font-size: 0.8rem; color: var(--text-muted);
+  }}
   .legend-item {{ display: inline-flex; align-items: center; gap: 6px; }}
   .legend-item b {{ color: var(--text-primary); }}
-  .swatch {{ width: 10px; height: 10px; border-radius: 2px; display: inline-block; }}
+  .swatch {{ width: 10px; height: 10px; border-radius: 99px; display: inline-block; }}
   .swatch-good {{ background: var(--status-good); }}
   .swatch-critical {{ background: var(--status-critical); }}
   .swatch-muted {{ background: var(--status-muted); }}
 
-  footer {{ text-align: center; color: var(--text-muted); font-size: 0.78rem; padding: 24px; }}
+  footer {{
+    text-align: center; color: var(--text-muted);
+    font-size: 0.76rem; padding: 32px 8px 8px;
+    border-top: 1px solid var(--border);
+    margin-top: 12px;
+  }}
 
   @media (max-width: 640px) {{
-    .wrap {{ padding: 14px; }}
-    .card-body {{ padding: 14px; }}
+    .wrap {{ padding: 16px 14px 36px; }}
+    .card-body, .card-header {{ padding-left: 16px; padding-right: 16px; }}
   }}
 </style>
 </head>
@@ -666,20 +802,25 @@ _PAGE_TEMPLATE = """<!doctype html>
 <div class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <span class="name">CharlieRP ScreenShareTool</span>
-      <span class="sub">Dashboard forense - v{version}</span>
+      <span class="name">ScreenShareTool</span>
+      <span class="sub">Dashboard forense · v{version}</span>
     </div>
     <nav class="nav-links">{nav_links}</nav>
-    <button class="theme-toggle" onclick="window.__toggleTheme()">Cambia tema</button>
+    <button type="button" class="theme-toggle" onclick="window.__toggleTheme()" aria-label="Cambia tema">Tema</button>
   </div>
 </div>
 
 <div class="wrap">
 
+  <div class="hero">
+    <h1>Report forense</h1>
+    <p>Sintesi dell&rsquo;analisi su Minecraft, BAM/Prefetch, cheat e sistema.</p>
+  </div>
+
   <div class="meta-bar">
     <span>Sistema: <b>{win_name}</b> (Build {win_build})</span>
-    <span>Intervallo analizzato: <b>{date_limit}</b> &rarr; oggi ({days} giorni)</span>
-    <span>Generato il: <b>{now}</b></span>
+    <span>Intervallo: <b>{date_limit}</b> &rarr; oggi ({days}g)</span>
+    <span>Generato: <b>{now}</b></span>
     <span>Output: <b>{root_dir}</b></span>
   </div>
 
@@ -688,8 +829,8 @@ _PAGE_TEMPLATE = """<!doctype html>
   {sections}
 
   <footer>
-    CharlieRP ScreenShareTool v{version} &mdash; report generato automaticamente a fine scansione.
-    Documento ad uso interno dello staff, generato con il consenso del giocatore sottoposto allo screen share.
+    ScreenShareTool v{version} — report generato a fine scansione.
+    Uso interno staff, con consenso del giocatore.
   </footer>
 
 </div>
@@ -703,7 +844,7 @@ _PAGE_TEMPLATE = """<!doctype html>
       if (saved === "light" || saved === "dark") {{
         document.documentElement.setAttribute("data-theme", saved);
       }}
-    }} catch (e) {{ /* localStorage unavailable (file:// in some browsers) - ignore */ }}
+    }} catch (e) {{}}
   }}
   window.__toggleTheme = function() {{
     var root = document.documentElement;

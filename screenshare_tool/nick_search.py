@@ -60,22 +60,21 @@ class NickSearch:
 def search_nicks(all_accounts: List[Dict],
                  ias_log_entries: List[Dict],
                  found_launchers: List[Dict],
-                 date_limit: datetime) -> List[Dict]:
+                 date_limit: datetime,
+                 quick: bool = False) -> List[Dict]:
     """
-    Run the full nickname search across the system.
-    Returns the list of nick dicts found.
+    Run the nickname search across the system.
+    quick=True skips deep filesystem walks.
     """
-    show_step("NICK SEARCH", "Ricerca nick su tutto il PC...")
+    show_step("NICK SEARCH", "Ricerca nick…")
     ns = NickSearch()
 
-    # --- [1] From account JSONs ---
     for a in all_accounts:
         ns.add(
             a["name"], "Account JSON", a.get("file", ""),
             note=f"Launcher: {a.get('launcher', '?')} | UUID: {a.get('uuid', '?')} | Online: {a.get('online', '?')}"
         )
 
-    # --- [2] From IAS log entries (reused from module 14d) ---
     for blk in ias_log_entries:
         ns.add(
             blk["name"], "IAS Log", blk.get("log_file", ""),
@@ -83,27 +82,21 @@ def search_nicks(all_accounts: List[Dict],
             note=f"UUID: {blk.get('uuid', '?')} | Online: {blk.get('online', '?')}"
         )
 
-    # --- [3] From usercache.json ---
     for launcher in found_launchers:
         uc_path = os.path.join(launcher["root"], "usercache.json")
         _scan_usercache(ns, uc_path)
     default_uc = os.path.join(os.environ.get("APPDATA", ""), ".minecraft", "usercache.json")
     _scan_usercache(ns, default_uc)
 
-    # --- [4] From Prefetch ---
     _scan_prefetch_nicks(ns, date_limit)
-
-    # --- [5] From MuiCache ---
     _scan_mucache_nicks(ns)
-
-    # --- [6] From BAM ---
     _scan_bam_nicks(ns)
 
-    # --- [7] From server.properties ---
-    _scan_server_properties(ns)
+    # Fast targeted server.properties (no full-drive walk)
+    _scan_server_properties_fast(ns, found_launchers)
 
-    # --- [8] Parallel file search in Desktop/Documents/Downloads/AppData ---
-    _parallel_file_search(ns, date_limit)
+    if not quick:
+        _parallel_file_search(ns, date_limit)
 
     show_step("NICK SEARCH", f"Trovati {ns.count} nick univoci da {len(ns._seen)} fonti.", "green")
     return ns.nicks
@@ -220,34 +213,35 @@ def _scan_bam_nicks(ns: NickSearch):
 #  HELPER: server.properties
 # ================================================================
 
-def _scan_server_properties(ns: NickSearch):
-    drives = []
-    for letter in "CDEFGHIJKLMNOPQRSTUVWXYZ":
-        root = f"{letter}:\\"
-        if os.path.isdir(root):
-            drives.append(root)
+def _scan_server_properties_fast(ns: NickSearch, found_launchers: List[Dict]):
+    """Only check known Minecraft roots — never walk entire drives."""
+    candidates = []
+    for launcher in found_launchers:
+        root = launcher.get("root", "")
+        if root:
+            candidates.append(os.path.join(root, "server.properties"))
+            candidates.append(os.path.join(root, "runs", "server.properties"))
+    appdata = os.environ.get("APPDATA", "")
+    if appdata:
+        candidates.append(os.path.join(appdata, ".minecraft", "server.properties"))
+    home = os.environ.get("USERPROFILE", "")
+    if home:
+        for sub in ("Desktop", "Documents", "Downloads"):
+            candidates.append(os.path.join(home, sub, "server.properties"))
 
-    for drive in drives:
+    for fp in candidates:
+        if not os.path.isfile(fp):
+            continue
         try:
-            for dirpath, _, filenames in os.walk(drive):
-                depth = dirpath.replace(drive, "").count(os.sep)
-                if depth > 4:
-                    continue
-                if "server.properties" in filenames:
-                    fp = os.path.join(dirpath, "server.properties")
-                    try:
-                        if os.path.getsize(fp) > 50000:
-                            continue
-                        with open(fp, "r", encoding="utf-8", errors="replace") as f:
-                            for line in f:
-                                line = line.strip()
-                                if line.startswith("ops="):
-                                    ops = line[4:].split(",")
-                                    for op in ops:
-                                        ns.add(op.strip(), "server.properties ops", fp)
-                    except Exception:
-                        pass
-        except PermissionError:
+            if os.path.getsize(fp) > 50000:
+                continue
+            with open(fp, "r", encoding="utf-8", errors="replace") as f:
+                for line in f:
+                    line = line.strip()
+                    if line.startswith("ops="):
+                        for op in line[4:].split(","):
+                            ns.add(op.strip(), "server.properties ops", fp)
+        except Exception:
             pass
 
 
@@ -289,15 +283,18 @@ def _parallel_file_search(ns: NickSearch, date_limit: datetime):
         except PermissionError:
             pass
 
-    # Parallel scanning
-    max_workers = min(8, os.cpu_count() or 4)
+    # Cap file count for speed
+    if len(files_to_scan) > 800:
+        files_to_scan = files_to_scan[:800]
+
+    max_workers = min(12, (os.cpu_count() or 4) * 2)
     results = []
 
     def _scan_file(fp):
         found = []
         try:
             with open(fp, "r", encoding="utf-8", errors="replace") as f:
-                content = f.read()
+                content = f.read(200_000)
             if not content:
                 return found
             for m in NICK_IN_FILE_RE.finditer(content):
@@ -310,8 +307,7 @@ def _parallel_file_search(ns: NickSearch, date_limit: datetime):
         futures = {executor.submit(_scan_file, fp): fp for fp in files_to_scan}
         for future in as_completed(futures):
             try:
-                result = future.result(timeout=30)
-                results.extend(result)
+                results.extend(future.result(timeout=8))
             except Exception:
                 pass
 

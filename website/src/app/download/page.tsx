@@ -1,183 +1,186 @@
-import type { Metadata } from "next";
+import type { Metadata } from "next"
+import Link from "next/link"
 
 export const metadata: Metadata = {
   title: "Download",
   description:
-    "Download CharlieRP ScreenShareTool v3.1.0 for Windows, macOS, or Linux — standalone .exe, winget, Python package, or Bash script.",
+    "Download ScreenShareTool v4.0.0 for Windows, macOS, or Linux — GUI exe, winget, Python, or Bash.",
   openGraph: {
-    title: "Download — CharlieRP ScreenShareTool",
-    description:
-      "Download the cross-platform forensic analysis tool for Minecraft screen share inspections.",
+    title: "Download — ScreenShareTool",
+    description: "Cross-platform forensic analysis app for Minecraft screen shares.",
   },
-};
+}
 
 export default function Download() {
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-3">
-          <span className="bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
-            Download
-          </span>
+    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
+      <div className="mb-14 max-w-2xl">
+        <p className="section-label">Release · v4.0.0</p>
+        <h1
+          className="font-display font-semibold tracking-tight text-white"
+          style={{ fontSize: "clamp(2.4rem, 6vw, 3.75rem)", letterSpacing: "-0.04em" }}
+        >
+          Download
         </h1>
-        <p className="text-gray-400 text-lg">Get the forensic analysis tool for your operating system</p>
+        <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+          GUI for Windows, macOS, and Linux — or CLI if you prefer. Run as administrator on Windows for the full module set.
+          See the{" "}
+          <Link href="/changelog" className="text-white underline-offset-2 hover:underline">
+            changelog
+          </Link>{" "}
+          for what changed in this release.
+        </p>
       </div>
 
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        {/* .exe */}
-        <div className="bg-gray-900/50 border border-cyan-500/20 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <svg className="text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-            <div>
-              <h3 className="text-white font-semibold">screensharetool.exe</h3>
-              <p className="text-gray-500 text-xs">Standalone — 8.4 MB — Windows</p>
+      <div className="mb-5 grid gap-5 md:grid-cols-2">
+        <div className="glow-card !min-h-0 flex flex-col justify-end p-8">
+          <div className="relative z-10">
+            <span className="mb-3 block text-xs font-medium" style={{ color: "var(--muted)" }}>
+              Recommended · Windows · Admin
+            </span>
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+              screensharetool.exe
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              Standalone build. No Python. Double-click, pick a day window, run the analysis.
+            </p>
+            <a
+              href="https://github.com/Leo-Galli/ScreenShareTool/releases/latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download screensharetool.exe from GitHub Releases"
+              className="cta-primary mt-8 inline-flex rounded-full px-6 py-2.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              Download .exe
+            </a>
+          </div>
+        </div>
+
+        <div className="glow-card !min-h-0 flex flex-col justify-end p-8">
+          <div className="relative z-10">
+            <span className="mb-3 block text-xs font-medium" style={{ color: "var(--muted)" }}>
+              Portable · Windows
+            </span>
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+              Portable ZIP
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              Zip with the GUI executable for USB transfer or offline shares.
+            </p>
+            <a
+              href="https://github.com/Leo-Galli/ScreenShareTool/releases/latest"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Download portable ZIP from GitHub Releases"
+              className="cta-ghost mt-8 inline-flex rounded-full px-6 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            >
+              Download .zip
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-14 mb-6 grid gap-5 sm:grid-cols-3">
+        {[
+          { t: "Windows", d: "Full modules: BAM, Prefetch, Registry, Event Log, USN journal." },
+          { t: "macOS", d: "GUI/CLI via Python. Minecraft, system, and network modules." },
+          { t: "Linux", d: "GUI/CLI or Bash helper. Same cross-platform core as macOS." },
+        ].map((os) => (
+          <div key={os.t} className="glow-card !min-h-0 p-6">
+            <div className="relative z-10">
+              <h3 className="font-display text-lg font-semibold text-white">{os.t}</h3>
+              <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                {os.d}
+              </p>
             </div>
           </div>
-          <p className="text-gray-400 text-sm mb-4">
-            A standalone executable built with PyInstaller. No Python installation required — download and run directly. Requires Administrator privileges.
-          </p>
-          <a
-            href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.1.0/screensharetool.exe"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 rounded-xl text-sm font-medium hover:bg-cyan-500/20 transition-colors"
-          >
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download .exe
-          </a>
-        </div>
-
-        {/* .zip */}
-        <div className="bg-gray-900/50 border border-gray-700 rounded-2xl p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <svg className="text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" width="24" height="24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-            </svg>
-            <div>
-              <h3 className="text-white font-semibold">CharlieRPScreenShareTool-v3.1.0.zip</h3>
-              <p className="text-gray-500 text-xs">Portable bundle — 8.4 MB — Windows</p>
-            </div>
-          </div>
-          <p className="text-gray-400 text-sm mb-4">
-            A zipped bundle containing the standalone executable, a <code className="text-gray-300">run.bat</code> launcher, and the README. Same requirements as the .exe — useful when you want a single archive to transfer or store.
-          </p>
-          <a
-            href="https://github.com/Leo-Galli/ScreenShareTool/releases/download/v3.1.0/CharlieRPScreenShareTool-v3.1.0.zip"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-gray-800 border border-gray-700 text-gray-300 rounded-xl text-sm font-medium hover:bg-gray-700 transition-colors"
-          >
-            <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" width="16" height="16">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-            </svg>
-            Download .zip
-          </a>
-        </div>
+        ))}
       </div>
 
-      {/* Winget */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
-        <h3 className="text-white font-semibold mb-3">Winget (Windows Package Manager)</h3>
-        <p className="text-gray-400 text-sm mb-3">
-          Install directly from a terminal, no browser required:
-        </p>
-        <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400">
-          winget install LeoGalli.CharlieRPScreenShareTool
-        </div>
-      </div>
-
-      {/* Python */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
-        <h3 className="text-white font-semibold mb-3">Python (Windows, macOS, Linux)</h3>
-        <p className="text-gray-400 text-sm mb-3">
-          Run from source or install as a package. Requires Python 3.8+ and no external dependencies — standard library only.
-        </p>
-        <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400 whitespace-pre-wrap">
-{`git clone https://github.com/Leo-Galli/ScreenShareTool.git
+      <div className="mt-10">
+        {[
+          {
+            title: "Winget",
+            body: (
+              <>
+                <p className="mb-4 text-sm" style={{ color: "var(--muted)" }}>
+                  Install from the terminal (package id unchanged until the next winget PR):
+                </p>
+                <div className="cmd-box">winget install LeoGalli.CharlieRPScreenShareTool</div>
+              </>
+            ),
+          },
+          {
+            title: "Python — Windows · macOS · Linux",
+            body: (
+              <>
+                <p className="mb-4 text-sm" style={{ color: "var(--muted)" }}>
+                  GUI or CLI from source. Python 3.8+. Prefer pywebview for the glass UI.
+                </p>
+                <pre className="cmd-box">{`git clone https://github.com/Leo-Galli/ScreenShareTool.git
 cd ScreenShareTool
-python -m screenshare_tool --days 7
+pip install pywebview
+python -m screenshare_tool --gui`}</pre>
+              </>
+            ),
+          },
+          {
+            title: "Bash — macOS · Linux",
+            body: (
+              <pre className="cmd-box">{`curl -O https://raw.githubusercontent.com/Leo-Galli/ScreenShareTool/main/ss_tool_unix.sh
+sudo bash ss_tool_unix.sh`}</pre>
+            ),
+          },
+        ].map((block) => (
+          <div key={block.title} className="list-row">
+            <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+              {block.title}
+            </h3>
+            <div className="mt-4">{block.body}</div>
+          </div>
+        ))}
 
-# or install as a package
-pip install -e .
-screenshare-tool --days 7`}
-        </div>
-      </div>
-
-      {/* Bash */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
-        <h3 className="text-white font-semibold mb-3">Bash Script (macOS, Linux, FreeBSD)</h3>
-        <p className="text-gray-400 text-sm mb-3">
-          A single self-contained script with no dependencies. Must be run as root.
-        </p>
-        <div className="bg-gray-950 border border-gray-700 rounded-lg p-4 font-mono text-sm text-green-400 whitespace-pre-wrap">
-{`curl -O https://raw.githubusercontent.com/Leo-Galli/ScreenShareTool/main/ss_tool_unix.sh
-sudo bash ss_tool_unix.sh`}
-        </div>
-      </div>
-
-      {/* CLI Options */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6 mb-8">
-        <h3 className="text-white font-semibold mb-3">CLI Options (Python)</h3>
-        <div className="space-y-2 text-sm">
-          <div className="flex items-start gap-3">
-            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--days N</code>
-            <span className="text-gray-400">Analyze the last N days. Prompted interactively if not specified.</span>
-          </div>
-          <div className="flex items-start gap-3">
-            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--output PATH</code>
-            <span className="text-gray-400">Custom output directory</span>
-          </div>
-          <div className="flex items-start gap-3">
-            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--quick</code>
-            <span className="text-gray-400">Skip slow modules (USN journal analysis, full nickname search)</span>
-          </div>
-          <div className="flex items-start gap-3">
-            <code className="text-cyan-400 font-mono text-xs bg-gray-800/50 px-2 py-0.5 rounded shrink-0">--version</code>
-            <span className="text-gray-400">Show the tool version and exit</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Requirements */}
-      <div className="bg-gray-900/50 border border-gray-800 rounded-2xl p-6">
-        <h3 className="text-white font-semibold mb-3">Requirements</h3>
-        <div className="grid md:grid-cols-3 gap-4 text-sm">
-          <div>
-            <p className="text-gray-400 font-medium mb-1">Windows (.exe / .zip)</p>
-            <ul className="text-gray-500 space-y-1">
-              <li>Windows 10/11</li>
-              <li>Administrator privileges</li>
-              <li>No external dependencies</li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-gray-400 font-medium mb-1">Windows (Python)</p>
-            <ul className="text-gray-500 space-y-1">
-              <li>Python 3.8+</li>
-              <li>No external dependencies</li>
-              <li>Administrator privileges</li>
-            </ul>
-          </div>
-          <div>
-            <p className="text-gray-400 font-medium mb-1">macOS / Linux</p>
-            <ul className="text-gray-500 space-y-1">
-              <li>macOS 10.15+ or any modern Linux</li>
-              <li>Root access</li>
-              <li>Bash or Python 3.8+</li>
-            </ul>
+        <div className="list-row">
+          <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+            CLI flags
+          </h3>
+          <div className="mt-5 space-y-3 text-sm">
+            {[
+              { flag: "--gui", desc: "Open the graphical interface." },
+              { flag: "--days N", desc: "Analyze the last N days (default depends on mode)." },
+              { flag: "--output PATH", desc: "Custom output directory for reports." },
+              { flag: "--quick", desc: "Skip slow modules (journal / deep walks)." },
+            ].map((opt) => (
+              <div key={opt.flag} className="flex items-start gap-4">
+                <code
+                  className="shrink-0 rounded-md px-2 py-0.5 font-mono text-xs"
+                  style={{ backgroundColor: "var(--soft)", color: "var(--accent)" }}
+                >
+                  {opt.flag}
+                </code>
+                <span style={{ color: "var(--muted)" }}>{opt.desc}</span>
+              </div>
+            ))}
           </div>
         </div>
-      </div>
 
-      <div className="border-t border-gray-800 pt-8 mt-12 text-center">
-        <p className="text-gray-500 text-sm">
-          CharlieRP ScreenShareTool v3.1.0 — LeoGalli
-        </p>
+        <div className="list-row">
+          <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+            After install
+          </h3>
+          <ol className="mt-4 list-decimal space-y-2 pl-5 text-sm" style={{ color: "var(--muted)" }}>
+            <li>Run elevated on Windows for BAM, Prefetch, and Event Log coverage.</li>
+            <li>Pick 1 / 7 / 30 days to match the suspected window.</li>
+            <li>
+              Open the generated dashboard, then cross-check with the{" "}
+              <Link href="/guide" className="text-white underline-offset-2 hover:underline">
+                operational guide
+              </Link>
+              .
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
-  );
+  )
 }

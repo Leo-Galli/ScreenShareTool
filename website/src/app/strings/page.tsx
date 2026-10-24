@@ -706,24 +706,6 @@ const categories = [
   },
 ];
 
-const osColors: Record<string, string> = {
-  "Windows": "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  "Linux": "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-  "macOS": "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  "Cross-platform": "bg-gray-500/10 text-gray-400 border-gray-500/20",
-  "Server": "bg-orange-500/10 text-orange-400 border-orange-500/20",
-};
-
-const catColors: Record<string, string> = {
-  blue: "bg-blue-500/10 text-blue-400 border-blue-500/20",
-  cyan: "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
-  green: "bg-green-500/10 text-green-400 border-green-500/20",
-  purple: "bg-purple-500/10 text-purple-400 border-purple-500/20",
-  red: "bg-red-500/10 text-red-400 border-red-500/20",
-  orange: "bg-orange-500/10 text-orange-400 border-orange-500/20",
-  yellow: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20",
-  gray: "bg-gray-500/10 text-gray-400 border-gray-500/20",
-};
 
 export default function StringsPage() {
   const [search, setSearch] = useState("");
@@ -760,20 +742,31 @@ export default function StringsPage() {
     return ["all", ...oses];
   }, []);
 
+  const isCmd = (s: string) =>
+    s.startsWith("fsutil") || s.startsWith("reg ") || s.startsWith("netstat") ||
+    s.startsWith("dir ") || s.startsWith("type ") || s.startsWith("cat ") ||
+    s.startsWith("ls ") || s.startsWith("find ") || s.startsWith("wevtutil") ||
+    s.startsWith("eventvwr") || s.startsWith("wmic") || s.startsWith("tasklist") ||
+    s.startsWith("arp ") || s.startsWith("tracert") || s.startsWith("nslookup") ||
+    s.startsWith("log show") || s.startsWith("defaults ")
+
+  const isReg = (s: string) => s.startsWith("HKLM") || s.startsWith("HKCU")
+  const isPath = (s: string) => s.startsWith("C:\\") || s.startsWith("%") || s.startsWith(".")
+
   return (
-    <div className="max-w-5xl mx-auto px-4 py-12">
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-3">
-          <span className="bg-gradient-to-r from-red-400 to-orange-400 bg-clip-text text-transparent">
-            Forensic Strings Dictionary
-          </span>
+    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
+      <div className="mb-12 max-w-3xl">
+        <h1
+          className="font-display font-semibold tracking-tight text-white"
+          style={{ fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.04em" }}
+        >
+          Forensic Strings
         </h1>
-        <p className="text-gray-400 text-lg">
-          {totalStrings} forensic strings across {categories.length} categories — real commands, registry keys, and file paths, not guesses.
+        <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
+          {totalStrings} strings · {categories.length} categories — commands, registry keys, paths.
         </p>
       </div>
 
-      {/* Filters */}
       <div className="mb-6 space-y-3">
         <div className="relative">
           <input
@@ -782,48 +775,78 @@ export default function StringsPage() {
             aria-label="Search forensic strings"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full bg-gray-900/80 border border-gray-700 rounded-xl px-4 py-3 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-colors"
+            className="w-full rounded-full px-5 py-3.5 pl-11 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-white/30"
+            style={{
+              backgroundColor: "var(--surface)",
+              border: "1px solid var(--rule)",
+              color: "var(--ink)",
+              caretColor: "var(--accent)",
+            }}
           />
-          <svg className="absolute left-3 top-3.5 w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="absolute left-3 top-3.5 w-4 h-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+            style={{ color: "var(--muted)" }}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
+
         <div className="flex flex-wrap items-center gap-2">
-          {osList.map((os) => (
-            <button
-              key={os}
-              onClick={() => setOsFilter(os)}
-              aria-pressed={osFilter === os}
-              className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ${
-                osFilter === os
-                  ? os === "all"
-                    ? "bg-cyan-500/20 border-cyan-500/30 text-cyan-400"
-                    : osColors[os]
-                  : "bg-gray-900/50 border-gray-700 text-gray-500 hover:text-white"
-              }`}
-            >
-              {os === "all" ? "All" : os}
-            </button>
-          ))}
+          {osList.map((os) => {
+            const active = osFilter === os
+            return (
+              <button
+                key={os}
+                onClick={() => setOsFilter(os)}
+                aria-pressed={active}
+                className="rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                style={{
+                  color: active ? "#000" : "var(--muted)",
+                  border: `1px solid ${active ? "#fff" : "var(--rule)"}`,
+                  backgroundColor: active ? "#fff" : "transparent",
+                }}
+              >
+                {os === "all" ? "All" : os}
+              </button>
+            )
+          })}
+
           <button
             onClick={() => setHighlight(!highlight)}
             aria-pressed={highlight}
-            className={`text-xs px-3 py-1.5 rounded-lg border transition-colors ml-2 ${
-              highlight
-                ? "bg-cyan-500/20 border-cyan-500/30 text-cyan-400"
-                : "bg-gray-900/50 border-gray-700 text-gray-500 hover:text-white"
-            }`}
+            className="text-xs px-3 py-1.5 transition-colors ml-1 focus-visible:outline-none focus-visible:ring-2 rounded"
+            style={{
+              color: highlight ? "var(--amber)" : "var(--muted)",
+              border: `1px solid ${highlight ? "var(--amber)" : "var(--rule)"}`,
+              backgroundColor: highlight ? "var(--soft)" : "transparent",
+              outlineColor: "var(--amber)",
+            }}
           >
             {highlight ? "Highlight ON" : "Highlight OFF"}
           </button>
+
           <button
-            onClick={() => setOpenCats(openCats.length === filtered.length ? [] : filtered.map((_, i) => i))}
-            className="text-xs px-3 py-1.5 rounded-lg border bg-gray-900/50 border-gray-700 text-gray-500 hover:text-white transition-colors"
+            onClick={() =>
+              setOpenCats(
+                openCats.length === filtered.length ? [] : filtered.map((_, i) => i)
+              )
+            }
+            className="text-xs px-3 py-1.5 transition-colors focus-visible:outline-none focus-visible:ring-2 rounded"
+            style={{
+              color: "var(--muted)",
+              border: "1px solid var(--rule)",
+              outlineColor: "var(--amber)",
+            }}
           >
-            {openCats.length === filtered.length ? "Collapse" : "Expand All"}
+            {openCats.length === filtered.length ? "Collapse All" : "Expand All"}
           </button>
+
           {search && (
-            <span className="text-xs text-gray-500 ml-2">
+            <span className="text-xs font-mono ml-1" style={{ color: "var(--muted)" }}>
               {filtered.reduce((a, c) => a + c.strings.length, 0)} results
             </span>
           )}
@@ -831,69 +854,108 @@ export default function StringsPage() {
       </div>
 
       {/* Categories */}
-      <div className="space-y-3">
+      <div className="space-y-px">
         {filtered.map((cat, ci) => {
-          const origIdx = categories.findIndex((c) => c.name === cat.name);
-          const isOpen = openCats.includes(origIdx);
+          const origIdx = categories.findIndex((c) => c.name === cat.name)
+          const isOpen = openCats.includes(origIdx)
           return (
-            <div key={ci} className="bg-gray-900/50 border border-gray-800 rounded-2xl overflow-hidden">
+            <div
+              key={ci}
+              style={{
+                backgroundColor: "var(--panel)",
+                border: "1px solid var(--rule)",
+                marginBottom: "-1px",
+              }}
+            >
               <button
                 onClick={() => toggleCat(origIdx)}
                 aria-expanded={isOpen}
-                className="w-full flex items-center justify-between p-4 hover:bg-gray-800/30 transition-colors"
+                className="w-full flex items-center justify-between px-4 py-3.5 text-left transition-colors focus-visible:outline-none focus-visible:ring-inset focus-visible:ring-2"
+                style={{ outlineColor: "var(--amber)" }}
+                onMouseEnter={(e) => {
+                  ;(e.currentTarget as HTMLElement).style.backgroundColor = "rgba(255,255,255,0.04)"
+                }}
+                onMouseLeave={(e) => {
+                  ;(e.currentTarget as HTMLElement).style.backgroundColor = "transparent"
+                }}
               >
                 <div className="flex items-center gap-3">
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${catColors[cat.color]}`}>
+                  <span
+                    className="font-mono text-xs w-8 text-right shrink-0"
+                    style={{ color: "var(--muted)" }}
+                  >
                     {cat.strings.length}
                   </span>
-                  <h3 className="text-white font-semibold text-sm">{cat.name}</h3>
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs border ${osColors[cat.os]}`}>
+                  <h3
+                    className="font-display font-semibold text-sm"
+                    style={{ color: "var(--chalk)" }}
+                  >
+                    {cat.name}
+                  </h3>
+                  <span
+                    className="font-mono text-xs"
+                    style={{ color: "var(--rule)" }}
+                  >
                     {cat.os}
                   </span>
                 </div>
-                <svg className={`w-4 h-4 text-gray-500 transition-transform ${isOpen ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg
+                  className={`w-4 h-4 shrink-0 transition-transform ${isOpen ? "rotate-180" : ""}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                  style={{ color: "var(--muted)" }}
+                >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
+
               {isOpen && (
-                <div className="px-4 pb-4 space-y-1">
-                  {cat.strings.map((s, si) => (
-                    <div
-                      key={si}
-                      className={`text-xs font-mono py-1 px-2 rounded ${
-                        highlight && search && s.toLowerCase().includes(search.toLowerCase())
-                          ? "bg-yellow-500/20 text-yellow-300"
-                          : s.startsWith("fsutil") || s.startsWith("reg ") || s.startsWith("netstat") || s.startsWith("dir ") || s.startsWith("type ") || s.startsWith("cat ") || s.startsWith("ls ") || s.startsWith("find ") || s.startsWith("wevtutil") || s.startsWith("eventvwr") || s.startsWith("wmic") || s.startsWith("tasklist") || s.startsWith("arp ") || s.startsWith("tracert") || s.startsWith("nslookup") || s.startsWith("log show") || s.startsWith("defaults ")
-                          ? "bg-green-500/10 text-green-400"
-                          : s.startsWith("HKLM") || s.startsWith("HKCU")
-                          ? "bg-purple-500/10 text-purple-400"
-                          : s.startsWith("C:\\") || s.startsWith("%") || s.startsWith(".")
-                          ? "bg-blue-500/10 text-blue-400"
-                          : "bg-gray-800/50 text-gray-300"
-                      }`}
-                    >
-                      {s}
-                    </div>
-                  ))}
+                <div
+                  className="px-4 pb-4 space-y-0.5"
+                  style={{ borderTop: "1px solid var(--rule)" }}
+                >
+                  {cat.strings.map((s, si) => {
+                    const isMatch = highlight && search && s.toLowerCase().includes(search.toLowerCase())
+                    return (
+                      <div
+                        key={si}
+                        className="text-xs font-mono py-1 px-2"
+                        style={{
+                          color: isMatch
+                            ? "var(--amber)"
+                            : isCmd(s)
+                            ? "var(--chalk)"
+                            : isReg(s)
+                            ? "#c8a96e"
+                            : isPath(s)
+                            ? "var(--muted)"
+                            : "var(--muted)",
+                          backgroundColor: isMatch ? "var(--soft)" : undefined,
+                        }}
+                      >
+                        {s}
+                      </div>
+                    )
+                  })}
                 </div>
               )}
             </div>
-          );
+          )
         })}
       </div>
 
       {filtered.length === 0 && (
-        <div className="text-center py-12 text-gray-500">
-          <p className="text-lg mb-2">No results</p>
-          <p className="text-sm">Try a different string or change OS filter.</p>
+        <div className="text-center py-16">
+          <p className="font-display text-lg mb-2" style={{ color: "var(--chalk)" }}>
+            No results
+          </p>
+          <p className="text-sm" style={{ color: "var(--muted)" }}>
+            Try a different string or change OS filter.
+          </p>
         </div>
       )}
-
-      <div className="border-t border-gray-800 pt-8 mt-12 text-center">
-        <p className="text-gray-500 text-sm">
-          CharlieRP Forensic Strings Reference — {totalStrings} strings documented
-        </p>
-      </div>
     </div>
-  );
+  )
 }
