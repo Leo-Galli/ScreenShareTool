@@ -22,18 +22,28 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
   const [spot, setSpot] = useState({ x: 55, y: 42, on: false })
   const [hot, setHot] = useState(-1)
 
-  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handlePoint = (clientX: number, clientY: number) => {
     const el = stageRef.current
     if (!el) return
     const rect = el.getBoundingClientRect()
-    const x = ((e.clientX - rect.left) / rect.width) * 100
-    const y = ((e.clientY - rect.top) / rect.height) * 100
+    const x = ((clientX - rect.left) / rect.width) * 100
+    const y = ((clientY - rect.top) / rect.height) * 100
     setSpot({ x, y, on: true })
     const idx = Math.min(
       lines.length - 1,
-      Math.max(0, Math.floor(((e.clientY - rect.top - 72) / Math.max(rect.height - 96, 1)) * lines.length))
+      Math.max(0, Math.floor(((clientY - rect.top - 72) / Math.max(rect.height - 96, 1)) * lines.length))
     )
     setHot(idx)
+  }
+
+  const handleMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    handlePoint(e.clientX, e.clientY)
+  }
+
+  const handleTouch = (e: React.TouchEvent<HTMLDivElement>) => {
+    const t = e.touches[0]
+    if (!t) return
+    handlePoint(t.clientX, t.clientY)
   }
 
   const handleLeave = () => {
@@ -44,9 +54,11 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
   return (
     <div
       ref={stageRef}
-      className={`product-stage animate-stage ${className}`}
+      className={`product-stage animate-stage w-full max-w-full ${className}`}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
+      onTouchStart={handleTouch}
+      onTouchMove={handleTouch}
       role="img"
       aria-label="ScreenShareTool scan preview with live evidence highlights"
     >
@@ -68,29 +80,29 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
             <span className="font-display text-sm font-semibold tracking-tight text-white">
               ScreenShareTool
             </span>
-            <span className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
+            <span className="hide-xs text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
               live scan
             </span>
           </div>
-          <span className="font-mono text-[0.7rem]" style={{ color: "var(--muted)" }}>
-            window · 7d
+          <span className="shrink-0 font-mono text-[0.65rem] sm:text-[0.7rem]" style={{ color: "var(--muted)" }}>
+            7d
           </span>
         </div>
       </div>
 
-      <div className="relative z-10 grid gap-0 sm:grid-cols-[1fr_11rem]">
-        <ul className="space-y-0 px-2 py-3 sm:px-3">
+      <div className="relative z-10 grid gap-0 sm:grid-cols-[minmax(0,1fr)_10rem]">
+        <ul className="min-w-0 space-y-0 px-2 py-3 sm:px-3">
           {lines.map((line, i) => (
             <li
               key={`${line.t}-${line.m}`}
-              className={`scan-line flex items-baseline gap-3 py-2 font-mono text-[0.72rem] sm:text-[0.78rem] ${
+              className={`scan-line flex items-baseline gap-2 py-2 font-mono text-[0.68rem] sm:gap-3 sm:text-[0.78rem] ${
                 hot === i || (hot < 0 && line.flag) ? "is-hot" : ""
               }`}
               style={{ color: hot === i || (hot < 0 && line.flag) ? undefined : "var(--muted)" }}
             >
-              <span className="w-14 shrink-0 tabular-nums opacity-70">{line.t}</span>
+              <span className="hidden w-14 shrink-0 tabular-nums opacity-70 sm:inline">{line.t}</span>
               <span
-                className="w-12 shrink-0 font-semibold"
+                className="w-10 shrink-0 font-semibold sm:w-12"
                 style={{ color: line.flag ? "var(--accent)" : "var(--ink)" }}
               >
                 {line.m}
@@ -102,9 +114,9 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
 
         <aside className="border-t border-white/10 px-4 py-4 sm:border-l sm:border-t-0">
           <p className="section-label !mb-3">Hits</p>
-          <p className="font-display text-4xl font-semibold tracking-tight text-white">04</p>
+          <p className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">04</p>
           <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-            Flagged artifacts in this window. Hover the tape to inspect each line.
+            Flagged artifacts. Tap or hover a line to inspect.
           </p>
           <div className="mt-5 space-y-2">
             {["USN delete", "Prefetch", "IAS", "Self-delete"].map((tag) => (

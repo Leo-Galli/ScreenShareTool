@@ -42,7 +42,7 @@ export default function Download() {
       </PageHeader>
 
       <section className="mb-16 grid gap-px bg-[var(--rule)] md:grid-cols-2" aria-label="Primary installs">
-        <div className="bg-[var(--bg)] p-8">
+        <div className="bg-[var(--bg)] p-5 sm:p-8">
           <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
             Recommended · Windows
           </p>
@@ -61,7 +61,7 @@ export default function Download() {
             Get the ZIP
           </a>
         </div>
-        <div id="winget" className="scroll-mt-28 bg-[var(--bg)] p-8">
+        <div id="winget" className="scroll-mt-28 bg-[var(--bg)] p-5 sm:p-8">
           <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
             Package manager
           </p>

@@ -151,8 +151,8 @@ export default function BuilderPage() {
         </p>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1.35fr_0.9fr]">
-        <div>
+      <div className="grid gap-8 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,0.9fr)]">
+        <div className="min-w-0">
           <div className="mb-4 flex flex-wrap gap-2">
             <input
               type="text"
@@ -160,7 +160,7 @@ export default function BuilderPage() {
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Filter categories / strings..."
               aria-label="Filter strings for builder"
-              className="min-w-[14rem] flex-1 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="w-full min-w-0 flex-1 basis-full px-3 py-2.5 text-sm sm:basis-auto focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
               style={{
                 background: "var(--surface)",
                 border: "1px solid var(--rule)",

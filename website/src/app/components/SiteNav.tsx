@@ -22,12 +22,12 @@ export default function SiteNav() {
   return (
     <nav className="sticky top-0 z-50" aria-label="Main navigation">
       <div className="border-b border-[var(--rule)] bg-[rgba(12,14,12,0.82)] backdrop-blur-xl">
-        <div className="page-shell flex h-16 items-center justify-between">
+        <div className="page-shell flex h-14 items-center justify-between gap-3 sm:h-16">
           <Link
             href="/"
             onClick={handleClose}
             aria-label="ScreenShareTool home"
-            className="font-display text-[1.05rem] font-semibold tracking-tight text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="min-w-0 truncate font-display text-[0.95rem] font-semibold tracking-tight text-white sm:text-[1.05rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             ScreenShareTool
           </Link>

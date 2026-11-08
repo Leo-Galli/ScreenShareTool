@@ -478,8 +478,8 @@ Connecting to
 
         <div className="guide-panel">
           <h3 className="text-lg font-semibold mb-3">Summary Table</h3>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div className="table-wrap">
+            <table className="w-full min-w-[28rem] text-sm">
               <thead>
                 <tr className="border-b border-gray-700">
                   <th className="text-left p-2 text-white/80">Flag</th>
@@ -633,8 +633,8 @@ sstool`}</CmdBox>
         </div>
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-3 guide-h">11.2 Reason codes that matter</h3>
-          <div className="overflow-x-auto text-sm">
-            <table className="w-full">
+          <div className="table-wrap text-sm">
+            <table className="w-full min-w-[32rem]">
               <thead>
                 <tr className="border-b border-[var(--rule)] text-left text-white/80">
                   <th className="p-2">Code</th>

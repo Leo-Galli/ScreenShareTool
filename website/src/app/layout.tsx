@@ -151,8 +151,8 @@ export default function RootLayout({
         <main className="relative z-10">{children}</main>
         <footer className="relative z-10 mt-4 border-t border-[var(--rule)]">
           <div className="page-shell py-16">
-            <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-              <div>
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-12">
+              <div className="sm:col-span-2 lg:col-span-1">
                 <p className="font-display text-2xl font-semibold tracking-tight text-white">
                   ScreenShareTool
                 </p>

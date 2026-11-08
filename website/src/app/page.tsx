@@ -90,12 +90,12 @@ export default function Home() {
     <>
       <section className="relative overflow-hidden" aria-label="Hero">
         <div className="page-shell pb-16 pt-16 sm:pb-20 sm:pt-20">
-          <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
-            <div>
+          <div className="grid items-end gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
+            <div className="min-w-0">
               <p className="animate-hero-in section-label !mb-5">v4.0.1 · command sstool</p>
               <h1
-                className="animate-hero-in-late font-display font-semibold tracking-tight text-white"
-                style={{ fontSize: "clamp(3.2rem, 9vw, 6.4rem)", letterSpacing: "-0.055em", lineHeight: 0.92 }}
+                className="animate-hero-in-late font-display font-semibold tracking-tight text-white break-words"
+                style={{ fontSize: "clamp(2.6rem, 11vw, 6.4rem)", letterSpacing: "-0.055em", lineHeight: 0.92 }}
               >
                 ScreenShare
                 <br />
@@ -128,8 +128,8 @@ export default function Home() {
         </div>
       </section>
 
-      <div className="page-shell pb-28">
-        <div className="mb-20 grid gap-8 border-y border-[var(--rule)] py-10 sm:grid-cols-3">
+      <div className="page-shell pb-16 sm:pb-28">
+        <div className="mb-14 grid gap-8 border-y border-[var(--rule)] py-8 sm:mb-20 sm:grid-cols-3 sm:py-10">
           {[
             { k: "2500+", l: "Forensic strings indexed for live lookup" },
             { k: ".txt", l: "Custom string lists via the builder export" },
