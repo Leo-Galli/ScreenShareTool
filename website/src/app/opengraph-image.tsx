@@ -47,7 +47,7 @@ export default function Image() {
               fontWeight: 600,
             }}
           >
-            v4.0.0
+            v4.0.1
           </div>
           <div
             style={{

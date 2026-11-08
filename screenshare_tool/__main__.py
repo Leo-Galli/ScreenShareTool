@@ -1,17 +1,22 @@
 """
-CharlieRP ScreenShareTool v4.0.0 — Main Entry Point
+ScreenShareTool — Main Entry Point
 
 Usage:
+    sstool                                     # Packaged / winget command
     python -m screenshare_tool                 # Auto-detects GUI when available
     python -m screenshare_tool --gui           # Force GUI
     python -m screenshare_tool --days 7        # CLI mode
-    python -m screenshare_tool --days 7 --gui  # GUI mode with preset
 """
 
 import os
 import sys
 import argparse
 from datetime import datetime, timedelta
+
+# PyInstaller may exec this file as __main__ with no package context
+if __package__ is None:
+    sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    __package__ = "screenshare_tool"
 
 from . import __version__
 

@@ -37,7 +37,7 @@ const rows = [
   },
   {
     title: "Changelog",
-    desc: "Full version history from v1.0.0 PowerShell to v4.0.0 GUI — every fix and feature.",
+    desc: "Full version history from v1.0.0 PowerShell to v4.0.1 — every fix and feature.",
     href: "/changelog",
     meta: "v1 → v4 · Updates",
   },
@@ -45,7 +45,7 @@ const rows = [
     title: "Download",
     desc: "Native GUI for Windows, macOS, and Linux. Winget, standalone exe, Python, or Bash.",
     href: "/download",
-    meta: "v4.0.0 · Release",
+    meta: "v4.0.1 · Release",
   },
 ]
 
@@ -104,7 +104,7 @@ export default function Home() {
     <>
       <section className="relative min-h-[92svh] overflow-hidden" aria-label="Hero">
         <div className="relative z-10 mx-auto flex max-w-6xl flex-col justify-center px-6 pb-24 pt-24 sm:px-8 sm:pt-32">
-          <p className="animate-hero-in section-label !mb-6">ScreenShareTool · v4.0.0</p>
+          <p className="animate-hero-in section-label !mb-6">ScreenShareTool · v4.0.1</p>
           <div className="animate-hero-in-late max-w-4xl">
             <h1
               className="font-display font-semibold leading-[1.05] tracking-[-0.045em] text-white"
@@ -297,7 +297,7 @@ export default function Home() {
               href="/download"
               className="cta-primary rounded-full px-7 py-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
-              Download v4.0.0
+              Download v4.0.1
             </Link>
             <Link
               href="/strings"

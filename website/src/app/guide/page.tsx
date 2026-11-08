@@ -98,7 +98,7 @@ export default function Guide() {
           Complete procedure for a professional Minecraft screen share.
         </p>
         <div className="mt-6 flex flex-wrap gap-2">
-          {["v4.0.0", "Windows", "macOS", "Linux"].map((tag) => (
+          {["v4.0.1", "Windows", "macOS", "Linux"].map((tag) => (
             <span
               key={tag}
               className="rounded-full px-3 py-1 text-xs font-medium"

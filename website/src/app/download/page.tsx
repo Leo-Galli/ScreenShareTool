@@ -4,7 +4,7 @@ import Link from "next/link"
 export const metadata: Metadata = {
   title: "Download",
   description:
-    "Download ScreenShareTool v4.0.0 for Windows, macOS, or Linux — GUI exe, winget, Python, or Bash.",
+    "Download ScreenShareTool v4.0.1 for Windows, macOS, or Linux — GUI exe, winget, Python, or Bash.",
   openGraph: {
     title: "Download — ScreenShareTool",
     description: "Cross-platform forensic analysis app for Minecraft screen shares.",
@@ -15,7 +15,7 @@ export default function Download() {
   return (
     <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
       <div className="mb-14 max-w-2xl">
-        <p className="section-label">Release · v4.0.0</p>
+        <p className="section-label">Release · v4.0.1</p>
         <h1
           className="font-display font-semibold tracking-tight text-white"
           style={{ fontSize: "clamp(2.4rem, 6vw, 3.75rem)", letterSpacing: "-0.04em" }}
@@ -39,16 +39,16 @@ export default function Download() {
               Recommended · Windows · Admin
             </span>
             <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              screensharetool.exe
+              sstool.exe
             </h2>
             <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-              Standalone build. No Python. Double-click, pick a day window, run the analysis.
+              Standalone build. No Python. Double-click, or run <code className="text-white">sstool</code> after winget.
             </p>
             <a
               href="https://github.com/Leo-Galli/ScreenShareTool/releases/latest"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Download screensharetool.exe from GitHub Releases"
+              aria-label="Download sstool.exe from GitHub Releases"
               className="cta-primary mt-8 inline-flex rounded-full px-6 py-2.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
             >
               Download .exe

@@ -4,7 +4,7 @@ import Link from "next/link"
 export const metadata: Metadata = {
   title: "Changelog",
   description:
-    "ScreenShareTool version history — release notes for v4.0.0, v3.1.0, v3.0.0, v2.0.0, and v1.0.0.",
+    "ScreenShareTool version history — release notes for v4.0.1, v4.0.0, v3.1.0, and earlier.",
   openGraph: {
     title: "Changelog — ScreenShareTool",
     description: "Every release, from the first PowerShell build to the GUI era.",
@@ -23,10 +23,41 @@ type ChangeBlock = {
 
 const releases: ChangeBlock[] = [
   {
+    version: "4.0.1",
+    date: "8 Nov 2026",
+    title: "Packaged exe fix · sstool command",
+    tag: "Latest",
+    summary:
+      "Fixes the frozen GUI crash (relative import) and ships winget command alias sstool with display name ScreenShareTool.",
+    sections: [
+      {
+        heading: "Fixed",
+        items: [
+          "Packaged exe: attempted relative import with no known parent package",
+        ],
+      },
+      {
+        heading: "Changed",
+        items: [
+          "Winget / CLI command: sstool",
+          "Display name: ScreenShareTool",
+          "Release binary renamed to sstool.exe",
+        ],
+      },
+    ],
+    links: [
+      { label: "Download", href: "/download" },
+      {
+        label: "GitHub v4.0.1",
+        href: "https://github.com/Leo-Galli/ScreenShareTool/releases/tag/v4.0.1",
+      },
+    ],
+  },
+  {
     version: "4.0.0",
     date: "24 Oct 2026",
     title: "GUI era · ScreenShareTool rebrand",
-    tag: "Latest",
+    tag: "Major",
     summary:
       "First GUI release, product rename from CharlieRP ScreenShareTool to ScreenShareTool, parallel scan engine, restyled website and HTML dashboard.",
     sections: [
@@ -233,7 +264,7 @@ export default function ChangelogPage() {
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           Every ScreenShareTool release — from the first PowerShell build to the GUI era.
-          Current version: <span className="text-white">v4.0.0</span>.
+          Current version: <span className="text-white">v4.0.1</span>.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
@@ -358,7 +389,7 @@ export default function ChangelogPage() {
             Stay on the latest build
           </h2>
           <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-            Grab v4.0.0 from the download page or watch GitHub releases for the next tag.
+            Grab v4.0.1 from the download page or watch GitHub releases for the next tag.
           </p>
         </div>
         <div className="relative z-10 mt-6 flex flex-wrap gap-3 sm:mt-0">

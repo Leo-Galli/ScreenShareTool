@@ -8,6 +8,18 @@ Website mirror: https://screenshare-guide.vercel.app/changelog
 
 ---
 
+## [4.0.1] — 2026-11-08
+
+### Fixed
+- Packaged exe crash: `attempted relative import with no known parent package`
+
+### Changed
+- Winget command alias: `sstool`
+- Display name: ScreenShareTool
+- Release binary: `sstool.exe`
+
+---
+
 ## [4.0.0] — 2026-10-24
 
 ### Added

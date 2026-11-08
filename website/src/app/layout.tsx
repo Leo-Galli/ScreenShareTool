@@ -92,8 +92,8 @@ export default function RootLayout({
     author: { "@type": "Person", name: "LeoGalli" },
     url: "https://screenshare-guide.vercel.app",
     downloadUrl:
-      "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v4.0.0/screensharetool.exe",
-    softwareVersion: "4.0.0",
+      "https://github.com/Leo-Galli/ScreenShareTool/releases/download/v4.0.1/ScreenShareTool-v4.0.1-GUI-x64.zip",
+    softwareVersion: "4.0.1",
   }
 
   const websiteJsonLd = {
@@ -157,7 +157,7 @@ export default function RootLayout({
               <div>
                 <p className="section-label">Project</p>
                 <ul className="space-y-2 text-sm" style={{ color: "var(--muted)" }}>
-                  <li>v4.0.0 · MIT License</li>
+                  <li>v4.0.1 · MIT License</li>
                   <li>LeoGalli</li>
                   <li>
                     <a

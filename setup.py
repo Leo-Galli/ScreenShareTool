@@ -1,13 +1,13 @@
 """
-CharlieRP ScreenShareTool v4.0.0 — Setup
+ScreenShareTool setup
 """
 
 from setuptools import setup, find_packages
 
 setup(
     name="screenshare-tool",
-    version="4.0.0",
-    description="CharlieRP ScreenShareTool — Analisi forense anti-cheat per Minecraft",
+    version="4.0.1",
+    description="ScreenShareTool — Analisi forense anti-cheat per Minecraft",
     long_description=open("README.md", encoding="utf-8").read(),
     long_description_content_type="text/markdown",
     author="LeoGalli",
@@ -20,6 +20,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
+            "sstool=screenshare_tool.__main__:main",
             "screenshare-tool=screenshare_tool.__main__:main",
         ],
         "gui_scripts": [
