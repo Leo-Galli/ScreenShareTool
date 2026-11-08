@@ -15,7 +15,7 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "72px 96px",
-          background: "#0c0e0c",
+          background: "#08080a",
           fontFamily: "sans-serif",
           position: "relative",
         }}
@@ -26,35 +26,29 @@ export default function Image() {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(ellipse 55% 45% at 8% 0%, rgba(198,242,74,0.18), transparent 55%), radial-gradient(ellipse 45% 40% at 100% 100%, rgba(60,90,70,0.35), transparent 50%)",
+              "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(251,113,133,0.18), transparent 55%)",
           }}
         />
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            position: "relative",
-          }}
-        >
+        <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
           <div
             style={{
               display: "flex",
-              fontSize: 16,
-              letterSpacing: "0.16em",
+              fontSize: 15,
+              letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color: "#c6f24a",
+              color: "#fb7185",
               marginBottom: 28,
               fontWeight: 600,
             }}
           >
-            v4.0.1 · sstool
+            v4.0.1 · sstool · 2500+ strings
           </div>
           <div
             style={{
               display: "flex",
               fontSize: 84,
               fontWeight: 700,
-              color: "#f1f4ef",
+              color: "#f4f4f5",
               letterSpacing: "-0.05em",
               lineHeight: 0.95,
               marginBottom: 24,
@@ -66,8 +60,8 @@ export default function Image() {
             style={{
               display: "flex",
               fontSize: 26,
-              color: "#8d9688",
-              maxWidth: 720,
+              color: "#a1a1aa",
+              maxWidth: 740,
               lineHeight: 1.4,
             }}
           >

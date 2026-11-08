@@ -1,17 +1,18 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Manrope, Syne } from "next/font/google"
+import { IBM_Plex_Sans, Space_Grotesk } from "next/font/google"
 import "./globals.css"
 import SiteNav from "./components/SiteNav"
 
-const display = Syne({
+const display = Space_Grotesk({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 })
 
-const body = Manrope({
+const body = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-body",
   display: "swap",
 })
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
     template: "%s | ScreenShareTool",
   },
   description:
-    "Cross-platform forensic analysis for Minecraft screen shares. Detect cheat self-destruction, multi-accounting, and system tampering — plus an 800+ string reference and full operational guide.",
+    "Cross-platform forensic analysis for Minecraft screen shares. Detect cheat self-destruction, multi-accounting, and system tampering — plus 2500+ strings, a .txt builder, and a full operational guide.",
   keywords: [
     "minecraft screenshare",
     "anti cheat",
@@ -81,6 +82,7 @@ const footerCols = [
     links: [
       { href: "/guide", label: "Operational guide" },
       { href: "/strings", label: "Forensic strings" },
+      { href: "/builder", label: "String builder" },
       { href: "/tools", label: "Tool encyclopedia" },
       { href: "/guide#p7", label: "Ban flags" },
     ],

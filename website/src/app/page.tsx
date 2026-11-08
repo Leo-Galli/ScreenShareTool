@@ -44,28 +44,28 @@ const modules = [
 const kit = [
   {
     title: "Operational guide",
-    desc: "Ten-part procedure: roles, deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, false positives, closure.",
+    desc: "Full procedure: roles, deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, sstool workflow, evidence pack.",
     href: "/guide",
-    meta: "10 parts",
+    meta: "14 parts",
   },
   {
     title: "Forensic strings",
-    desc: "Searchable registry keys, USN commands, Event IDs, paths, and real artifacts — not guesses.",
+    desc: "2500+ searchable registry keys, USN commands, Event IDs, paths, cheat clients, and artifacts.",
     href: "/strings",
-    meta: "800+ entries",
+    meta: "2500+ entries",
   },
   {
-    title: "Tool encyclopedia",
-    desc: "System Informer, Everything, Luyten, NirSoft, Wireshark — install commands and usage notes.",
-    href: "/tools",
-    meta: "29 tools",
+    title: "String builder",
+    desc: "Select categories or lines and export a custom .txt for System Informer or your checklist.",
+    href: "/builder",
+    meta: "Export .txt",
   },
 ]
 
 const faq = [
   {
     q: "What is ScreenShareTool?",
-    a: "A forensic kit for Minecraft screen shares: an operational guide, an 800+ string dictionary, a tool encyclopedia, and a cross-platform analysis app (command: sstool) that writes a dashboard at the end of each scan.",
+    a: "A forensic kit for Minecraft screen shares: an operational guide, a 2500+ string dictionary with .txt builder, a tool encyclopedia, and a cross-platform analysis app (command: sstool) that writes a dashboard at the end of each scan.",
   },
   {
     q: "Who is it for?",
@@ -131,8 +131,8 @@ export default function Home() {
       <div className="page-shell pb-28">
         <div className="mb-20 grid gap-8 border-y border-[var(--rule)] py-10 sm:grid-cols-3">
           {[
-            { k: "800+", l: "Forensic strings indexed for live lookup" },
-            { k: "48", l: "Cheat clients tracked for self-delete patterns" },
+            { k: "2500+", l: "Forensic strings indexed for live lookup" },
+            { k: ".txt", l: "Custom string lists via the builder export" },
             { k: "sstool", l: "One command after winget — GUI or CLI" },
           ].map((s) => (
             <div key={s.l} className="rail">
@@ -278,10 +278,10 @@ export default function Home() {
               Download
             </Link>
             <Link
-              href="/strings"
+              href="/builder"
               className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
-              Browse strings
+              Build a .txt
             </Link>
           </div>
         </section>

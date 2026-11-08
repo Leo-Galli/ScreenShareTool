@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 export const metadata: Metadata = {
   title: "Operational Guide",
   description:
-    "The complete, 10-part operational manual for conducting a Minecraft screen share: tool deployment, pre-analysis checklist, multi-accounting, ghost clients, autoclickers, immediate ban flags, false positives, and machine cleanup.",
+    "Complete operational manual for Minecraft screen shares: tool deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, sstool workflow, USN deep-dive, evidence packaging, and string builder usage.",
 };
 
 function FlagBadge({ f }: { f: string }) {
@@ -82,6 +82,10 @@ const toc = [
   { href: "#p7", t: "Part 7 — Immediate Ban Flags" },
   { href: "#p8", t: "Part 8 — Borderline Cases and False Positives" },
   { href: "#p9", t: "Part 9 — Closure and Cleanup" },
+  { href: "#p10", t: "Part 10 — ScreenShareTool (sstool) Workflow" },
+  { href: "#p11", t: "Part 11 — NTFS USN Deep Dive" },
+  { href: "#p12", t: "Part 12 — Evidence Packaging & Chain of Custody" },
+  { href: "#p13", t: "Part 13 — Custom String Lists (.txt Builder)" },
 ];
 
 export default function Guide() {
@@ -97,10 +101,11 @@ export default function Guide() {
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           Complete procedure for a professional Minecraft screen share — roles, deploy, checklist,
-          multi-accounting, ghosts, autoclickers, ban flags, and closure.
+          multi-accounting, ghosts, autoclickers, ban flags, sstool workflow, USN deep-dive, evidence
+          packaging, and custom string exports.
         </p>
         <div className="mt-6 flex flex-wrap gap-2">
-          {["v4.0.1", "sstool", "Windows", "macOS", "Linux"].map((tag) => (
+          {["v4.0.1", "sstool", "14 parts", "Windows", "macOS", "Linux"].map((tag) => (
             <span
               key={tag}
               className="px-3 py-1 text-xs font-medium"
@@ -402,9 +407,22 @@ Connecting to
 
       {/* PART 6 */}
       <PartSection id="p6" num={6} title="Forensic String Dictionary">
-        <p className="text-[var(--muted)] text-sm mb-6">
+        <p className="text-[var(--muted)] text-sm mb-4">
           Use this in the &quot;Strings&quot; tab of System Informer, filtering on javaw.exe, explorer.exe, csrss.exe, or any suspicious executable.
+          The live dictionary on this site holds 2500+ entries — browse{" "}
+          <a href="/strings" className="text-[var(--accent-2)] underline-offset-2 hover:underline">/strings</a>
+          {" "}or build a custom list at{" "}
+          <a href="/builder" className="text-[var(--accent-2)] underline-offset-2 hover:underline">/builder</a>.
         </p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">How to load strings in System Informer</h3>
+          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <li>Open System Informer as Administrator → find javaw.exe → Properties → Memory → Strings.</li>
+            <li>Disable &quot;Hide free regions&quot; when hunting unloaded modules.</li>
+            <li>Paste a category from your exported .txt into the filter, or search one keyword at a time.</li>
+            <li>Always corroborate a RAM hit with disk/USN/Prefetch — a string alone is not a ban.</li>
+          </ol>
+        </div>
 
         <div className="space-y-4">
           {[
@@ -545,7 +563,161 @@ Connecting to
             <CheckItem>Ban rationale with referenced Flag(s) (e.g. Flag B + Flag D)</CheckItem>
             <CheckItem>Screenshots of the collected evidence</CheckItem>
             <CheckItem>Session start and end time</CheckItem>
+            <CheckItem>Path to ScreenShareTool dashboard.html if a scan was run</CheckItem>
           </div>
+        </div>
+      </PartSection>
+
+      <PartSection id="p10" num={10} title="ScreenShareTool (sstool) Workflow">
+        <p className="text-[var(--muted)] text-sm mb-6">
+          ScreenShareTool automates collection. It does not replace Parts 0–9 — it accelerates them and produces an HTML dashboard you can archive.
+        </p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">10.1 Install & launch</h3>
+          <CmdBox>{`winget install LeoGalli.CharlieRPScreenShareTool
+sstool`}</CmdBox>
+          <p className="text-[var(--muted)] text-sm mt-3">
+            Or download the ZIP from Releases. Display name: ScreenShareTool. Command: <code className="text-white">sstool</code>.
+            On Windows, run elevated for BAM / Prefetch / Event Log coverage.
+          </p>
+        </div>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">10.2 Day window selection</h3>
+          <ul className="text-white/80 text-sm space-y-2 list-disc list-inside">
+            <li><strong>1 day</strong> — freeze-to-share window; use when the summons is immediate.</li>
+            <li><strong>7 days</strong> — default for most shares; balances noise vs coverage.</li>
+            <li><strong>30 / 90 days</strong> — multi-accounting history, old self-delete traces, USB history.</li>
+            <li><strong>--quick</strong> — skips slow journal/deep walks when time is short; re-run full if hits appear.</li>
+          </ul>
+        </div>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">10.3 Modules you should expect</h3>
+          <div className="grid md:grid-cols-2 gap-3 text-sm text-white/80">
+            {[
+              "NTFS USN journal",
+              "BAM last executions",
+              "Prefetch",
+              "Registry (UserAssist, RunMRU, ShellBags)",
+              "Minecraft launchers + IAS",
+              "Cheat self-destruction patterns",
+              "Macro / peripheral software",
+              "Event Log highlights",
+              "Network snapshot",
+              "HTML dashboard export",
+            ].map((m) => (
+              <div key={m} className="guide-inset">{m}</div>
+            ))}
+          </div>
+        </div>
+        <div className="guide-panel">
+          <h3 className="text-lg font-semibold mb-3 guide-h">10.4 Reading the dashboard</h3>
+          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <li>Check KPI tiles first (accounts, IAS switches, cheat alerts, nick count).</li>
+            <li>Open every module marked error/skipped — know why coverage is incomplete.</li>
+            <li>Treat cheat alerts as leads: verify with Luyten / System Informer / Prefetch before Flag G.</li>
+            <li>Archive <code className="text-[var(--accent-2)]">dashboard.html</code> + screenshots with the case notes (Part 12).</li>
+          </ol>
+        </div>
+      </PartSection>
+
+      <PartSection id="p11" num={11} title="NTFS USN Deep Dive">
+        <p className="text-[var(--muted)] text-sm mb-6">
+          The USN journal is the strongest disk timeline on Windows. Players who delete cheats mid-share still leave create/delete/rename reasons.
+        </p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">11.1 Capture</h3>
+          <CmdBox>{`fsutil usn readjournal C: csv > %USERPROFILE%\\Desktop\\usn.csv`}</CmdBox>
+          <p className="text-[var(--muted)] text-sm mt-3">
+            Prefer capturing to Desktop early (Part 2) before the player can clear more artifacts. Admin CMD required.
+          </p>
+        </div>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">11.2 Reason codes that matter</h3>
+          <div className="overflow-x-auto text-sm">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-[var(--rule)] text-left text-white/80">
+                  <th className="p-2">Code</th>
+                  <th className="p-2">Meaning</th>
+                  <th className="p-2">SS relevance</th>
+                </tr>
+              </thead>
+              <tbody className="text-[var(--muted)]">
+                <tr className="border-b border-[var(--rule)]"><td className="p-2 font-mono">0x00000100</td><td className="p-2">FILE_CREATE</td><td className="p-2">New jar/exe appeared</td></tr>
+                <tr className="border-b border-[var(--rule)]"><td className="p-2 font-mono">0x00000200</td><td className="p-2">FILE_DELETE</td><td className="p-2">Self-delete / wipe</td></tr>
+                <tr className="border-b border-[var(--rule)]"><td className="p-2 font-mono">0x00001000</td><td className="p-2">RENAME_OLD_NAME</td><td className="p-2">Rename-away disguise</td></tr>
+                <tr className="border-b border-[var(--rule)]"><td className="p-2 font-mono">0x00002000</td><td className="p-2">RENAME_NEW_NAME</td><td className="p-2">Pair with old name</td></tr>
+                <tr><td className="p-2 font-mono">0x80000200</td><td className="p-2">CLOSE + DELETE</td><td className="p-2">Common cheat wipe pattern</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div className="guide-panel">
+          <h3 className="text-lg font-semibold mb-3 guide-h">11.3 High-value findstr filters</h3>
+          <CmdBox>{`findstr /i /C:".jar" /C:"jnativehook" /C:"liquidbounce" /C:"wurst" usn.csv
+findstr /i /C:"0x00000200" /C:"0x80000200" usn.csv | findstr /i ".jar .exe .dll"`}</CmdBox>
+          <p className="text-[var(--muted)] text-sm mt-3">
+            Align timestamps with the freeze / summons time. Deletes clustered in the minute after freeze are Flag-adjacent leads.
+          </p>
+        </div>
+      </PartSection>
+
+      <PartSection id="p12" num={12} title="Evidence Packaging & Chain of Custody">
+        <p className="text-[var(--muted)] text-sm mb-6">
+          A ban without a recoverable evidence pack is a liability. Package before you wipe tools (Part 9).
+        </p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">12.1 Minimum evidence pack</h3>
+          <div className="space-y-2">
+            <CheckItem>Screenshots: Desktop, Task Manager, mods folder, System Informer hits</CheckItem>
+            <CheckItem>ScreenShareTool output folder / dashboard.html</CheckItem>
+            <CheckItem>usn.csv (or journal excerpt) if USN was used</CheckItem>
+            <CheckItem>Exported string list used during the share (from /builder)</CheckItem>
+            <CheckItem>Case note: nick, time window, flags, outcome, inspector id</CheckItem>
+          </div>
+        </div>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">12.2 Naming convention</h3>
+          <CmdBox>{`YYYYMMDD_HHMM_<nick>_<outcome>.zip
+# example: 20261108_2215_Steve_BAN_FlagB-D.zip`}</CmdBox>
+        </div>
+        <div className="guide-panel">
+          <h3 className="text-lg font-semibold mb-3 guide-h">12.3 Privacy</h3>
+          <p className="text-[var(--muted)] text-sm">
+            Redact real Windows usernames, Discord IDs, and unrelated personal files before sharing packs outside the staff channel.
+            Never paste full user paths into public tickets.
+          </p>
+        </div>
+      </PartSection>
+
+      <PartSection id="p13" num={13} title="Custom String Lists (.txt Builder)">
+        <p className="text-[var(--muted)] text-sm mb-6">
+          Different shares need different focus (ghost vs multi-account vs USB). Build a reusable .txt instead of improvising filters under pressure.
+        </p>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">13.1 Build</h3>
+          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <li>Open <a href="/builder" className="text-[var(--accent-2)] underline-offset-2 hover:underline">/builder</a>.</li>
+            <li>Filter by OS or search (e.g. &quot;IAS&quot;, &quot;Prefetch&quot;, &quot;LiquidBounce&quot;).</li>
+            <li>Select whole categories or individual lines.</li>
+            <li>Enable category headers + dedupe, then Download .txt.</li>
+          </ol>
+        </div>
+        <div className="guide-panel mb-6">
+          <h3 className="text-lg font-semibold mb-3 guide-h">13.2 Suggested presets</h3>
+          <ul className="text-white/80 text-sm space-y-2 list-disc list-inside">
+            <li><strong>Freeze kit</strong> — Recycle Bin, Prefetch, USBSTOR, Self-Destruct, USN delete codes.</li>
+            <li><strong>Ghost kit</strong> — Ghost paths, RAM strings, Cheat clients, Mod loaders, Java runtime.</li>
+            <li><strong>Alts kit</strong> — Minecraft paths, IAS, launcher JSON, Discord cache, Browser downloads.</li>
+            <li><strong>Macro kit</strong> — Autoclicker, Macro software, JNativeHook, HID / BadUSB.</li>
+          </ul>
+        </div>
+        <div className="guide-panel">
+          <h3 className="text-lg font-semibold mb-3 guide-h">13.3 Use during the share</h3>
+          <p className="text-[var(--muted)] text-sm">
+            Keep the .txt on your (inspector) machine, not the player PC when possible. Copy one line at a time into System Informer filters.
+            After the share, attach the exact .txt used to the evidence pack so seniors can reproduce your search.
+          </p>
         </div>
       </PartSection>
 
