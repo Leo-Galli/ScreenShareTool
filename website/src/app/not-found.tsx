@@ -1,38 +1,69 @@
+import type { Metadata } from "next"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "404",
+  description: "Page not found — ScreenShareTool",
+  robots: { index: false, follow: true },
+}
+
+const links = [
+  { href: "/", label: "Home" },
+  { href: "/guide", label: "Guide" },
+  { href: "/strings", label: "Strings" },
+  { href: "/builder", label: "Builder" },
+  { href: "/download", label: "Download" },
+] as const
 
 export default function NotFound() {
   return (
-    <div className="page-shell flex min-h-[70svh] flex-col justify-center py-20">
-      <p className="section-label">404</p>
-      <h1
-        className="font-display font-semibold tracking-tight text-white"
-        style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
+    <div className="page-shell relative flex min-h-[78svh] flex-col justify-center py-16 sm:py-20">
+      <p className="section-label animate-hero-in">Error</p>
+
+      <p
+        className="animate-hero-in-late font-display font-semibold tracking-tight text-white"
+        aria-hidden="true"
+        style={{
+          fontSize: "clamp(6rem, 28vw, 14rem)",
+          letterSpacing: "-0.08em",
+          lineHeight: 0.85,
+          background: "linear-gradient(180deg, #fff 0%, rgba(251,113,133,0.55) 100%)",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+        }}
       >
-        Page not found
-      </h1>
-      <p className="mt-5 max-w-md text-base leading-relaxed" style={{ color: "var(--muted)" }}>
-        That route does not exist. Head home, open the guide, or grab the latest build.
+        404
       </p>
-      <div className="mt-10 flex flex-wrap gap-3">
-        <Link
-          href="/"
-          className="cta-primary px-6 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-        >
-          Home
-        </Link>
-        <Link
-          href="/guide"
-          className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-        >
-          Guide
-        </Link>
-        <Link
-          href="/download"
-          className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-        >
-          Download
-        </Link>
-      </div>
+
+      <h1 className="animate-hero-in-later sr-only">Page not found</h1>
+
+      <p
+        className="animate-hero-in-later mt-6 max-w-md text-base leading-relaxed sm:text-lg"
+        style={{ color: "var(--muted)" }}
+      >
+        This route does not exist. Jump back in — guide, strings, builder, or download.
+      </p>
+
+      <nav
+        className="animate-hero-in-later mt-10 flex flex-wrap gap-2 sm:gap-3"
+        aria-label="Quick links"
+      >
+        {links.map((l, i) => (
+          <Link
+            key={l.href}
+            href={l.href}
+            prefetch
+            className={
+              i === 0
+                ? "cta-primary px-5 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                : "cta-ghost px-5 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            }
+          >
+            {l.label}
+          </Link>
+        ))}
+      </nav>
     </div>
   )
 }

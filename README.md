@@ -1,42 +1,44 @@
 <div align="center">
 
-# CharlieRP ScreenShareTool
+# ScreenShareTool
 
-### Advanced Forensic Anti-Cheat Analysis Tool
+### Forensic anti-cheat analysis for Minecraft screen shares
 
-[![Version](https://img.shields.io/badge/Version-3.1.0-blue?style=for-the-badge&logo=github)](https://github.com/Leo-Galli/ScreenShareTool/releases)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-blueviolet?style=for-the-badge&logo=windows&logoColor=white)]()
-[![Python](https://img.shields.io/badge/Python-3.8%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)]()
-[![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?style=for-the-badge&logo=powershell&logoColor=white)]()
-[![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=for-the-badge)]()
-[![winget](https://img.shields.io/badge/winget-Available-yellow?style=for-the-badge&logo=windows&logoColor=white)](https://github.com/microsoft/winget-pkgs/pull/423780)
-[![Website](https://img.shields.io/badge/Website-screenshare-guide.vercel.app-cyan?style=for-the-badge&logo=vercel&logoColor=white)](https://screenshare-guide.vercel.app)
+<p>
+  <a href="https://github.com/Leo-Galli/ScreenShareTool/actions/workflows/ci-website.yml"><img alt="Website CI" src="https://img.shields.io/github/actions/workflow/status/Leo-Galli/ScreenShareTool/ci-website.yml?branch=main&style=flat&label=website%20CI&logo=githubactions&logoColor=white&color=4ade80"></a>
+  <a href="https://github.com/Leo-Galli/ScreenShareTool/actions/workflows/ci-tool.yml"><img alt="Tool CI" src="https://img.shields.io/github/actions/workflow/status/Leo-Galli/ScreenShareTool/ci-tool.yml?branch=main&style=flat&label=tool%20CI&logo=githubactions&logoColor=white&color=4ade80"></a>
+  <a href="https://github.com/Leo-Galli/ScreenShareTool/releases/latest"><img alt="Release" src="https://img.shields.io/github/v/release/Leo-Galli/ScreenShareTool?style=flat&logo=github&logoColor=white&label=release&color=fb7185"></a>
+  <a href="LICENSE"><img alt="License" src="https://img.shields.io/github/license/Leo-Galli/ScreenShareTool?style=flat&color=a1a1aa&logo=open-source-initiative&logoColor=white"></a>
+</p>
+<p>
+  <img alt="Python" src="https://img.shields.io/badge/python-3.8%2B-3776AB?style=flat&logo=python&logoColor=white">
+  <img alt="Platforms" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-18181b?style=flat&logo=windows&logoColor=white">
+  <a href="https://github.com/microsoft/winget-pkgs"><img alt="winget" src="https://img.shields.io/badge/winget-sstool-fb7185?style=flat&logo=windows-terminal&logoColor=white"></a>
+  <a href="https://screenshare-guide.vercel.app"><img alt="Website" src="https://img.shields.io/badge/docs-screenshare--guide.vercel.app-000000?style=flat&logo=vercel&logoColor=white"></a>
+  <img alt="Strings" src="https://img.shields.io/badge/strings-2500%2B-fda4af?style=flat">
+  <a href="https://screenshare-guide.vercel.app/builder"><img alt="Builder" src="https://img.shields.io/badge/builder-.txt%20export-fb7185?style=flat"></a>
+</p>
 
-**Network:** mc.charlieroleplay.it | **Developer:** LeoGalli
+**Command:** `sstool` · **Developer:** [LeoGalli](https://github.com/Leo-Galli)
 
----
-
-[Features](#-features) • [Installation](#-installation) • [Usage](#-usage) • [Guide](https://screenshare-guide.vercel.app/guide) • [Changelog](https://screenshare-guide.vercel.app/changelog) • [Modules](#-modules) • [Cheat Detection](#-cheat-detection) • [Contributing](#-contributing)
-
----
+[Features](#features) · [Install](#installation) · [Usage](#usage) · [Guide](https://screenshare-guide.vercel.app/guide) · [Strings](https://screenshare-guide.vercel.app/strings) · [Builder](https://screenshare-guide.vercel.app/builder) · [Changelog](https://screenshare-guide.vercel.app/changelog)
 
 </div>
 
 ## Overview
 
-CharlieRP ScreenShareTool is a comprehensive forensic analysis tool designed for Minecraft server administration. It detects multi-accounting, cheat self-destruction, registry alterations, suspicious deletions, and account switches across multiple Minecraft launchers.
+**ScreenShareTool** is a forensic kit for Minecraft server staff: GUI + CLI scanner, operational guide, 2500+ string dictionary, and a `.txt` builder for custom System Informer lists.
 
-Originally written in PowerShell, v3.0 has been completely rewritten in **Python** (Windows/macOS/Linux) and **Bash** (macOS/Linux/FreeBSD) with optimized performance, reduced false positives, and clean organized text reports.
+It detects multi-accounting, cheat self-destruction, registry tampering, suspicious deletions, and account switches across common launchers. Package id stays `LeoGalli.CharlieRPScreenShareTool` for winget continuity; display name is **ScreenShareTool**.
 
 <div align="center">
 
 | Platform | Method | Command |
 |:---------|:-------|:--------|
-| **Windows** | `.exe` (standalone) | Double-click `screensharetool.exe` |
-| **Windows** | Python | `python -m screenshare_tool --days 7` |
+| **Windows** | winget | `winget install LeoGalli.CharlieRPScreenShareTool` then `sstool` |
+| **Windows** | ZIP / exe | Run `sstool.exe` from [Releases](https://github.com/Leo-Galli/ScreenShareTool/releases/latest) |
+| **Any** | Python | `python -m screenshare_tool --gui` |
 | **macOS/Linux** | Bash | `sudo bash ss_tool_unix.sh` |
-| **winget** | Package Manager | `winget install LeoGalli.CharlieRPScreenShareTool` |
 
 </div>
 
@@ -73,25 +75,22 @@ Originally written in PowerShell, v3.0 has been completely rewritten in **Python
 
 ```powershell
 winget install LeoGalli.CharlieRPScreenShareTool
+sstool
 ```
 
-### Option 2: Download .exe
+### Option 2: Download ZIP / exe
 
-Download the latest `screensharetool.exe` from [Releases](https://github.com/Leo-Galli/ScreenShareTool/releases) and run it directly. No Python installation required.
+Download `ScreenShareTool-v*-GUI-x64.zip` from [Releases](https://github.com/Leo-Galli/ScreenShareTool/releases/latest) and run `sstool.exe`. No Python required.
 
 ### Option 3: Python
 
 ```bash
-# Clone the repository
 git clone https://github.com/Leo-Galli/ScreenShareTool.git
 cd ScreenShareTool
-
-# Run directly
-python -m screenshare_tool --days 7
-
-# Or install as a package
 pip install -e .
-screenshare-tool --days 7
+sstool --gui
+# or
+python -m screenshare_tool --days 7
 ```
 
 ### Option 4: Bash (macOS/Linux)
@@ -109,13 +108,11 @@ sudo bash ss_tool_unix.sh
 ### Windows
 
 ```powershell
-# Run as Administrator
-python -m screenshare_tool
-
-# With parameters
-python -m screenshare_tool --days 7
-python -m screenshare_tool --days 30 --output C:\MyOutput
-python -m screenshare_tool --quick  # Skip slow modules (journal, full nick search)
+# Run as Administrator (full Windows modules)
+sstool
+sstool --days 7
+sstool --days 30 --output C:\MyOutput
+sstool --quick
 ```
 
 ### macOS/Linux
@@ -132,7 +129,8 @@ sudo bash ss_tool_unix.sh
 
 | Option | Description |
 |:-------|:------------|
-| `--days N` | Analyze last N days (prompts if not specified) |
+| *(no args)* / `--gui` | Launch GUI |
+| `--days N` | Analyze last N days |
 | `--output PATH` | Custom output directory |
 | `--quick` | Skip slow modules (journal, full nick search) |
 | `--version` | Show version and exit |
@@ -141,10 +139,10 @@ sudo bash ss_tool_unix.sh
 
 ## Output Structure
 
-All reports are saved to `C:\CharlieRP_SS\` (Windows) or `/tmp/CharlieRP_SS\` (macOS/Linux):
+Reports default to `ScreenShareTool_SS` (Windows) or `/tmp/ScreenShareTool_SS` (macOS/Linux):
 
 ```
-CharlieRP_SS/
+ScreenShareTool_SS/
 ├── 01_AccountFiles/         # MC account files found/modified
 ├── 02_DeletedRenamed/       # Deleted/renamed executables
 ├── 03_JNativeHook/          # Autoclicker traces
