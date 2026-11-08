@@ -244,8 +244,8 @@ const releases: ChangeBlock[] = [
 ]
 
 const tagStyle: Record<ChangeBlock["tag"], { color: string; border: string; bg: string }> = {
-  Latest: { color: "#000", border: "#fff", bg: "#fff" },
-  Major: { color: "var(--accent)", border: "rgba(126,182,255,0.45)", bg: "var(--soft)" },
+  Latest: { color: "#0c0e0c", border: "var(--accent)", bg: "var(--accent)" },
+  Major: { color: "var(--accent)", border: "rgba(198,242,74,0.45)", bg: "var(--soft)" },
   Minor: { color: "var(--muted)", border: "var(--rule)", bg: "transparent" },
   Patch: { color: "var(--muted)", border: "var(--rule)", bg: "transparent" },
   Initial: { color: "var(--muted)", border: "var(--rule)", bg: "transparent" },
@@ -253,23 +253,24 @@ const tagStyle: Record<ChangeBlock["tag"], { color: string; border: string; bg: 
 
 export default function ChangelogPage() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
-      <div className="mb-14 max-w-3xl">
+    <div className="page-shell py-16 sm:py-20">
+      <div className="mb-14 max-w-3xl border-b border-[var(--rule)] pb-10">
         <p className="section-label">Updates</p>
         <h1
           className="font-display font-semibold tracking-tight text-white"
-          style={{ fontSize: "clamp(2.4rem, 6vw, 3.75rem)", letterSpacing: "-0.04em" }}
+          style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Changelog
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           Every ScreenShareTool release — from the first PowerShell build to the GUI era.
-          Current version: <span className="text-white">v4.0.1</span>.
+          Current version: <span className="text-white">v4.0.1</span> · command{" "}
+          <code className="text-[var(--accent)]">sstool</code>.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
             href="/download"
-            className="cta-primary rounded-full px-6 py-2.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="cta-primary px-5 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             Download latest
           </Link>
@@ -277,7 +278,7 @@ export default function ChangelogPage() {
             href="https://github.com/Leo-Galli/ScreenShareTool/releases"
             target="_blank"
             rel="noopener noreferrer"
-            className="cta-ghost rounded-full px-6 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+            className="cta-ghost px-5 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             GitHub releases
           </a>
@@ -291,7 +292,7 @@ export default function ChangelogPage() {
             <a
               key={r.version}
               href={`#v${r.version.replace(/\./g, "-")}`}
-              className="rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="px-3.5 py-1.5 text-sm font-medium transition-colors hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               style={{ color: "var(--muted)", border: "1px solid var(--rule)" }}
             >
               v{r.version}
@@ -314,7 +315,7 @@ export default function ChangelogPage() {
                   v{r.version}
                 </h2>
                 <span
-                  className="rounded-full px-3 py-1 text-xs font-semibold"
+                  className="px-2.5 py-1 text-xs font-semibold"
                   style={{
                     color: style.color,
                     border: `1px solid ${style.border}`,
@@ -369,7 +370,7 @@ export default function ChangelogPage() {
                       {...(l.href.startsWith("http")
                         ? { target: "_blank", rel: "noopener noreferrer" }
                         : {})}
-                      className="cta-ghost rounded-full px-5 py-2 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                      className="cta-ghost px-4 py-2 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                     >
                       {l.label}
                     </Link>
@@ -383,8 +384,8 @@ export default function ChangelogPage() {
         })}
       </div>
 
-      <div className="glow-card !min-h-0 mt-8 p-8 sm:flex sm:items-end sm:justify-between sm:gap-8 sm:p-10">
-        <div className="relative z-10 max-w-lg">
+      <div className="surface-panel mt-8 flex flex-col gap-6 p-8 sm:flex-row sm:items-end sm:justify-between sm:p-10">
+        <div className="max-w-lg">
           <h2 className="font-display text-2xl font-semibold tracking-tight text-white">
             Stay on the latest build
           </h2>
@@ -392,14 +393,12 @@ export default function ChangelogPage() {
             Grab v4.0.1 from the download page or watch GitHub releases for the next tag.
           </p>
         </div>
-        <div className="relative z-10 mt-6 flex flex-wrap gap-3 sm:mt-0">
-          <Link
-            href="/download"
-            className="cta-primary rounded-full px-6 py-2.5 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-          >
-            Download
-          </Link>
-        </div>
+        <Link
+          href="/download"
+          className="cta-primary px-5 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+        >
+          Download
+        </Link>
       </div>
     </div>
   )

@@ -86,22 +86,24 @@ const toc = [
 
 export default function Guide() {
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
-      <div className="mb-14 max-w-3xl">
+    <div className="page-shell py-16 sm:py-20">
+      <div className="mb-14 max-w-3xl border-b border-[var(--rule)] pb-10">
+        <p className="section-label">Manual</p>
         <h1
           className="font-display font-semibold tracking-tight text-white"
-          style={{ fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.04em" }}
+          style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Operational Manual
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
-          Complete procedure for a professional Minecraft screen share.
+          Complete procedure for a professional Minecraft screen share — roles, deploy, checklist,
+          multi-accounting, ghosts, autoclickers, ban flags, and closure.
         </p>
         <div className="mt-6 flex flex-wrap gap-2">
-          {["v4.0.1", "Windows", "macOS", "Linux"].map((tag) => (
+          {["v4.0.1", "sstool", "Windows", "macOS", "Linux"].map((tag) => (
             <span
               key={tag}
-              className="rounded-full px-3 py-1 text-xs font-medium"
+              className="px-3 py-1 text-xs font-medium"
               style={{ color: "var(--muted)", border: "1px solid var(--rule)" }}
             >
               {tag}

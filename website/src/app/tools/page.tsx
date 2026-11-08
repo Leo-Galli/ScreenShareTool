@@ -254,8 +254,8 @@ const tools = [
       {
         name: "ScreenShareTool",
         desc: "The forensic GUI/CLI behind this site: 48 tracked cheat clients, BAM parser, whole-PC scan, and false-positive filtering.",
-        use: "python -m screenshare_tool --gui for the app, or --days 7 for CLI.",
-        install: "winget install LeoGalli.CharlieRPScreenShareTool",
+        use: "sstool for the GUI, or sstool --days 7 for CLI.",
+        install: "winget install LeoGalli.CharlieRPScreenShareTool  →  sstool",
         url: "https://github.com/Leo-Galli/ScreenShareTool",
       },
     ],
@@ -266,16 +266,18 @@ export default function ToolsPage() {
   const toolCount = tools.reduce((a, c) => a + c.items.length, 0)
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
-      <div className="mb-14 max-w-3xl">
+    <div className="page-shell py-16 sm:py-20">
+      <div className="mb-14 max-w-3xl border-b border-[var(--rule)] pb-10">
+        <p className="section-label">Reference</p>
         <h1
           className="font-display font-semibold tracking-tight text-white"
-          style={{ fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.04em" }}
+          style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Tool Encyclopedia
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
-          {toolCount} tools for Minecraft screen shares — install commands and usage notes.
+          {toolCount} tools for Minecraft screen shares — install commands and usage notes for
+          inspectors running a live share alongside ScreenShareTool.
         </p>
       </div>
 

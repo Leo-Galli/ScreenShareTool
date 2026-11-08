@@ -754,16 +754,18 @@ export default function StringsPage() {
   const isPath = (s: string) => s.startsWith("C:\\") || s.startsWith("%") || s.startsWith(".")
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-20 sm:px-8">
-      <div className="mb-12 max-w-3xl">
+    <div className="page-shell py-16 sm:py-20">
+      <div className="mb-12 max-w-3xl border-b border-[var(--rule)] pb-10">
+        <p className="section-label">Dictionary</p>
         <h1
           className="font-display font-semibold tracking-tight text-white"
-          style={{ fontSize: "clamp(2.2rem, 5.5vw, 3.5rem)", letterSpacing: "-0.04em" }}
+          style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Forensic Strings
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
-          {totalStrings} strings · {categories.length} categories — commands, registry keys, paths.
+          {totalStrings} strings · {categories.length} categories — commands, registry keys, paths,
+          and live-share artifacts.
         </p>
       </div>
 
@@ -775,12 +777,13 @@ export default function StringsPage() {
             aria-label="Search forensic strings"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="w-full rounded-full px-5 py-3.5 pl-11 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-white/30"
+            className="w-full px-5 py-3.5 pl-11 text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
             style={{
               backgroundColor: "var(--surface)",
               border: "1px solid var(--rule)",
               color: "var(--ink)",
               caretColor: "var(--accent)",
+              borderRadius: "var(--radius)",
             }}
           />
           <svg
@@ -803,11 +806,11 @@ export default function StringsPage() {
                 key={os}
                 onClick={() => setOsFilter(os)}
                 aria-pressed={active}
-                className="rounded-full px-3.5 py-1.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                className="px-3.5 py-1.5 text-xs font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                 style={{
-                  color: active ? "#000" : "var(--muted)",
-                  border: `1px solid ${active ? "#fff" : "var(--rule)"}`,
-                  backgroundColor: active ? "#fff" : "transparent",
+                  color: active ? "#0c0e0c" : "var(--muted)",
+                  border: `1px solid ${active ? "var(--accent)" : "var(--rule)"}`,
+                  backgroundColor: active ? "var(--accent)" : "transparent",
                 }}
               >
                 {os === "all" ? "All" : os}

@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 import Link from "next/link"
+import ProductStage from "./components/ProductStage"
 
 export const metadata: Metadata = {
   title: "ScreenShareTool — Minecraft Forensic Anti-Cheat",
@@ -13,58 +14,22 @@ export const metadata: Metadata = {
   },
 }
 
-const featured = [
-  {
-    title: "Operational Manual",
-    desc: "Ten-part procedure: roles, tool deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, false positives, closure.",
-    href: "/guide",
-    meta: "10 parts",
-  },
-  {
-    title: "Forensic Strings",
-    desc: "Searchable registry keys, USN journal commands, Event IDs, paths, and real artifacts — not guesses.",
-    href: "/strings",
-    meta: "800+ strings",
-  },
-]
-
-const rows = [
-  {
-    title: "Tool Encyclopedia",
-    desc: "System Informer, Everything, Luyten, NirSoft, Wireshark, and more — install commands and usage notes.",
-    href: "/tools",
-    meta: "29 tools · Reference",
-  },
-  {
-    title: "Changelog",
-    desc: "Full version history from v1.0.0 PowerShell to v4.0.1 — every fix and feature.",
-    href: "/changelog",
-    meta: "v1 → v4 · Updates",
-  },
-  {
-    title: "Download",
-    desc: "Native GUI for Windows, macOS, and Linux. Winget, standalone exe, Python, or Bash.",
-    href: "/download",
-    meta: "v4.0.1 · Release",
-  },
-]
-
-const capabilities = [
+const modules = [
   {
     title: "BAM & Prefetch",
-    desc: "Last executions and launch history for executables that matter during a share.",
+    desc: "Last executions and launch history for binaries that matter mid-share.",
   },
   {
     title: "Minecraft accounts",
-    desc: "Launchers, usercache, IAS logs, and account switches across common clients.",
+    desc: "Launchers, usercache, IAS logs, and account switches across clients.",
   },
   {
     title: "Cheat self-delete",
-    desc: "Traces of known clients and cleanup scripts that try to erase evidence mid-share.",
+    desc: "Known clients and cleanup scripts that try to erase evidence in-session.",
   },
   {
     title: "Registry & journal",
-    desc: "UserAssist, RunMRU, ShellBags, and NTFS USN journal signals when you go deep.",
+    desc: "UserAssist, RunMRU, ShellBags, and NTFS USN when you go deep.",
   },
   {
     title: "Macros & peripherals",
@@ -72,18 +37,39 @@ const capabilities = [
   },
   {
     title: "HTML dashboard",
-    desc: "One self-contained report with KPIs, tables, and charts — ready to archive.",
+    desc: "One offline report with KPIs, tables, and charts — ready to archive.",
+  },
+]
+
+const kit = [
+  {
+    title: "Operational guide",
+    desc: "Ten-part procedure: roles, deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, false positives, closure.",
+    href: "/guide",
+    meta: "10 parts",
+  },
+  {
+    title: "Forensic strings",
+    desc: "Searchable registry keys, USN commands, Event IDs, paths, and real artifacts — not guesses.",
+    href: "/strings",
+    meta: "800+ entries",
+  },
+  {
+    title: "Tool encyclopedia",
+    desc: "System Informer, Everything, Luyten, NirSoft, Wireshark — install commands and usage notes.",
+    href: "/tools",
+    meta: "29 tools",
   },
 ]
 
 const faq = [
   {
     q: "What is ScreenShareTool?",
-    a: "A forensic kit for Minecraft screen shares: an operational guide, an 800+ string dictionary, a tool encyclopedia, and a cross-platform analysis app that writes a dashboard at the end of each scan.",
+    a: "A forensic kit for Minecraft screen shares: an operational guide, an 800+ string dictionary, a tool encyclopedia, and a cross-platform analysis app (command: sstool) that writes a dashboard at the end of each scan.",
   },
   {
     q: "Who is it for?",
-    a: "Server staff and inspectors who need a repeatable procedure and machine-readable evidence — not casual players looking for a “ban button.”",
+    a: "Server staff and inspectors who need a repeatable procedure and machine-readable evidence — not casual players looking for a ban button.",
   },
   {
     q: "Does it replace manual inspection?",
@@ -94,176 +80,168 @@ const faq = [
     a: "Windows gets the full module set (BAM, Prefetch, Event Log, Registry). macOS and Linux run the GUI/CLI with the modules available on those systems.",
   },
   {
-    q: "Is it free?",
-    a: "Yes. MIT licensed. Download the exe, install via winget, or run from source with Python.",
+    q: "How do I install it?",
+    a: "winget install LeoGalli.CharlieRPScreenShareTool, then run sstool. Or download the ZIP from GitHub Releases. Display name: ScreenShareTool.",
   },
 ]
 
 export default function Home() {
   return (
     <>
-      <section className="relative min-h-[92svh] overflow-hidden" aria-label="Hero">
-        <div className="relative z-10 mx-auto flex max-w-6xl flex-col justify-center px-6 pb-24 pt-24 sm:px-8 sm:pt-32">
-          <p className="animate-hero-in section-label !mb-6">ScreenShareTool · v4.0.1</p>
-          <div className="animate-hero-in-late max-w-4xl">
-            <h1
-              className="font-display font-semibold leading-[1.05] tracking-[-0.045em] text-white"
-              style={{ fontSize: "clamp(2.8rem, 8.5vw, 5.75rem)" }}
-            >
-              Forensic analysis,
-              <br />
-              built for inspectors.
-            </h1>
-          </div>
-
-          <div className="animate-hero-in-later mt-8 max-w-xl">
-            <p className="text-base leading-relaxed sm:text-lg" style={{ color: "var(--muted)" }}>
-              Guide, strings, tools, and a modern analysis app for Minecraft screen shares —
-              evidence without the noise.
-            </p>
-            <div className="mt-10 flex flex-wrap gap-3">
-              <Link
-                href="/download"
-                className="cta-primary rounded-full px-7 py-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+      <section className="relative overflow-hidden" aria-label="Hero">
+        <div className="page-shell pb-16 pt-16 sm:pb-20 sm:pt-20">
+          <div className="grid items-end gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
+            <div>
+              <p className="animate-hero-in section-label !mb-5">v4.0.1 · command sstool</p>
+              <h1
+                className="animate-hero-in-late font-display font-semibold tracking-tight text-white"
+                style={{ fontSize: "clamp(3.2rem, 9vw, 6.4rem)", letterSpacing: "-0.055em", lineHeight: 0.92 }}
               >
-                Download
-              </Link>
-              <Link
-                href="/guide"
-                className="cta-ghost rounded-full px-7 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                ScreenShare
+                <br />
+                Tool
+              </h1>
+              <p
+                className="animate-hero-in-later mt-7 max-w-md text-base leading-relaxed sm:text-lg"
+                style={{ color: "var(--muted)" }}
               >
-                Read the guide
-              </Link>
+                Forensic analysis for Minecraft screen shares — evidence without the noise.
+              </p>
+              <div className="animate-hero-in-later mt-9 flex flex-wrap gap-3">
+                <Link
+                  href="/download"
+                  className="cta-primary px-6 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                >
+                  Download v4.0.1
+                </Link>
+                <Link
+                  href="/guide"
+                  className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                >
+                  Read the guide
+                </Link>
+              </div>
             </div>
+
+            <ProductStage className="min-h-[22rem]" />
           </div>
         </div>
       </section>
 
-      <div className="relative z-10 mx-auto max-w-6xl px-6 pb-28 sm:px-8">
-        <div className="mb-24 grid gap-6 border-y border-white/10 py-10 sm:grid-cols-4">
+      <div className="page-shell pb-28">
+        <div className="mb-20 grid gap-8 border-y border-[var(--rule)] py-10 sm:grid-cols-3">
           {[
-            { k: "800+", l: "Forensic strings" },
-            { k: "48", l: "Cheat clients tracked" },
-            { k: "29", l: "Documented tools" },
-            { k: "3", l: "OS platforms" },
+            { k: "800+", l: "Forensic strings indexed for live lookup" },
+            { k: "48", l: "Cheat clients tracked for self-delete patterns" },
+            { k: "sstool", l: "One command after winget — GUI or CLI" },
           ].map((s) => (
-            <div key={s.l}>
+            <div key={s.l} className="rail">
               <div className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
                 {s.k}
               </div>
-              <div className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
+              <p className="mt-2 max-w-xs text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                 {s.l}
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <p className="section-label">Capabilities</p>
-        <h2 className="font-display mb-10 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          What the scanner covers
-        </h2>
-        <div className="mb-24 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {capabilities.map((c) => (
-            <div key={c.title} className="glow-card !min-h-0 p-7">
-              <div className="relative z-10">
-                <h3 className="font-display text-xl font-semibold tracking-tight text-white">
-                  {c.title}
-                </h3>
-                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-                  {c.desc}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <p className="section-label">Resources</p>
-        <h2 className="font-display mb-8 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          Everything in one kit
-        </h2>
-
-        <div className="mb-4 grid gap-5 md:grid-cols-2">
-          {featured.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="glow-card group flex flex-col justify-end p-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              aria-label={s.title}
-            >
-              <div className="relative z-10">
-                <span className="mb-3 block text-xs font-medium" style={{ color: "var(--muted)" }}>
-                  {s.meta}
-                </span>
-                <h3 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                  {s.title}
-                </h3>
-                <p className="mt-3 max-w-sm text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-                  {s.desc}
-                </p>
-              </div>
-            </Link>
-          ))}
-        </div>
-
-        <div className="mb-24 mt-6">
-          {rows.map((s) => (
-            <Link
-              key={s.href}
-              href={s.href}
-              className="list-row focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              aria-label={s.title}
-            >
-              <div className="flex flex-wrap items-baseline justify-between gap-3">
-                <h3 className="font-display text-2xl font-semibold tracking-tight text-white">
-                  {s.title}
-                </h3>
-                <span className="text-xs font-medium" style={{ color: "var(--muted)" }}>
-                  {s.meta}
-                </span>
-              </div>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-                {s.desc}
               </p>
-            </Link>
+            </div>
           ))}
         </div>
 
-        <div className="glow-card !min-h-0 mb-24 p-8 sm:p-10">
-          <div className="relative z-10">
-            <p className="section-label">Workflow</p>
-            <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-              Screen share in four moves
+        <section className="mb-24">
+          <div className="mb-10 max-w-2xl">
+            <p className="section-label">Scanner</p>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              What gets pulled in a share
             </h2>
-            <div className="mt-10 grid gap-8 sm:grid-cols-4">
-              {[
-                { n: "01", t: "Connect", d: "AnyDesk or equivalent. Aim for ping under 150ms." },
-                { n: "02", t: "Deploy", d: "Everything, System Informer, Luyten — see the tool list." },
-                { n: "03", t: "Analyze", d: "Run ScreenShareTool with the right day window." },
-                { n: "04", t: "Verdict", d: "Read the dashboard, then sanction or clear." },
-              ].map((item) => (
-                <div key={item.n}>
-                  <div className="mb-3 text-xs font-medium" style={{ color: "var(--accent)" }}>
-                    {item.n}
-                  </div>
-                  <h3 className="font-display text-base font-semibold text-white">{item.t}</h3>
-                  <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-                    {item.d}
+            <p className="mt-4 text-sm leading-relaxed sm:text-base" style={{ color: "var(--muted)" }}>
+              Parallel modules, one day window, one dashboard. Designed for inspectors who already know
+              what a clean box looks like.
+            </p>
+          </div>
+          <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+            {modules.map((c) => (
+              <div key={c.title} className="rail py-6">
+                <p className="rail-label">{c.title.split(" ")[0]}</p>
+                <div>
+                  <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+                    {c.title}
+                  </h3>
+                  <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                    {c.desc}
                   </p>
                 </div>
-              ))}
-            </div>
-            <div className="mt-10">
-              <Link
-                href="/guide#p2"
-                className="cta-ghost inline-flex rounded-full px-6 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
-              >
-                Open the checklist
-              </Link>
-            </div>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
 
-        <div className="mb-24 grid gap-12 lg:grid-cols-2">
+        <section className="mb-24">
+          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="section-label">Kit</p>
+              <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                Guide, strings, tools
+              </h2>
+            </div>
+            <Link
+              href="/download"
+              className="text-sm font-medium text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            >
+              Get the app →
+            </Link>
+          </div>
+          <div className="grid gap-px bg-[var(--rule)] sm:grid-cols-3">
+            {kit.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="group bg-[var(--bg)] p-7 transition-colors hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                aria-label={item.title}
+              >
+                <span className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
+                  {item.meta}
+                </span>
+                <h3 className="font-display mt-4 text-2xl font-semibold tracking-tight text-white group-hover:text-[var(--accent)]">
+                  {item.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                  {item.desc}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+
+        <section className="mb-24 surface-panel p-8 sm:p-10">
+          <p className="section-label">Workflow</p>
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            From connect to verdict
+          </h2>
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { t: "Connect", d: "AnyDesk or equivalent. Prefer ping under 150ms." },
+              { t: "Deploy", d: "Everything, System Informer, Luyten — see the tool list." },
+              { t: "Analyze", d: "Run sstool with the right day window." },
+              { t: "Verdict", d: "Read the dashboard, then sanction or clear." },
+            ].map((item) => (
+              <div key={item.t}>
+                <h3 className="font-display text-lg font-semibold text-white">{item.t}</h3>
+                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                  {item.d}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-10">
+            <Link
+              href="/guide#p2"
+              className="cta-ghost inline-flex px-5 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            >
+              Open the checklist
+            </Link>
+          </div>
+        </section>
+
+        <section className="mb-24 grid gap-12 lg:grid-cols-2">
           <div>
             <p className="section-label">FAQ</p>
             <h2 className="font-display text-3xl font-semibold tracking-tight text-white">
@@ -281,32 +259,32 @@ export default function Home() {
               </details>
             ))}
           </div>
-        </div>
+        </section>
 
-        <div className="glow-card !min-h-0 p-8 sm:flex sm:items-end sm:justify-between sm:gap-10 sm:p-12">
-          <div className="relative z-10 max-w-xl">
+        <section className="surface-panel flex flex-col gap-8 p-8 sm:flex-row sm:items-end sm:justify-between sm:p-12">
+          <div className="max-w-xl">
             <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
               Ready to run a share?
             </h2>
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-              Install the GUI, open the guide, keep the string dictionary nearby.
+              Install via winget, run <code className="text-[var(--accent)]">sstool</code>, keep the guide open.
             </p>
           </div>
-          <div className="relative z-10 mt-8 flex flex-wrap gap-3 sm:mt-0 sm:shrink-0">
+          <div className="flex flex-wrap gap-3">
             <Link
               href="/download"
-              className="cta-primary rounded-full px-7 py-3 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="cta-primary px-6 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
-              Download v4.0.1
+              Download
             </Link>
             <Link
               href="/strings"
-              className="cta-ghost rounded-full px-7 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+              className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Browse strings
             </Link>
           </div>
-        </div>
+        </section>
       </div>
     </>
   )
