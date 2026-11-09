@@ -76,16 +76,16 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
       <div className="relative z-10 border-b border-white/10 px-4 py-3 sm:px-5">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="live-dot inline-block h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-            <span className="font-display text-base font-bold tracking-tight text-[var(--ink)]">
+            <span className="live-dot inline-block h-2 w-2 bg-[var(--accent)]" aria-hidden="true" />
+            <span className="font-display text-base tracking-tight text-white">
               ScreenShareTool
             </span>
-            <span className="hide-xs text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
+            <span className="hide-xs text-[0.65rem] uppercase tracking-[0.14em] text-white/45">
               live scan
             </span>
           </div>
-          <span className="shrink-0 font-mono text-[0.65rem] sm:text-[0.7rem]" style={{ color: "var(--muted)" }}>
-            7d
+          <span className="shrink-0 font-mono-ui text-[0.65rem] text-white/55 sm:text-[0.7rem]">
+            7d window
           </span>
         </div>
       </div>
@@ -95,15 +95,14 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
           {lines.map((line, i) => (
             <li
               key={`${line.t}-${line.m}`}
-              className={`scan-line flex items-baseline gap-2 py-2 font-mono text-[0.68rem] sm:gap-3 sm:text-[0.78rem] ${
-                hot === i || (hot < 0 && line.flag) ? "is-hot" : ""
+              className={`scan-line flex items-baseline gap-2 py-2 font-mono-ui text-[0.68rem] sm:gap-3 sm:text-[0.78rem] ${
+                hot === i || (hot < 0 && line.flag) ? "is-hot" : "text-white/55"
               }`}
-              style={{ color: hot === i || (hot < 0 && line.flag) ? undefined : "var(--muted)" }}
             >
               <span className="hidden w-14 shrink-0 tabular-nums opacity-70 sm:inline">{line.t}</span>
               <span
                 className="w-10 shrink-0 font-semibold sm:w-12"
-                style={{ color: line.flag ? "var(--accent)" : "var(--ink)" }}
+                style={{ color: line.flag ? "var(--accent)" : "#e8edf2" }}
               >
                 {line.m}
               </span>
@@ -113,17 +112,16 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
         </ul>
 
         <aside className="border-t border-white/10 px-4 py-4 sm:border-l sm:border-t-0">
-          <p className="section-label !mb-3">Hits</p>
-          <p className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">04</p>
-          <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
-            Flagged artifacts. Tap or hover a line to inspect.
+          <p className="section-label !mb-3 !text-white/40">Hits</p>
+          <p className="font-display text-3xl tracking-tight text-white sm:text-4xl">04</p>
+          <p className="mt-2 text-xs leading-relaxed text-white/55">
+            Flagged artifacts. Hover a line to inspect.
           </p>
           <div className="mt-5 space-y-2">
             {["USN delete", "Prefetch", "IAS", "Self-delete"].map((tag) => (
               <div
                 key={tag}
-                className="border border-[var(--rule)] px-2.5 py-1.5 text-[0.7rem]"
-                style={{ color: "var(--muted)" }}
+                className="border border-white/15 px-2.5 py-1.5 text-[0.7rem] text-white/60"
               >
                 {tag}
               </div>

@@ -17,3 +17,5 @@ env/
 .freebuff/
 changed_files.txt
 commit_message.txt
+.vercel
+.env*

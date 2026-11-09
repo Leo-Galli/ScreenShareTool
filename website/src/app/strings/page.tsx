@@ -49,7 +49,7 @@ export default function StringsPage() {
       <div className="mb-10 max-w-3xl border-b border-[var(--rule)] pb-10">
         <p className="section-label">Dictionary</p>
         <h1
-          className="font-display font-semibold tracking-tight text-white"
+          className="font-display font-semibold tracking-tight text-[var(--ink)]"
           style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Forensic Strings
@@ -119,9 +119,9 @@ export default function StringsPage() {
                 aria-pressed={active}
                 className="px-3.5 py-1.5 text-xs font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                 style={{
-                  color: active ? "#08080a" : "var(--muted)",
-                  border: `1px solid ${active ? "#fff" : "var(--rule)"}`,
-                  backgroundColor: active ? "#fff" : "transparent",
+                  color: active ? "var(--ink)" : "var(--muted)",
+                  border: `1px solid ${active ? "var(--ink)" : "var(--rule)"}`,
+                  backgroundColor: active ? "var(--accent-dim)" : "var(--surface)",
                 }}
               >
                 {os === "all" ? "All OS" : os}
@@ -184,7 +184,7 @@ export default function StringsPage() {
                   <span className="w-9 shrink-0 text-right font-mono text-xs" style={{ color: "var(--muted)" }}>
                     {cat.strings.length}
                   </span>
-                  <h3 className="font-display text-sm font-semibold text-white">{cat.name}</h3>
+                  <h3 className="font-display text-sm font-semibold text-[var(--ink)]">{cat.name}</h3>
                   <span className="font-mono text-[0.65rem] uppercase tracking-wider" style={{ color: "var(--faint)" }}>
                     {cat.os}
                   </span>
@@ -235,7 +235,7 @@ export default function StringsPage() {
 
       {filtered.length === 0 ? (
         <div className="py-16 text-center">
-          <p className="font-display text-lg text-white">No results</p>
+          <p className="font-display text-lg text-[var(--ink)]">No results</p>
           <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
             Try a different query or OS filter.
           </p>

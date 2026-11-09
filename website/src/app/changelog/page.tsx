@@ -257,15 +257,15 @@ export default function ChangelogPage() {
       <div className="mb-14 max-w-3xl border-b border-[var(--rule)] pb-10">
         <p className="section-label">Updates</p>
         <h1
-          className="font-display font-semibold tracking-tight text-white"
+          className="font-display font-semibold tracking-tight text-[var(--ink)]"
           style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Changelog
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           Every ScreenShareTool release — from the first PowerShell build to the GUI era.
-          Current version: <span className="text-white">v4.0.1</span> · command{" "}
-          <code className="text-[var(--accent)]">sstool</code>.
+          Current version: <span className="text-[var(--ink)]">v4.0.1</span> · command{" "}
+          <code className="font-mono-ui text-[var(--ink)]">sstool</code>.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Link
@@ -311,7 +311,7 @@ export default function ChangelogPage() {
               className="scroll-mt-28"
             >
               <div className="mb-6 flex flex-wrap items-center gap-3">
-                <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                <h2 className="font-display text-3xl font-semibold tracking-tight text-[var(--ink)] sm:text-4xl">
                   v{r.version}
                 </h2>
                 <span
@@ -329,7 +329,7 @@ export default function ChangelogPage() {
                 </time>
               </div>
 
-              <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+              <h3 className="font-display text-xl font-semibold tracking-tight text-[var(--ink)]">
                 {r.title}
               </h3>
               <p className="mt-3 max-w-3xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
@@ -386,7 +386,7 @@ export default function ChangelogPage() {
 
       <div className="surface-panel mt-8 flex flex-col gap-6 p-8 sm:flex-row sm:items-end sm:justify-between sm:p-10">
         <div className="max-w-lg">
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-white">
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-[var(--ink)]">
             Stay on the latest build
           </h2>
           <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>

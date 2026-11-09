@@ -21,13 +21,13 @@ export default function SiteNav() {
 
   return (
     <nav className="sticky top-0 z-50" aria-label="Main navigation">
-      <div className="border-b border-[var(--rule)] bg-[rgba(19,19,19,0.92)] backdrop-blur-md">
+      <div className="border-b border-[var(--rule)] bg-[rgba(243,245,247,0.88)] backdrop-blur-md">
         <div className="page-shell flex h-14 items-center justify-between gap-3 sm:h-16">
           <Link
             href="/"
             onClick={handleClose}
             aria-label="ScreenShareTool home"
-            className="font-display min-w-0 truncate text-xl font-bold tracking-tight text-[var(--ink)] sm:text-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="font-display min-w-0 truncate text-lg text-[var(--ink)] sm:text-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
           >
             ScreenShareTool
           </Link>
@@ -40,8 +40,14 @@ export default function SiteNav() {
                   key={l.href}
                   href={l.href}
                   aria-current={isActive ? "page" : undefined}
-                  className="px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                  style={{ color: isActive ? "var(--accent)" : "var(--muted)" }}
+                  className="px-3 py-2 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
+                  style={{
+                    color: isActive ? "var(--ink)" : "var(--muted)",
+                    textDecoration: isActive ? "underline" : "none",
+                    textDecorationColor: isActive ? "var(--accent)" : undefined,
+                    textDecorationThickness: isActive ? "2px" : undefined,
+                    textUnderlineOffset: isActive ? "6px" : undefined,
+                  }}
                 >
                   {l.label}
                 </Link>
@@ -49,7 +55,7 @@ export default function SiteNav() {
             })}
             <Link
               href="/download"
-              className="cta-primary ml-3 px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-primary ml-3 px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
               Download
             </Link>
@@ -61,7 +67,7 @@ export default function SiteNav() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex h-10 w-10 items-center justify-center border border-[var(--rule-strong)] text-[var(--ink)] md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="flex h-10 w-10 items-center justify-center border border-[var(--rule-strong)] text-[var(--ink)] md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               {open ? (
@@ -84,8 +90,8 @@ export default function SiteNav() {
               key={l.href}
               href={l.href}
               onClick={handleClose}
-              className="px-3 py-2.5 text-xs font-bold uppercase tracking-[0.12em]"
-              style={{ color: pathname === l.href ? "var(--accent)" : "var(--muted)" }}
+              className="px-3 py-2.5 text-sm font-semibold"
+              style={{ color: pathname === l.href ? "var(--ink)" : "var(--muted)" }}
             >
               {l.label}
             </Link>

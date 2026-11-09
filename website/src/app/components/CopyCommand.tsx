@@ -31,7 +31,7 @@ const CopyCommand = ({ command, label }: CopyCommandProps) => {
           <button
             type="button"
             onClick={handleCopy}
-            className="rounded-[var(--radius)] px-2 py-1 font-medium normal-case tracking-normal transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="rounded-[var(--radius)] px-2 py-1 font-medium normal-case tracking-normal transition-colors hover:text-[var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             style={{ color: copied ? "var(--accent)" : "var(--muted)" }}
             aria-label={copied ? "Copied" : `Copy ${label} command`}
           >

@@ -44,7 +44,7 @@ function PartSection({
     <section id={id} className="mb-16 scroll-mt-20">
       <h2
         className="font-display text-2xl font-bold mb-6 flex items-center gap-3"
-        style={{ color: "#fff" }}
+        style={{ color: "var(--ink)" }}
       >
         <span
           className="w-0.5 h-7 shrink-0"
@@ -94,7 +94,7 @@ export default function Guide() {
       <div className="mb-14 max-w-3xl border-b border-[var(--rule)] pb-10">
         <p className="section-label">Manual</p>
         <h1
-          className="font-display font-semibold tracking-tight text-white"
+          className="font-display font-semibold tracking-tight text-[var(--ink)]"
           style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Operational Manual
@@ -138,7 +138,7 @@ export default function Guide() {
       <PartSection id="p0" num={0} title="Roles, Requirements, and Code of Conduct">
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-4 guide-h">Minimum Requirements</h3>
-          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+          <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
             <li>Active and verified inspector rank.</li>
             <li>Practical knowledge of every tool listed in Part 1.</li>
             <li>A local database of SHA-256 hashes for clean Minecraft versions (1.8.9 Vanilla, 1.8.9 Forge, 1.12.2 Vanilla — required for Flag E).</li>
@@ -148,7 +148,7 @@ export default function Guide() {
 
         <div className="guide-panel">
           <h3 className="text-lg font-semibold mb-4 text-yellow-400">Code of Conduct</h3>
-          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+          <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
             <li>Do not reveal the procedures in this manual to players during the check.</li>
             <li>Do not threaten, insult, or psychologically pressure the player.</li>
             <li>Do not extend the check beyond strictly necessary time.</li>
@@ -226,7 +226,7 @@ export default function Guide() {
             <div key={i} className="guide-panel flex flex-col md:flex-row md:items-center gap-3">
               <div className="md:w-64 shrink-0">
                 <CheckItem>
-                  <span className="font-medium text-white">{item.ctrl}</span>
+                  <span className="font-medium text-[var(--ink)]">{item.ctrl}</span>
                 </CheckItem>
               </div>
               <p className="text-[var(--muted)] text-sm flex-1">{item.proc}</p>
@@ -258,7 +258,7 @@ export default function Guide() {
           <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 guide-h">3.1 Historical Game Logs (.log and .log.gz)</h3>
             <p className="text-[var(--muted)] text-sm mb-3">Official and custom clients log every account switch and login session.</p>
-            <div className="text-white/80 text-sm mb-3 space-y-1">
+            <div className="text-[var(--muted)] text-sm mb-3 space-y-1">
               <p>Vanilla/Forge: %appdata%\.minecraft\logs\</p>
               <p>Lunar Client: C:\Users\%USERNAME%\.lunarclient\offline\logs\</p>
               <p>Badlion Client: C:\Users\%USERNAME%\AppData\Roaming\.minecraft\logs\blclient\</p>
@@ -275,7 +275,7 @@ Connecting to
           <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 guide-h">3.2 Launcher Configuration Files (.json)</h3>
             <p className="text-[var(--muted)] text-sm mb-3">Launchers store account history, tokens, and profiles locally.</p>
-            <div className="text-white/80 text-sm space-y-1 mb-3">
+            <div className="text-[var(--muted)] text-sm space-y-1 mb-3">
               <p>Vanilla/Forge: %appdata%\.minecraft\launcher_profiles.json, launcher_accounts.json</p>
               <p>TLauncher: %appdata%\.minecraft\TlauncherProfiles.json</p>
             </div>
@@ -311,12 +311,12 @@ Connecting to
             <div className="guide-inset text-sm">
               <div className="mb-3">
                 <p className="text-green-400 font-medium mb-1">Legitimate values:</p>
-                <p className="text-white/80">Vanilla: net.minecraft.client.main.Main</p>
-                <p className="text-white/80">Forge: net.minecraft.launchwrapper.Launch</p>
+                <p className="text-[var(--muted)]">Vanilla: net.minecraft.client.main.Main</p>
+                <p className="text-[var(--muted)]">Forge: net.minecraft.launchwrapper.Launch</p>
               </div>
               <div>
                 <p className="text-red-400 font-medium mb-1">Suspicious values:</p>
-                <p className="text-white/80">net.knet.Client, net.wurst.Client, fdp.client.Main, liquidbounce.Launch</p>
+                <p className="text-[var(--muted)]">net.knet.Client, net.wurst.Client, fdp.client.Main, liquidbounce.Launch</p>
                 <p className="text-[var(--muted)] text-xs">any path that doesn&apos;t trace back to Mojang or MinecraftForge</p>
               </div>
             </div>
@@ -325,7 +325,7 @@ Connecting to
           <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 guide-h">4.2 RAM Dump — Modules Removed While Running (Unload)</h3>
             <p className="text-[var(--muted)] text-sm mb-3">Some cheats delete themselves from disk while the game is running (unload), but remain mapped in RAM until the process is closed.</p>
-            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
               <li>Launch System Informer as Administrator.</li>
               <li>Find the javaw.exe process, right-click, Properties, Memory tab.</li>
               <li>Disable &quot;Hide free regions&quot;, set minimum size to 4, and enable the Image and Mapped filters.</li>
@@ -339,17 +339,17 @@ Connecting to
             <p className="text-[var(--muted)] text-sm mb-3">In the Memory tab of javaw.exe, open &quot;Strings&quot; (minimum length: 4).</p>
             <div className="guide-inset text-sm">
               <p className="guide-h font-medium mb-2">LiquidBounce</p>
-              <p className="text-white/80 mb-3">liquidbounce / net.ccbluex.liquidbounce / ccbluex</p>
+              <p className="text-[var(--muted)] mb-3">liquidbounce / net.ccbluex.liquidbounce / ccbluex</p>
               <p className="guide-h font-medium mb-2">Wurst</p>
-              <p className="text-white/80 mb-3">wurstclient / net.wurstclient</p>
+              <p className="text-[var(--muted)] mb-3">wurstclient / net.wurstclient</p>
               <p className="guide-h font-medium mb-2">Sigma</p>
-              <p className="text-white/80 mb-3">sigma.modules / net.sigmaclient</p>
+              <p className="text-[var(--muted)] mb-3">sigma.modules / net.sigmaclient</p>
               <p className="guide-h font-medium mb-2">FDPClient</p>
-              <p className="text-white/80 mb-3">fdpclient / fdp.client.Main</p>
+              <p className="text-[var(--muted)] mb-3">fdpclient / fdp.client.Main</p>
               <p className="guide-h font-medium mb-2">Vape V4</p>
-              <p className="text-white/80 mb-3">net.vape.client / vape.v4 / vape.render</p>
+              <p className="text-[var(--muted)] mb-3">net.vape.client / vape.v4 / vape.render</p>
               <p className="guide-h font-medium mb-2">Generic</p>
-              <p className="text-white/80">aura.class / speed.class / fly.class / noslowdown / nfall / nofall / reach.class</p>
+              <p className="text-[var(--muted)]">aura.class / speed.class / fly.class / noslowdown / nfall / nofall / reach.class</p>
             </div>
           </div>
         </div>
@@ -365,7 +365,7 @@ Connecting to
           <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 guide-h">5.1 Detecting JNativeHook (Java Autoclickers)</h3>
             <p className="text-[var(--muted)] text-sm mb-3">The JNativeHook library is used by Java autoclickers to intercept mouse clicks outside the game window.</p>
-            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
               <li>In System Informer, open the explorer.exe process — Properties — Memory.</li>
               <li>Filter for: JNativeHook</li>
               <li>If you find a DLL like JNativeHook-[string].dll mapped in memory, search Everything for JNativeHook.</li>
@@ -377,26 +377,26 @@ Connecting to
             <h3 className="text-lg font-semibold mb-3 guide-h">5.2 Autoclicker Forensic Strings in RAM</h3>
             <div className="guide-inset text-sm">
               <p className="guide-h font-medium mb-1">Koid</p>
-              <p className="text-white/80 mb-3">koid / koid.gg / koidclicker / Clicker.java</p>
+              <p className="text-[var(--muted)] mb-3">koid / koid.gg / koidclicker / Clicker.java</p>
               <p className="guide-h font-medium mb-1">Dream Client</p>
-              <p className="text-white/80 mb-3">dreamclient / dream.clicker / dream.gg / dream.club</p>
+              <p className="text-[var(--muted)] mb-3">dreamclient / dream.clicker / dream.gg / dream.club</p>
               <p className="guide-h font-medium mb-1">Drip Client</p>
-              <p className="text-white/80 mb-3">drip.client / drip.gg / drip_autoclicker</p>
+              <p className="text-[var(--muted)] mb-3">drip.client / drip.gg / drip_autoclicker</p>
               <p className="guide-h font-medium mb-1">Whiteout</p>
-              <p className="text-white/80 mb-3">whiteout.gg / whiteout_client / wo_clicker</p>
+              <p className="text-[var(--muted)] mb-3">whiteout.gg / whiteout_client / wo_clicker</p>
               <p className="guide-h font-medium mb-1">Itami</p>
-              <p className="text-white/80 mb-3">itami.exe / itami_clicker / itami.club</p>
+              <p className="text-[var(--muted)] mb-3">itami.exe / itami_clicker / itami.club</p>
               <p className="guide-h font-medium mb-1">7Clicker / Mango</p>
-              <p className="text-white/80 mb-3">7clicker / mangoclicker / left_click_jitter / right_click_jitter</p>
+              <p className="text-[var(--muted)] mb-3">7clicker / mangoclicker / left_click_jitter / right_click_jitter</p>
               <p className="guide-h font-medium mb-1">Murmur / Phantom</p>
-              <p className="text-white/80">murmurclicker / phantom.gg / phantom_clicker</p>
+              <p className="text-[var(--muted)]">murmurclicker / phantom.gg / phantom_clicker</p>
             </div>
           </div>
 
           <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 guide-h">5.3 Prefetch Analysis: conhost.exe and javaw.exe</h3>
             <p className="text-[var(--muted)] text-sm mb-3">Script-based autoclickers spawn hidden instances of the Windows console (conhost.exe), which leave traces in Prefetch.</p>
-            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
               <li>Open WinPrefetchView as Administrator.</li>
               <li>Search for Conhost.exe.pf and check its referenced files. The presence of .bat, .cmd, or files in %temp%: HIGH SUSPICION.</li>
               <li>Search for Javaw.exe.pf and check whether its loaded files include unrelated executables or foreign DLLs.</li>
@@ -409,14 +409,14 @@ Connecting to
       <PartSection id="p6" num={6} title="Forensic String Dictionary">
         <p className="text-[var(--muted)] text-sm mb-4">
           Use this in the &quot;Strings&quot; tab of System Informer, filtering on javaw.exe, explorer.exe, csrss.exe, or any suspicious executable.
-          The live dictionary on this site holds 2500+ entries — browse{" "}
-          <a href="/strings" className="text-[var(--accent-2)] underline-offset-2 hover:underline">/strings</a>
+          The live dictionary on this site holds 8000+ entries — browse{" "}
+          <a href="/strings" className="text-[var(--ink)] font-semibold underline-offset-2 hover:underline">/strings</a>
           {" "}or build a custom list at{" "}
-          <a href="/builder" className="text-[var(--accent-2)] underline-offset-2 hover:underline">/builder</a>.
+          <a href="/builder" className="text-[var(--ink)] font-semibold underline-offset-2 hover:underline">/builder</a>.
         </p>
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-3 guide-h">How to load strings in System Informer</h3>
-          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+          <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
             <li>Open System Informer as Administrator → find javaw.exe → Properties → Memory → Strings.</li>
             <li>Disable &quot;Hide free regions&quot; when hunting unloaded modules.</li>
             <li>Paste a category from your exported .txt into the filter, or search one keyword at a time.</li>
@@ -448,7 +448,7 @@ Connecting to
           ].map((cat, i) => (
             <div key={i} className="guide-panel">
               <h4 className="guide-h font-semibold text-sm mb-2">{cat.cat}</h4>
-              <p className="text-white/80 text-sm leading-relaxed">{cat.items}</p>
+              <p className="text-[var(--muted)] text-sm leading-relaxed">{cat.items}</p>
             </div>
           ))}
         </div>
@@ -469,7 +469,7 @@ Connecting to
             <div key={i} className="guide-panel flex items-center gap-4">
               <FlagBadge f={item.flag} />
               <div className="flex-1">
-                <p className="text-white text-sm font-medium">{item.desc}</p>
+                <p className="text-[var(--ink)] text-sm font-medium">{item.desc}</p>
                 <p className="text-[var(--muted)] text-xs">{item.cat}</p>
               </div>
             </div>
@@ -482,9 +482,9 @@ Connecting to
             <table className="w-full min-w-[28rem] text-sm">
               <thead>
                 <tr className="border-b border-gray-700">
-                  <th className="text-left p-2 text-white/80">Flag</th>
-                  <th className="text-left p-2 text-white/80">Anomaly</th>
-                  <th className="text-left p-2 text-white/80">Ban</th>
+                  <th className="text-left p-2 text-[var(--muted)]">Flag</th>
+                  <th className="text-left p-2 text-[var(--muted)]">Anomaly</th>
+                  <th className="text-left p-2 text-[var(--muted)]">Ban</th>
                 </tr>
               </thead>
               <tbody className="text-[var(--muted)]">
@@ -515,7 +515,7 @@ Connecting to
                 { sit: "IAS mod with multiple accounts present", mot: "Having multiple accounts is not a violation. The violation is a match with a BANNED account." },
               ].map((item, i) => (
                 <div key={i} className="guide-inset">
-                  <p className="text-white text-sm font-medium mb-1">{item.sit}</p>
+                  <p className="text-[var(--ink)] text-sm font-medium mb-1">{item.sit}</p>
                   <p className="text-[var(--muted)] text-sm">{item.mot}</p>
                 </div>
               ))}
@@ -524,7 +524,7 @@ Connecting to
 
           <div className="guide-panel">
             <h3 className="text-lg font-semibold mb-3 text-yellow-400">Procedure in Case of Doubt</h3>
-            <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+            <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
               <li>Do NOT issue a ban on your own. Contact a senior inspector with screenshots of the anomalies.</li>
               <li>Document the machine&apos;s state with detailed screenshots and save them.</li>
               <li>The player can be placed &quot;Under observation&quot; for a period defined by the team.</li>
@@ -577,13 +577,13 @@ Connecting to
           <CmdBox>{`winget install LeoGalli.CharlieRPScreenShareTool
 sstool`}</CmdBox>
           <p className="text-[var(--muted)] text-sm mt-3">
-            Or download the ZIP from Releases. Display name: ScreenShareTool. Command: <code className="text-white">sstool</code>.
+            Or download the ZIP from Releases. Display name: ScreenShareTool. Command: <code className="text-[var(--ink)]">sstool</code>.
             On Windows, run elevated for BAM / Prefetch / Event Log coverage.
           </p>
         </div>
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-3 guide-h">10.2 Day window selection</h3>
-          <ul className="text-white/80 text-sm space-y-2 list-disc list-inside">
+          <ul className="text-[var(--muted)] text-sm space-y-2 list-disc list-inside">
             <li><strong>1 day</strong> — freeze-to-share window; use when the summons is immediate.</li>
             <li><strong>7 days</strong> — default for most shares; balances noise vs coverage.</li>
             <li><strong>30 / 90 days</strong> — multi-accounting history, old self-delete traces, USB history.</li>
@@ -592,7 +592,7 @@ sstool`}</CmdBox>
         </div>
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-3 guide-h">10.3 Modules you should expect</h3>
-          <div className="grid md:grid-cols-2 gap-3 text-sm text-white/80">
+          <div className="grid md:grid-cols-2 gap-3 text-sm text-[var(--muted)]">
             {[
               "NTFS USN journal",
               "BAM last executions",
@@ -611,11 +611,11 @@ sstool`}</CmdBox>
         </div>
         <div className="guide-panel">
           <h3 className="text-lg font-semibold mb-3 guide-h">10.4 Reading the dashboard</h3>
-          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
+          <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
             <li>Check KPI tiles first (accounts, IAS switches, cheat alerts, nick count).</li>
             <li>Open every module marked error/skipped — know why coverage is incomplete.</li>
             <li>Treat cheat alerts as leads: verify with Luyten / System Informer / Prefetch before Flag G.</li>
-            <li>Archive <code className="text-[var(--accent-2)]">dashboard.html</code> + screenshots with the case notes (Part 12).</li>
+            <li>Archive <code className="text-[var(--ink)] font-semibold">dashboard.html</code> + screenshots with the case notes (Part 12).</li>
           </ol>
         </div>
       </PartSection>
@@ -636,7 +636,7 @@ sstool`}</CmdBox>
           <div className="table-wrap text-sm">
             <table className="w-full min-w-[32rem]">
               <thead>
-                <tr className="border-b border-[var(--rule)] text-left text-white/80">
+                <tr className="border-b border-[var(--rule)] text-left text-[var(--muted)]">
                   <th className="p-2">Code</th>
                   <th className="p-2">Meaning</th>
                   <th className="p-2">SS relevance</th>
@@ -696,8 +696,8 @@ findstr /i /C:"0x00000200" /C:"0x80000200" usn.csv | findstr /i ".jar .exe .dll"
         </p>
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-3 guide-h">13.1 Build</h3>
-          <ol className="text-white/80 text-sm space-y-2 list-decimal list-inside">
-            <li>Open <a href="/builder" className="text-[var(--accent-2)] underline-offset-2 hover:underline">/builder</a>.</li>
+          <ol className="text-[var(--muted)] text-sm space-y-2 list-decimal list-inside">
+            <li>Open <a href="/builder" className="text-[var(--ink)] font-semibold underline-offset-2 hover:underline">/builder</a>.</li>
             <li>Filter by OS or search (e.g. &quot;IAS&quot;, &quot;Prefetch&quot;, &quot;LiquidBounce&quot;).</li>
             <li>Select whole categories or individual lines.</li>
             <li>Enable category headers + dedupe, then Download .txt.</li>
@@ -705,7 +705,7 @@ findstr /i /C:"0x00000200" /C:"0x80000200" usn.csv | findstr /i ".jar .exe .dll"
         </div>
         <div className="guide-panel mb-6">
           <h3 className="text-lg font-semibold mb-3 guide-h">13.2 Suggested presets</h3>
-          <ul className="text-white/80 text-sm space-y-2 list-disc list-inside">
+          <ul className="text-[var(--muted)] text-sm space-y-2 list-disc list-inside">
             <li><strong>Freeze kit</strong> — Recycle Bin, Prefetch, USBSTOR, Self-Destruct, USN delete codes.</li>
             <li><strong>Ghost kit</strong> — Ghost paths, RAM strings, Cheat clients, Mod loaders, Java runtime.</li>
             <li><strong>Alts kit</strong> — Minecraft paths, IAS, launcher JSON, Discord cache, Browser downloads.</li>

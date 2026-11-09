@@ -88,66 +88,49 @@ const faq = [
 export default function Home() {
   return (
     <>
-      <section className="relative overflow-hidden border-b border-[var(--rule)]" aria-label="Hero">
-        <div className="page-shell grid items-end gap-10 pb-14 pt-14 sm:gap-12 sm:pb-20 sm:pt-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <div className="min-w-0">
-            <p className="animate-hero-in section-label !mb-4">v4.0.1 · sstool</p>
-            <h1
-              className="animate-hero-in-late font-display font-bold text-[var(--ink)] break-words"
-              style={{ fontSize: "clamp(3.2rem, 12vw, 7rem)", letterSpacing: "-0.03em", lineHeight: 0.9 }}
+      <section className="relative overflow-hidden" aria-label="Hero">
+        <div className="page-shell pb-8 pt-12 sm:pb-10 sm:pt-16 lg:pt-20">
+          <p className="animate-hero-in section-label !mb-5">v4.0.1 · sstool</p>
+          <h1
+            className="animate-hero-in-late font-display text-[var(--ink)] break-words"
+            style={{ fontSize: "clamp(3.4rem, 13vw, 7.5rem)", letterSpacing: "-0.05em", lineHeight: 0.88 }}
+          >
+            ScreenShare
+            <br />
+            <span className="mark">Tool</span>
+          </h1>
+          <span className="mark-bar animate-hero-in-late mt-5" aria-hidden="true" />
+          <p
+            className="animate-hero-in-later mt-6 max-w-lg text-base leading-relaxed sm:text-lg"
+            style={{ color: "var(--muted)" }}
+          >
+            Evidence for Minecraft screen shares. Scanner, dictionary, builder.
+          </p>
+          <div className="animate-hero-in-later mt-8 flex flex-wrap gap-3">
+            <Link
+              href="/download"
+              className="cta-primary px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
-              ScreenShare
-              <br />
-              <span style={{ color: "var(--accent)" }}>Tool</span>
-            </h1>
-            <div className="hero-rule animate-hero-in-late" aria-hidden="true" />
-            <p
-              className="animate-hero-in-later mt-6 max-w-md text-base leading-relaxed sm:text-lg"
-              style={{ color: "var(--muted)" }}
+              Download
+            </Link>
+            <Link
+              href="/builder"
+              className="cta-ghost px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
-              Evidence for Minecraft screen shares. Scanner, dictionary, builder — no fluff.
-            </p>
-            <div className="animate-hero-in-later mt-8 flex flex-wrap gap-3">
-              <Link
-                href="/download"
-                className="cta-primary px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-              >
-                Download
-              </Link>
-              <Link
-                href="/builder"
-                className="cta-ghost px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-              >
-                Build .txt
-              </Link>
-            </div>
+              Build .txt
+            </Link>
           </div>
+        </div>
 
-          <ProductStage className="min-h-[20rem] sm:min-h-[22rem]" />
+        <div className="page-shell pb-14 sm:pb-20">
+          <ProductStage className="min-h-[18rem] sm:min-h-[20rem]" />
         </div>
       </section>
 
       <div className="page-shell pb-16 sm:pb-24">
-        <div className="mb-14 grid gap-6 border-b border-[var(--rule)] py-8 sm:mb-16 sm:grid-cols-3 sm:py-10">
-          {[
-            { k: "8000+", l: "Forensic strings indexed" },
-            { k: ".txt", l: "Custom export from the builder" },
-            { k: "sstool", l: "One command after winget" },
-          ].map((s) => (
-            <div key={s.l}>
-              <div className="font-display text-4xl font-bold tracking-tight text-[var(--ink)] sm:text-5xl">
-                {s.k}
-              </div>
-              <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
-                {s.l}
-              </p>
-            </div>
-          ))}
-        </div>
-
         <section className="mb-20">
           <p className="section-label">Scanner</p>
-          <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">
+          <h2 className="font-display text-3xl text-[var(--ink)] sm:text-4xl">
             What gets pulled
           </h2>
           <div className="mt-8 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
@@ -155,9 +138,7 @@ export default function Home() {
               <div key={c.title} className="rail py-5">
                 <p className="rail-label">{c.title.split(" ")[0]}</p>
                 <div>
-                  <h3 className="font-display text-xl font-bold tracking-tight text-[var(--ink)]">
-                    {c.title}
-                  </h3>
+                  <h3 className="font-display text-xl text-[var(--ink)]">{c.title}</h3>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                     {c.desc}
                   </p>
@@ -171,32 +152,32 @@ export default function Home() {
           <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="section-label">Kit</p>
-              <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">
+              <h2 className="font-display text-3xl text-[var(--ink)] sm:text-4xl">
                 Guide · Strings · Builder
               </h2>
             </div>
             <Link
               href="/download"
-              className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="text-sm font-semibold text-[var(--ink)] underline decoration-[var(--accent)] decoration-2 underline-offset-4 hover:decoration-[var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
-              Get the app →
+              Get the app
             </Link>
           </div>
-          <div className="grid gap-px bg-[var(--rule)] sm:grid-cols-3">
+          <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
             {kit.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="group bg-[var(--bg)] p-6 transition-colors hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] sm:p-7"
+                className="list-row group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
                 aria-label={item.title}
               >
                 <span className="text-[0.65rem] font-bold uppercase tracking-[0.16em]" style={{ color: "var(--faint)" }}>
                   {item.meta}
                 </span>
-                <h3 className="font-display mt-4 text-2xl font-bold tracking-tight text-[var(--ink)] group-hover:text-[var(--accent)]">
+                <h3 className="font-display mt-2 text-2xl text-[var(--ink)] sm:text-3xl">
                   {item.title}
                 </h3>
-                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                   {item.desc}
                 </p>
               </Link>
@@ -204,21 +185,23 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mb-20 border border-[var(--rule)] p-6 sm:p-10">
+        <section className="mb-20">
           <p className="section-label">Workflow</p>
-          <h2 className="font-display text-2xl font-bold tracking-tight text-[var(--ink)] sm:text-3xl">
+          <h2 className="font-display text-2xl text-[var(--ink)] sm:text-3xl">
             Connect → Deploy → Analyze → Verdict
           </h2>
-          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { t: "Connect", d: "AnyDesk or equivalent. Prefer ping under 150ms." },
               { t: "Deploy", d: "Everything, System Informer, Luyten — see tools." },
               { t: "Analyze", d: "Run sstool with the right day window." },
               { t: "Verdict", d: "Read the dashboard, then sanction or clear." },
             ].map((item) => (
-              <div key={item.t} className="border-l-2 border-[var(--accent)] pl-4">
-                <h3 className="font-display text-lg font-bold text-[var(--ink)]">{item.t}</h3>
-                <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              <div key={item.t}>
+                <h3 className="font-display text-lg text-[var(--ink)]">
+                  <span className="mark">{item.t}</span>
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                   {item.d}
                 </p>
               </div>
@@ -227,7 +210,7 @@ export default function Home() {
           <div className="mt-8">
             <Link
               href="/guide#p2"
-              className="cta-ghost inline-flex px-5 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-ghost inline-flex px-5 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
               Open checklist
             </Link>
@@ -237,9 +220,7 @@ export default function Home() {
         <section className="mb-20 grid gap-10 lg:grid-cols-2">
           <div>
             <p className="section-label">FAQ</p>
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)]">
-              Common questions
-            </h2>
+            <h2 className="font-display text-3xl text-[var(--ink)]">Common questions</h2>
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
               Short answers. Deep procedure lives in the manual.
             </p>
@@ -254,25 +235,25 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="flex flex-col gap-6 border border-[var(--rule)] border-l-[3px] border-l-[var(--accent)] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-10">
+        <section className="flex flex-col gap-6 border border-[var(--rule)] bg-[var(--surface)] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-10">
           <div className="max-w-xl">
-            <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">
+            <h2 className="font-display text-3xl text-[var(--ink)] sm:text-4xl">
               Ready to run a share?
             </h2>
             <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-              Install via winget, run <code className="text-[var(--accent)]">sstool</code>, keep the guide open.
+              Install via winget, run <code className="font-mono-ui text-[var(--ink)]">sstool</code>, keep the guide open.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               href="/download"
-              className="cta-primary px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-primary px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
               Download
             </Link>
             <Link
               href="/strings"
-              className="cta-ghost px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-ghost px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             >
               Strings
             </Link>

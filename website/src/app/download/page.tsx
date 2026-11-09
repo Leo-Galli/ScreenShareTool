@@ -46,12 +46,12 @@ export default function Download() {
           <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
             Recommended · Windows
           </p>
-          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight text-white">
+          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight text-[var(--ink)]">
             sstool.exe
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
             Standalone GUI. No Python. Inside the release ZIP. Double-click or invoke{" "}
-            <code className="text-[var(--accent)]">sstool</code> after winget.
+            <code className="font-mono-ui text-[var(--ink)]">sstool</code> after winget.
           </p>
           <a
             href={zipUrl}
@@ -65,13 +65,13 @@ export default function Download() {
           <p className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
             Package manager
           </p>
-          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight text-white">
+          <h2 className="font-display mt-3 text-3xl font-semibold tracking-tight text-[var(--ink)]">
             Winget
           </h2>
           <p className="mt-3 max-w-md text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-            Package id stays <code className="text-white">LeoGalli.CharlieRPScreenShareTool</code> for
+            Package id stays <code className="text-[var(--ink)]">LeoGalli.CharlieRPScreenShareTool</code> for
             continuity. Display name ScreenShareTool. Command alias{" "}
-            <code className="text-[var(--accent)]">sstool</code>.
+            <code className="font-mono-ui text-[var(--ink)]">sstool</code>.
           </p>
           <div className="mt-6">
             <CopyCommand
@@ -87,7 +87,7 @@ export default function Download() {
 
       <section className="mb-16">
         <p className="section-label">Platforms</p>
-        <h2 className="font-display mb-8 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+        <h2 className="font-display mb-8 text-2xl font-semibold tracking-tight text-[var(--ink)] sm:text-3xl">
           Coverage by OS
         </h2>
         <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
@@ -117,12 +117,12 @@ export default function Download() {
 
       <section id="python" className="mb-16 scroll-mt-28">
         <p className="section-label">From source</p>
-        <h2 className="font-display mb-4 text-2xl font-semibold tracking-tight text-white">
+        <h2 className="font-display mb-4 text-2xl font-semibold tracking-tight text-[var(--ink)]">
           Python — Windows · macOS · Linux
         </h2>
         <p className="mb-6 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
           Python 3.8+. Prefer pywebview for the glass UI. Command after pip install entry points:{" "}
-          <code className="text-[var(--accent)]">sstool</code>.
+          <code className="font-mono-ui text-[var(--ink)]">sstool</code>.
         </p>
         <CopyCommand
           label="Clone & launch GUI"
@@ -135,7 +135,7 @@ python -m screenshare_tool --gui`}
 
       <section className="mb-16">
         <p className="section-label">Unix helper</p>
-        <h2 className="font-display mb-4 text-2xl font-semibold tracking-tight text-white">
+        <h2 className="font-display mb-4 text-2xl font-semibold tracking-tight text-[var(--ink)]">
           Bash — macOS · Linux
         </h2>
         <CopyCommand
@@ -147,7 +147,7 @@ sudo bash ss_tool_unix.sh`}
 
       <section id="cli" className="mb-16 scroll-mt-28">
         <p className="section-label">Reference</p>
-        <h2 className="font-display mb-6 text-2xl font-semibold tracking-tight text-white">
+        <h2 className="font-display mb-6 text-2xl font-semibold tracking-tight text-[var(--ink)]">
           CLI flags
         </h2>
         <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
@@ -175,7 +175,7 @@ sudo bash ss_tool_unix.sh`}
       </section>
 
       <section className="surface-panel p-8">
-        <h2 className="font-display text-xl font-semibold tracking-tight text-white">
+        <h2 className="font-display text-xl font-semibold tracking-tight text-[var(--ink)]">
           After install
         </h2>
         <ol className="mt-5 list-decimal space-y-3 pl-5 text-sm" style={{ color: "var(--muted)" }}>

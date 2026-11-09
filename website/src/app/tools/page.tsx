@@ -270,7 +270,7 @@ export default function ToolsPage() {
       <div className="mb-14 max-w-3xl border-b border-[var(--rule)] pb-10">
         <p className="section-label">Reference</p>
         <h1
-          className="font-display font-semibold tracking-tight text-white"
+          className="font-display font-semibold tracking-tight text-[var(--ink)]"
           style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           Tool Encyclopedia
@@ -284,14 +284,14 @@ export default function ToolsPage() {
       <div className="space-y-16">
         {tools.map((group, gi) => (
           <div key={gi}>
-            <h2 className="font-display mb-2 text-2xl font-semibold tracking-tight text-white">
+            <h2 className="font-display mb-2 text-2xl font-semibold tracking-tight text-[var(--ink)]">
               {group.category}
             </h2>
             <div className="mt-2">
               {group.items.map((tool, ti) => (
                 <div key={ti} className="list-row">
                   <div className="flex items-start justify-between gap-4">
-                    <h3 className="font-display text-lg font-semibold tracking-tight text-white">
+                    <h3 className="font-display text-lg font-semibold tracking-tight text-[var(--ink)]">
                       {tool.name}
                     </h3>
                     <a
@@ -311,7 +311,7 @@ export default function ToolsPage() {
                     <p className="mb-1 text-xs font-medium" style={{ color: "var(--muted)" }}>
                       Usage
                     </p>
-                    <p className="text-sm text-white">{tool.use}</p>
+                    <p className="text-sm text-[var(--ink)]">{tool.use}</p>
                   </div>
                   <div className="cmd-box mt-3">{tool.install}</div>
                 </div>

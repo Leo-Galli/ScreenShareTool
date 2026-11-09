@@ -132,19 +132,19 @@ export default function BuilderPage() {
       <div className="mb-10 max-w-3xl border-b border-[var(--rule)] pb-10">
         <p className="section-label">Export</p>
         <h1
-          className="font-display font-semibold tracking-tight text-white"
+          className="font-display font-semibold tracking-tight text-[var(--ink)]"
           style={{ fontSize: "clamp(2.5rem, 7vw, 4rem)", letterSpacing: "-0.045em", lineHeight: 1.05 }}
         >
           String Builder
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           Pick categories or individual strings from the {totalForensicStringCount.toLocaleString()}-entry
-          dictionary, then download a custom <code className="text-[var(--accent)]">.txt</code> for System
+          dictionary, then download a custom <code className="font-mono-ui text-[var(--ink)]">.txt</code> for System
           Informer, Everything, or your checklist.
         </p>
         <p className="mt-3 text-sm" style={{ color: "var(--faint)" }}>
           Tip: browse the full{" "}
-          <Link href="/strings" className="text-[var(--accent-2)] hover:underline">
+          <Link href="/strings" className="text-[var(--ink)] font-semibold hover:underline">
             dictionary
           </Link>{" "}
           first, then come back here to export.
@@ -220,7 +220,7 @@ export default function BuilderPage() {
                       }
                       aria-expanded={isOpen}
                     >
-                      <span className="truncate font-display text-sm font-semibold text-white">
+                      <span className="truncate font-display text-sm font-semibold text-[var(--ink)]">
                         {cat.name}
                       </span>
                       <span className="ml-2 shrink-0 font-mono text-[0.65rem]" style={{ color: "var(--faint)" }}>
@@ -260,7 +260,7 @@ export default function BuilderPage() {
 
         <aside className="surface-panel h-fit p-5 lg:sticky lg:top-24">
           <p className="section-label">Output</p>
-          <h2 className="font-display text-xl font-semibold text-white">Your .txt</h2>
+          <h2 className="font-display text-xl font-semibold text-[var(--ink)]">Your .txt</h2>
 
           <label className="mt-5 block text-xs" style={{ color: "var(--faint)" }}>
             Filename
@@ -268,7 +268,7 @@ export default function BuilderPage() {
               type="text"
               value={filename}
               onChange={(e) => setFilename(e.target.value)}
-              className="mt-1.5 w-full px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+              className="mt-1.5 w-full px-3 py-2 text-sm text-[var(--ink)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
               style={{
                 background: "var(--code)",
                 border: "1px solid var(--rule)",

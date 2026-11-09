@@ -1,20 +1,27 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { Barlow_Condensed, IBM_Plex_Sans } from "next/font/google"
+import { Archivo_Black, IBM_Plex_Mono, Source_Sans_3 } from "next/font/google"
 import "./globals.css"
 import SiteNav from "./components/SiteNav"
 
-const display = Barlow_Condensed({
+const display = Archivo_Black({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400"],
   variable: "--font-display",
   display: "swap",
 })
 
-const body = IBM_Plex_Sans({
+const body = Source_Sans_3({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-body",
+  display: "swap",
+})
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-mono",
   display: "swap",
 })
 
@@ -134,7 +141,7 @@ export default function RootLayout({
   }
 
   return (
-    <html lang="en" className={`${display.variable} ${body.variable}`}>
+    <html lang="en" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="canonical" href="https://screenshare-guide.vercel.app" />
@@ -150,16 +157,16 @@ export default function RootLayout({
       <body className="relative">
         <SiteNav />
         <main className="relative z-10">{children}</main>
-        <footer className="relative z-10 mt-4 border-t border-[var(--rule)]">
+        <footer className="relative z-10 mt-4 border-t border-[var(--rule)] bg-[var(--bg-elevated)]">
           <div className="page-shell py-14 sm:py-16">
             <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr] lg:gap-12">
               <div className="sm:col-span-2 lg:col-span-1">
-                <p className="font-display text-3xl font-bold tracking-tight text-[var(--ink)]">
+                <p className="font-display text-2xl text-[var(--ink)] sm:text-3xl">
                   ScreenShareTool
                 </p>
                 <p className="mt-4 max-w-sm text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                   Forensic kit for Minecraft screen shares — guide, 8000+ strings, .txt builder, and{" "}
-                  <code className="text-[var(--accent)]">sstool</code>.
+                  <code className="font-mono-ui text-[var(--ink)]">sstool</code>.
                 </p>
                 <p className="mt-6 text-xs" style={{ color: "var(--faint)" }}>
                   v4.0.1 · MIT · LeoGalli
@@ -176,7 +183,7 @@ export default function RootLayout({
                             href={l.href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="transition-colors hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                            className="transition-colors hover:text-[var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
                             style={{ color: "var(--muted)" }}
                           >
                             {l.label}
@@ -184,7 +191,7 @@ export default function RootLayout({
                         ) : (
                           <Link
                             href={l.href}
-                            className="transition-colors hover:text-[var(--accent)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                            className="transition-colors hover:text-[var(--ink)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
                             style={{ color: "var(--muted)" }}
                           >
                             {l.label}
@@ -205,7 +212,7 @@ export default function RootLayout({
               </p>
               <a
                 href="https://github.com/Leo-Galli/ScreenShareTool"
-                className="hover:text-[var(--accent)]"
+                className="hover:text-[var(--ink)]"
                 target="_blank"
                 rel="noopener noreferrer"
               >

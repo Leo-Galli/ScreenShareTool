@@ -21,19 +21,15 @@ export default function NotFound() {
       <p className="section-label animate-hero-in">Error</p>
 
       <p
-        className="animate-hero-in-late font-display font-semibold tracking-tight text-white"
+        className="animate-hero-in-late font-display text-[var(--ink)]"
         aria-hidden="true"
         style={{
           fontSize: "clamp(6rem, 28vw, 14rem)",
           letterSpacing: "-0.08em",
           lineHeight: 0.85,
-          background: "linear-gradient(180deg, #fff 0%, rgba(251,113,133,0.55) 100%)",
-          WebkitBackgroundClip: "text",
-          backgroundClip: "text",
-          color: "transparent",
         }}
       >
-        404
+        <span className="mark">404</span>
       </p>
 
       <h1 className="animate-hero-in-later sr-only">Page not found</h1>
@@ -56,8 +52,8 @@ export default function NotFound() {
             prefetch
             className={
               i === 0
-                ? "cta-primary px-5 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                : "cta-ghost px-5 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                ? "cta-primary px-5 py-2.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
+                : "cta-ghost px-5 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ink)]"
             }
           >
             {l.label}
