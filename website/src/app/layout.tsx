@@ -1,11 +1,12 @@
 import type { Metadata } from "next"
 import Link from "next/link"
-import { IBM_Plex_Sans, Space_Grotesk } from "next/font/google"
+import { Barlow_Condensed, IBM_Plex_Sans } from "next/font/google"
 import "./globals.css"
 import SiteNav from "./components/SiteNav"
 
-const display = Space_Grotesk({
+const display = Barlow_Condensed({
   subsets: ["latin"],
+  weight: ["500", "600", "700"],
   variable: "--font-display",
   display: "swap",
 })
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | ScreenShareTool",
   },
   description:
-    "Cross-platform forensic analysis for Minecraft screen shares. Detect cheat self-destruction, multi-accounting, and system tampering — plus 2500+ strings, a .txt builder, and a full operational guide.",
+    "Forensic kit for Minecraft screen shares: sstool scanner, 8000+ string dictionary, .txt builder, and a full operational guide.",
   keywords: [
     "minecraft screenshare",
     "anti cheat",
@@ -44,13 +45,13 @@ export const metadata: Metadata = {
     siteName: "ScreenShareTool",
     title: "ScreenShareTool — Minecraft Forensic Anti-Cheat",
     description:
-      "Forensic analysis for Minecraft screen shares. Cheat self-destruction, multi-accounting, and system tampering.",
+      "Forensic analysis for Minecraft screen shares. Scanner, 8000+ strings, builder, guide.",
   },
   twitter: {
     card: "summary_large_image",
     title: "ScreenShareTool",
     description:
-      "Forensic analysis for Minecraft screen shares. 48 cheat clients tracked, 800+ forensic strings.",
+      "Forensic analysis for Minecraft screen shares. 8000+ strings, sstool, .txt builder.",
   },
   robots: {
     index: true,
@@ -150,15 +151,15 @@ export default function RootLayout({
         <SiteNav />
         <main className="relative z-10">{children}</main>
         <footer className="relative z-10 mt-4 border-t border-[var(--rule)]">
-          <div className="page-shell py-16">
-            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr] lg:gap-12">
+          <div className="page-shell py-14 sm:py-16">
+            <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr] lg:gap-12">
               <div className="sm:col-span-2 lg:col-span-1">
-                <p className="font-display text-2xl font-semibold tracking-tight text-white">
+                <p className="font-display text-3xl font-bold tracking-tight text-[var(--ink)]">
                   ScreenShareTool
                 </p>
                 <p className="mt-4 max-w-sm text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-                  Forensic kit for Minecraft screen shares — guide, string dictionary, tool encyclopedia,
-                  and the <code className="text-[var(--accent)]">sstool</code> analysis app.
+                  Forensic kit for Minecraft screen shares — guide, 8000+ strings, .txt builder, and{" "}
+                  <code className="text-[var(--accent)]">sstool</code>.
                 </p>
                 <p className="mt-6 text-xs" style={{ color: "var(--faint)" }}>
                   v4.0.1 · MIT · LeoGalli
@@ -196,7 +197,7 @@ export default function RootLayout({
               ))}
             </div>
             <div
-              className="mt-14 flex flex-col gap-3 border-t border-[var(--rule)] pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"
+              className="mt-12 flex flex-col gap-3 border-t border-[var(--rule)] pt-6 text-xs sm:flex-row sm:items-center sm:justify-between"
               style={{ color: "var(--faint)" }}
             >
               <p>

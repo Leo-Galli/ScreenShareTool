@@ -77,7 +77,7 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <span className="live-dot inline-block h-2 w-2 rounded-full bg-[var(--accent)]" aria-hidden="true" />
-            <span className="font-display text-sm font-semibold tracking-tight text-white">
+            <span className="font-display text-base font-bold tracking-tight text-[var(--ink)]">
               ScreenShareTool
             </span>
             <span className="hide-xs text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
@@ -114,7 +114,7 @@ const ProductStage = ({ className = "" }: ProductStageProps) => {
 
         <aside className="border-t border-white/10 px-4 py-4 sm:border-l sm:border-t-0">
           <p className="section-label !mb-3">Hits</p>
-          <p className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">04</p>
+          <p className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">04</p>
           <p className="mt-2 text-xs leading-relaxed" style={{ color: "var(--muted)" }}>
             Flagged artifacts. Tap or hover a line to inspect.
           </p>

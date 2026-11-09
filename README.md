@@ -15,7 +15,7 @@
   <img alt="Platforms" src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-18181b?style=flat&logo=windows&logoColor=white">
   <a href="https://github.com/microsoft/winget-pkgs"><img alt="winget" src="https://img.shields.io/badge/winget-sstool-fb7185?style=flat&logo=windows-terminal&logoColor=white"></a>
   <a href="https://screenshare-guide.vercel.app"><img alt="Website" src="https://img.shields.io/badge/docs-screenshare--guide.vercel.app-000000?style=flat&logo=vercel&logoColor=white"></a>
-  <img alt="Strings" src="https://img.shields.io/badge/strings-2500%2B-fda4af?style=flat">
+  <img alt="Strings" src="https://img.shields.io/badge/strings-8000%2B-ff6a00?style=flat">
   <a href="https://screenshare-guide.vercel.app/builder"><img alt="Builder" src="https://img.shields.io/badge/builder-.txt%20export-fb7185?style=flat"></a>
 </p>
 

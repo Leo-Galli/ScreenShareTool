@@ -56,7 +56,7 @@ export default function StringsPage() {
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           {totalForensicStringCount.toLocaleString()} strings across {forensicCategories.length} categories —
-          commands, registry keys, paths, cheat clients, and live-share artifacts.
+          commands, registry keys, paths, cheat clients, Defender/ASR, remotes, and live-share artifacts.
         </p>
         <div className="mt-7 flex flex-wrap gap-3">
           <Link

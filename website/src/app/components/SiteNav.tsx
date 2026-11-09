@@ -9,7 +9,7 @@ const links = [
   { href: "/strings", label: "Strings" },
   { href: "/builder", label: "Builder" },
   { href: "/tools", label: "Tools" },
-  { href: "/changelog", label: "Changelog" },
+  { href: "/changelog", label: "Log" },
 ]
 
 export default function SiteNav() {
@@ -21,18 +21,18 @@ export default function SiteNav() {
 
   return (
     <nav className="sticky top-0 z-50" aria-label="Main navigation">
-      <div className="border-b border-[var(--rule)] bg-[rgba(12,14,12,0.82)] backdrop-blur-xl">
+      <div className="border-b border-[var(--rule)] bg-[rgba(19,19,19,0.92)] backdrop-blur-md">
         <div className="page-shell flex h-14 items-center justify-between gap-3 sm:h-16">
           <Link
             href="/"
             onClick={handleClose}
             aria-label="ScreenShareTool home"
-            className="min-w-0 truncate font-display text-[0.95rem] font-semibold tracking-tight text-white sm:text-[1.05rem] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="font-display min-w-0 truncate text-xl font-bold tracking-tight text-[var(--ink)] sm:text-2xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             ScreenShareTool
           </Link>
 
-          <div className="hidden items-center gap-0.5 md:flex">
+          <div className="hidden items-center gap-0 md:flex">
             {links.map((l) => {
               const isActive = pathname === l.href
               return (
@@ -40,7 +40,7 @@ export default function SiteNav() {
                   key={l.href}
                   href={l.href}
                   aria-current={isActive ? "page" : undefined}
-                  className="px-3.5 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                  className="px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
                   style={{ color: isActive ? "var(--accent)" : "var(--muted)" }}
                 >
                   {l.label}
@@ -49,7 +49,7 @@ export default function SiteNav() {
             })}
             <Link
               href="/download"
-              className="cta-primary ml-3 px-4 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-primary ml-3 px-4 py-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Download
             </Link>
@@ -61,7 +61,7 @@ export default function SiteNav() {
             aria-expanded={open}
             aria-controls="mobile-menu"
             aria-label={open ? "Close menu" : "Open menu"}
-            className="flex h-10 w-10 items-center justify-center border border-[var(--rule-strong)] text-white md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+            className="flex h-10 w-10 items-center justify-center border border-[var(--rule-strong)] text-[var(--ink)] md:hidden focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               {open ? (
@@ -84,7 +84,7 @@ export default function SiteNav() {
               key={l.href}
               href={l.href}
               onClick={handleClose}
-              className="px-3 py-2.5 text-sm font-medium"
+              className="px-3 py-2.5 text-xs font-bold uppercase tracking-[0.12em]"
               style={{ color: pathname === l.href ? "var(--accent)" : "var(--muted)" }}
             >
               {l.label}
@@ -93,7 +93,7 @@ export default function SiteNav() {
           <Link
             href="/download"
             onClick={handleClose}
-            className="cta-primary mt-1 px-3 py-2.5 text-center text-sm"
+            className="cta-primary mt-1 px-3 py-2.5 text-center"
           >
             Download
           </Link>

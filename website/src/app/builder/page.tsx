@@ -139,8 +139,8 @@ export default function BuilderPage() {
         </h1>
         <p className="mt-5 text-base leading-relaxed" style={{ color: "var(--muted)" }}>
           Pick categories or individual strings from the {totalForensicStringCount.toLocaleString()}-entry
-          dictionary, then download a custom <code className="text-white">.txt</code> for System Informer,
-          Everything, or your checklist.
+          dictionary, then download a custom <code className="text-[var(--accent)]">.txt</code> for System
+          Informer, Everything, or your checklist.
         </p>
         <p className="mt-3 text-sm" style={{ color: "var(--faint)" }}>
           Tip: browse the full{" "}

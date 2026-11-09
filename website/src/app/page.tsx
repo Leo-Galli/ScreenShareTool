@@ -5,7 +5,7 @@ import ProductStage from "./components/ProductStage"
 export const metadata: Metadata = {
   title: "ScreenShareTool — Minecraft Forensic Anti-Cheat",
   description:
-    "Operational guide, 800+ forensic strings, tool encyclopedia, and a cross-platform analysis app for Minecraft screen shares.",
+    "Operational guide, 8000+ forensic strings, .txt builder, and sstool for Minecraft screen shares.",
   openGraph: {
     title: "ScreenShareTool — Minecraft Forensic Anti-Cheat",
     description:
@@ -44,19 +44,19 @@ const modules = [
 const kit = [
   {
     title: "Operational guide",
-    desc: "Full procedure: roles, deploy, checklist, multi-accounting, ghosts, autoclickers, ban flags, sstool workflow, evidence pack.",
+    desc: "Fourteen parts: roles, deploy, checklist, alts, ghosts, flags, sstool, USN, evidence pack, builder.",
     href: "/guide",
     meta: "14 parts",
   },
   {
     title: "Forensic strings",
-    desc: "2500+ searchable registry keys, USN commands, Event IDs, paths, cheat clients, and artifacts.",
+    desc: "8000+ registry keys, USN commands, Event IDs, paths, cheat clients, and live-share artifacts.",
     href: "/strings",
-    meta: "2500+ entries",
+    meta: "8000+ entries",
   },
   {
     title: "String builder",
-    desc: "Select categories or lines and export a custom .txt for System Informer or your checklist.",
+    desc: "Pick categories or lines and export a custom .txt for System Informer or your checklist.",
     href: "/builder",
     meta: "Export .txt",
   },
@@ -65,104 +65,97 @@ const kit = [
 const faq = [
   {
     q: "What is ScreenShareTool?",
-    a: "A forensic kit for Minecraft screen shares: an operational guide, a 2500+ string dictionary with .txt builder, a tool encyclopedia, and a cross-platform analysis app (command: sstool) that writes a dashboard at the end of each scan.",
+    a: "A forensic kit for Minecraft screen shares: guide, 8000+ string dictionary with .txt builder, tool encyclopedia, and sstool (GUI/CLI) that writes a dashboard after each scan.",
   },
   {
     q: "Who is it for?",
-    a: "Server staff and inspectors who need a repeatable procedure and machine-readable evidence — not casual players looking for a ban button.",
+    a: "Server staff and inspectors who need a repeatable procedure and machine-readable evidence.",
   },
   {
     q: "Does it replace manual inspection?",
-    a: "No. It accelerates collection and highlights leads. Final verdicts still come from a trained inspector reading the report and the live session.",
+    a: "No. It accelerates collection and highlights leads. Final verdicts still come from a trained inspector.",
   },
   {
     q: "Which platforms are supported?",
-    a: "Windows gets the full module set (BAM, Prefetch, Event Log, Registry). macOS and Linux run the GUI/CLI with the modules available on those systems.",
+    a: "Windows gets the full module set. macOS and Linux run GUI/CLI with the modules available on those systems.",
   },
   {
     q: "How do I install it?",
-    a: "winget install LeoGalli.CharlieRPScreenShareTool, then run sstool. Or download the ZIP from GitHub Releases. Display name: ScreenShareTool.",
+    a: "winget install LeoGalli.CharlieRPScreenShareTool, then run sstool. Or download the ZIP from GitHub Releases.",
   },
 ]
 
 export default function Home() {
   return (
     <>
-      <section className="relative overflow-hidden" aria-label="Hero">
-        <div className="page-shell pb-16 pt-16 sm:pb-20 sm:pt-20">
-          <div className="grid items-end gap-8 sm:gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-10">
-            <div className="min-w-0">
-              <p className="animate-hero-in section-label !mb-5">v4.0.1 · command sstool</p>
-              <h1
-                className="animate-hero-in-late font-display font-semibold tracking-tight text-white break-words"
-                style={{ fontSize: "clamp(2.6rem, 11vw, 6.4rem)", letterSpacing: "-0.055em", lineHeight: 0.92 }}
+      <section className="relative overflow-hidden border-b border-[var(--rule)]" aria-label="Hero">
+        <div className="page-shell grid items-end gap-10 pb-14 pt-14 sm:gap-12 sm:pb-20 sm:pt-20 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+          <div className="min-w-0">
+            <p className="animate-hero-in section-label !mb-4">v4.0.1 · sstool</p>
+            <h1
+              className="animate-hero-in-late font-display font-bold text-[var(--ink)] break-words"
+              style={{ fontSize: "clamp(3.2rem, 12vw, 7rem)", letterSpacing: "-0.03em", lineHeight: 0.9 }}
+            >
+              ScreenShare
+              <br />
+              <span style={{ color: "var(--accent)" }}>Tool</span>
+            </h1>
+            <div className="hero-rule animate-hero-in-late" aria-hidden="true" />
+            <p
+              className="animate-hero-in-later mt-6 max-w-md text-base leading-relaxed sm:text-lg"
+              style={{ color: "var(--muted)" }}
+            >
+              Evidence for Minecraft screen shares. Scanner, dictionary, builder — no fluff.
+            </p>
+            <div className="animate-hero-in-later mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/download"
+                className="cta-primary px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               >
-                ScreenShare
-                <br />
-                Tool
-              </h1>
-              <p
-                className="animate-hero-in-later mt-7 max-w-md text-base leading-relaxed sm:text-lg"
-                style={{ color: "var(--muted)" }}
+                Download
+              </Link>
+              <Link
+                href="/builder"
+                className="cta-ghost px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
               >
-                Forensic analysis for Minecraft screen shares — evidence without the noise.
-              </p>
-              <div className="animate-hero-in-later mt-9 flex flex-wrap gap-3">
-                <Link
-                  href="/download"
-                  className="cta-primary px-6 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                >
-                  Download v4.0.1
-                </Link>
-                <Link
-                  href="/guide"
-                  className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                >
-                  Read the guide
-                </Link>
-              </div>
+                Build .txt
+              </Link>
             </div>
-
-            <ProductStage className="min-h-[22rem]" />
           </div>
+
+          <ProductStage className="min-h-[20rem] sm:min-h-[22rem]" />
         </div>
       </section>
 
-      <div className="page-shell pb-16 sm:pb-28">
-        <div className="mb-14 grid gap-8 border-y border-[var(--rule)] py-8 sm:mb-20 sm:grid-cols-3 sm:py-10">
+      <div className="page-shell pb-16 sm:pb-24">
+        <div className="mb-14 grid gap-6 border-b border-[var(--rule)] py-8 sm:mb-16 sm:grid-cols-3 sm:py-10">
           {[
-            { k: "2500+", l: "Forensic strings indexed for live lookup" },
-            { k: ".txt", l: "Custom string lists via the builder export" },
-            { k: "sstool", l: "One command after winget — GUI or CLI" },
+            { k: "8000+", l: "Forensic strings indexed" },
+            { k: ".txt", l: "Custom export from the builder" },
+            { k: "sstool", l: "One command after winget" },
           ].map((s) => (
-            <div key={s.l} className="rail">
-              <div className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <div key={s.l}>
+              <div className="font-display text-4xl font-bold tracking-tight text-[var(--ink)] sm:text-5xl">
                 {s.k}
               </div>
-              <p className="mt-2 max-w-xs text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+              <p className="mt-2 text-sm" style={{ color: "var(--muted)" }}>
                 {s.l}
               </p>
             </div>
           ))}
         </div>
 
-        <section className="mb-24">
-          <div className="mb-10 max-w-2xl">
-            <p className="section-label">Scanner</p>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              What gets pulled in a share
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed sm:text-base" style={{ color: "var(--muted)" }}>
-              Parallel modules, one day window, one dashboard. Designed for inspectors who already know
-              what a clean box looks like.
-            </p>
-          </div>
-          <div className="divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
+        <section className="mb-20">
+          <p className="section-label">Scanner</p>
+          <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">
+            What gets pulled
+          </h2>
+          <div className="mt-8 divide-y divide-[var(--rule)] border-y border-[var(--rule)]">
             {modules.map((c) => (
-              <div key={c.title} className="rail py-6">
+              <div key={c.title} className="rail py-5">
                 <p className="rail-label">{c.title.split(" ")[0]}</p>
                 <div>
-                  <h3 className="font-display text-xl font-semibold tracking-tight text-white">
+                  <h3 className="font-display text-xl font-bold tracking-tight text-[var(--ink)]">
                     {c.title}
                   </h3>
                   <p className="mt-2 max-w-2xl text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
@@ -174,17 +167,17 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mb-24">
-          <div className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <section className="mb-20">
+          <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
             <div>
               <p className="section-label">Kit</p>
-              <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                Guide, strings, tools
+              <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">
+                Guide · Strings · Builder
               </h2>
             </div>
             <Link
               href="/download"
-              className="text-sm font-medium text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="text-xs font-bold uppercase tracking-[0.14em] text-[var(--accent)] hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Get the app →
             </Link>
@@ -194,13 +187,13 @@ export default function Home() {
               <Link
                 key={item.href}
                 href={item.href}
-                className="group bg-[var(--bg)] p-7 transition-colors hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                className="group bg-[var(--bg)] p-6 transition-colors hover:bg-[var(--surface)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] sm:p-7"
                 aria-label={item.title}
               >
-                <span className="text-[0.65rem] uppercase tracking-[0.14em]" style={{ color: "var(--faint)" }}>
+                <span className="text-[0.65rem] font-bold uppercase tracking-[0.16em]" style={{ color: "var(--faint)" }}>
                   {item.meta}
                 </span>
-                <h3 className="font-display mt-4 text-2xl font-semibold tracking-tight text-white group-hover:text-[var(--accent)]">
+                <h3 className="font-display mt-4 text-2xl font-bold tracking-tight text-[var(--ink)] group-hover:text-[var(--accent)]">
                   {item.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
@@ -211,44 +204,44 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="mb-24 surface-panel p-8 sm:p-10">
+        <section className="mb-20 border border-[var(--rule)] p-6 sm:p-10">
           <p className="section-label">Workflow</p>
-          <h2 className="font-display text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            From connect to verdict
+          <h2 className="font-display text-2xl font-bold tracking-tight text-[var(--ink)] sm:text-3xl">
+            Connect → Deploy → Analyze → Verdict
           </h2>
-          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { t: "Connect", d: "AnyDesk or equivalent. Prefer ping under 150ms." },
-              { t: "Deploy", d: "Everything, System Informer, Luyten — see the tool list." },
+              { t: "Deploy", d: "Everything, System Informer, Luyten — see tools." },
               { t: "Analyze", d: "Run sstool with the right day window." },
               { t: "Verdict", d: "Read the dashboard, then sanction or clear." },
             ].map((item) => (
-              <div key={item.t}>
-                <h3 className="font-display text-lg font-semibold text-white">{item.t}</h3>
+              <div key={item.t} className="border-l-2 border-[var(--accent)] pl-4">
+                <h3 className="font-display text-lg font-bold text-[var(--ink)]">{item.t}</h3>
                 <p className="mt-2 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
                   {item.d}
                 </p>
               </div>
             ))}
           </div>
-          <div className="mt-10">
+          <div className="mt-8">
             <Link
               href="/guide#p2"
-              className="cta-ghost inline-flex px-5 py-2.5 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-ghost inline-flex px-5 py-2.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
-              Open the checklist
+              Open checklist
             </Link>
           </div>
         </section>
 
-        <section className="mb-24 grid gap-12 lg:grid-cols-2">
+        <section className="mb-20 grid gap-10 lg:grid-cols-2">
           <div>
             <p className="section-label">FAQ</p>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-white">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)]">
               Common questions
             </h2>
             <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
-              Short answers. Deep procedure lives in the operational manual.
+              Short answers. Deep procedure lives in the manual.
             </p>
           </div>
           <div>
@@ -261,27 +254,27 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="surface-panel flex flex-col gap-8 p-8 sm:flex-row sm:items-end sm:justify-between sm:p-12">
+        <section className="flex flex-col gap-6 border border-[var(--rule)] border-l-[3px] border-l-[var(--accent)] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-10">
           <div className="max-w-xl">
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            <h2 className="font-display text-3xl font-bold tracking-tight text-[var(--ink)] sm:text-4xl">
               Ready to run a share?
             </h2>
-            <p className="mt-4 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
+            <p className="mt-3 text-sm leading-relaxed" style={{ color: "var(--muted)" }}>
               Install via winget, run <code className="text-[var(--accent)]">sstool</code>, keep the guide open.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
             <Link
               href="/download"
-              className="cta-primary px-6 py-3 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              className="cta-primary px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
               Download
             </Link>
             <Link
-              href="/builder"
-              className="cta-ghost px-6 py-3 text-sm font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+              href="/strings"
+              className="cta-ghost px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
             >
-              Build a .txt
+              Strings
             </Link>
           </div>
         </section>

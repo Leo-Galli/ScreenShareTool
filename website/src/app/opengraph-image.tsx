@@ -15,7 +15,7 @@ export default function Image() {
           flexDirection: "column",
           justifyContent: "center",
           padding: "72px 96px",
-          background: "#08080a",
+          background: "#131313",
           fontFamily: "sans-serif",
           position: "relative",
         }}
@@ -24,34 +24,37 @@ export default function Image() {
           style={{
             display: "flex",
             position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse 70% 50% at 50% -10%, rgba(251,113,133,0.18), transparent 55%)",
+            left: 0,
+            top: 0,
+            bottom: 0,
+            width: 10,
+            background: "#ff6a00",
           }}
         />
         <div style={{ display: "flex", flexDirection: "column", position: "relative" }}>
           <div
             style={{
               display: "flex",
-              fontSize: 15,
-              letterSpacing: "0.18em",
+              fontSize: 16,
+              letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: "#fb7185",
-              marginBottom: 28,
-              fontWeight: 600,
+              color: "#ff6a00",
+              marginBottom: 24,
+              fontWeight: 700,
             }}
           >
-            v4.0.1 · sstool · 2500+ strings
+            v4.0.1 · sstool · 8000+ strings
           </div>
           <div
             style={{
               display: "flex",
-              fontSize: 84,
+              fontSize: 92,
               fontWeight: 700,
-              color: "#f4f4f5",
-              letterSpacing: "-0.05em",
-              lineHeight: 0.95,
-              marginBottom: 24,
+              color: "#f2f2f0",
+              letterSpacing: "-0.03em",
+              lineHeight: 0.9,
+              marginBottom: 20,
+              textTransform: "uppercase",
             }}
           >
             ScreenShareTool
@@ -59,9 +62,18 @@ export default function Image() {
           <div
             style={{
               display: "flex",
+              width: 72,
+              height: 4,
+              background: "#ff6a00",
+              marginBottom: 22,
+            }}
+          />
+          <div
+            style={{
+              display: "flex",
               fontSize: 26,
-              color: "#a1a1aa",
-              maxWidth: 740,
+              color: "#9a9a94",
+              maxWidth: 720,
               lineHeight: 1.4,
             }}
           >
